@@ -1,0 +1,25 @@
+[
+  {
+    "projectId": "Cloud_cove_web",
+    "domain": "localhost",
+    "urls": [
+      "https://cloudcove.ai/",
+      "https://cloudcove.ai/services",
+      "https://cloudcove.ai/projects",
+      "https://cloudcove.ai/culture",
+      "https://cloudcove.ai/blog",
+      "https://cloudcove.ai/contact"
+    ],
+    "timestamp": "2026-07-22T13:44:39.927Z"
+  },
+  {
+    "projectId": "pk_live_9zxQaR",
+    "domain": "crimsonglow.com",
+    "urls": [
+      "https://crimsonglow.com/",
+      "https://crimsonglow.com/menu",
+      "https://crimsonglow.com/reservations"
+    ],
+    "timestamp": "2026-07-21T13:08:24.355Z"
+  }
+]
