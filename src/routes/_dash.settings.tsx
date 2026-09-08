@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Trash2 } from "lucide-react";
+import { Trash2, Plus, Database } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SchemaAttributeBuilder, type Attribute } from "@/components/collections/SchemaAttributeBuilder";
 
 import {
   Table,
@@ -35,6 +36,58 @@ function SettingsPage() {
   const [crmUrl, setCrmUrl] = useState("");
   const [crmKey, setCrmKey] = useState("");
 
+  // Collections state
+  const [collections, setCollections] = useState<any[]>([]);
+  const [newColName, setNewColName] = useState("");
+  const [newColAttrs, setNewColAttrs] = useState<Attribute[]>([]);
+  const [creatingCol, setCreatingCol] = useState(false);
+  const [isAuthed, setIsAuthed] = useState<boolean | null>(null); // null = not checked yet
+
+  async function fetchCollections() {
+    try {
+      const res = await fetch('/api/collections');
+      if (res.status === 401) { setIsAuthed(false); return; }
+      setIsAuthed(true);
+      if (res.ok) setCollections(await res.json());
+    } catch {}
+  }
+
+  async function createCollection(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newColName.trim()) return;
+    setCreatingCol(true);
+    try {
+      const res = await fetch('/api/collections', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // No projectId — server derives it from the session cookie
+        body: JSON.stringify({ name: newColName.trim(), attributes: newColAttrs }),
+      });
+      if (res.status === 401) { setIsAuthed(false); return; }
+      if (!res.ok) throw new Error((await res.json()).error || 'Failed');
+      toast.success(`Collection "${newColName.trim()}" created`);
+      setNewColName('');
+      setNewColAttrs([]);
+      fetchCollections();
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setCreatingCol(false);
+    }
+  }
+
+  async function deleteCollection(id: string, name: string) {
+    if (!confirm(`Delete collection "${name}" and all its data?`)) return;
+    try {
+      const res = await fetch(`/api/collections/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete');
+      toast.success(`Deleted "${name}"`);
+      fetchCollections();
+    } catch (e: any) {
+      toast.error(e.message);
+    }
+  }
+
   useEffect(() => {
     const config = localStorage.getItem("crm_config");
     if (config) {
@@ -44,7 +97,9 @@ function SettingsPage() {
         setCrmKey(parsed.key || "");
       } catch (e) {}
     }
+    fetchCollections();
   }, []);
+
 
   const saveCrmConfig = () => {
     localStorage.setItem("crm_config", JSON.stringify({ url: crmUrl, key: crmKey }));
@@ -60,7 +115,7 @@ function SettingsPage() {
           <TabsTrigger value="workspace">Workspace</TabsTrigger>
           <TabsTrigger value="members">Members</TabsTrigger>
           <TabsTrigger value="billing">Billing</TabsTrigger>
-          
+          <TabsTrigger value="collections">Collections</TabsTrigger>
           <TabsTrigger value="integrations">Integrations</TabsTrigger>
           <TabsTrigger value="api">API Keys</TabsTrigger>
           <TabsTrigger value="danger">Danger zone</TabsTrigger>
@@ -162,6 +217,103 @@ function SettingsPage() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {/* Collections tab */}
+        <TabsContent value="collections" className="mt-4 space-y-6">
+          {/* Auth gate — shown when there is no active session */}
+          {isAuthed === false ? (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-4 w-4" /> Content Collections
+                </CardTitle>
+                <CardDescription>
+                  You need to sign in to manage collections. Collections are scoped to your project
+                  session — the server derives your project from your login, not from the client.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button asChild>
+                  <Link to="/login">Sign in to continue →</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+          <>
+          {/* Create new collection */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Database className="h-4 w-4" /> New Collection
+              </CardTitle>
+              <CardDescription>
+                Define a schema. The collection will appear in the sidebar under "Content Collections".
+              </CardDescription>
+            </CardHeader>
+            <form onSubmit={createCollection}>
+              <CardContent className="space-y-4">
+                <div className="grid gap-2">
+                  <Label>Collection name</Label>
+                  <Input
+                    placeholder="e.g. Products"
+                    value={newColName}
+                    onChange={(e) => setNewColName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label>Attributes</Label>
+                  <SchemaAttributeBuilder value={newColAttrs} onChange={setNewColAttrs} />
+                </div>
+              </CardContent>
+              <CardFooter className="justify-end border-t pt-4">
+                <Button type="submit" disabled={creatingCol}>
+                  <Plus className="mr-1 h-3.5 w-3.5" />
+                  {creatingCol ? "Creating…" : "Create collection"}
+                </Button>
+              </CardFooter>
+            </form>
+          </Card>
+
+          {/* Existing collections */}
+          {collections.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Existing Collections</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="divide-y">
+                  {collections.map((col: any) => (
+                    <div key={col.id} className="flex items-center justify-between px-6 py-3">
+                      <div className="space-y-0.5">
+                        <div className="text-sm font-medium">{col.name}</div>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {col.attributes.map((a: any) => (
+                            <Badge key={a.name} variant="outline" className="text-[11px]">
+                              {a.name}: {a.type}{a.required ? " *" : ""}
+                            </Badge>
+                          ))}
+                        </div>
+                        <div className="text-[11px] text-muted-foreground font-mono mt-1">{col.id}</div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-destructive hover:text-destructive"
+                        onClick={() => deleteCollection(col.id, col.name)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+          </>
+          )}
+        </TabsContent>
+
 
         <TabsContent value="integrations" className="mt-4">
           <Card>

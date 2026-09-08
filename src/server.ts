@@ -46,8 +46,43 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-import { getEvents, addEvent, getSitemaps, addSitemap } from "./lib/server-db";
+import {
+  getEvents, addEvent, getSitemaps, addSitemap,
+  getSessionContext, createSession, deleteSession, assertCollectionOwnership,
+  readCollections, writeCollections, readCollectionData, writeCollectionData,
+  validateItemData, generateId,
+  type Collection, type CollectionItem,
+} from "./lib/server-db";
 import { triggerAutomations } from "./lib/automations";
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+const JSON_HEADERS = { 'Content-Type': 'application/json' };
+
+function json(data: unknown, status = 200): Response {
+  return new Response(JSON.stringify(data), { status, headers: JSON_HEADERS });
+}
+
+function parseCsvRow(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQuotes = !inQuotes; continue; }
+    if (ch === ',' && !inQuotes) { result.push(current.trim()); current = ''; continue; }
+    current += ch;
+  }
+  result.push(current.trim());
+  return result;
+}
+
+function coerce(val: string, type: string): unknown {
+  if (type === 'number') { const n = Number(val); return isNaN(n) ? val : n; }
+  if (type === 'boolean') { return val.toLowerCase() === 'true' ? true : val.toLowerCase() === 'false' ? false : val; }
+  return val;
+}
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
@@ -240,6 +275,306 @@ export default {
             headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
           });
         }
+      }
+
+      // -----------------------------------------------------------------------
+      // Auth endpoints
+      // -----------------------------------------------------------------------
+      if (url.pathname === '/api/auth/login' && request.method === 'POST') {
+        const body = await request.json() as { email?: string; password?: string; projectId?: string };
+        const email = body.email?.trim() ?? '';
+        const projectId = body.projectId?.trim() ?? 'proj_default';
+        if (!email) return json({ error: 'Email is required' }, 400);
+        const userId = `user_${email.replace(/[^a-z0-9]/gi, '_')}`;
+        const session = createSession(userId, email, projectId);
+        const cookie = `lumen_session=${session.token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${7 * 24 * 3600}`;
+        return new Response(JSON.stringify({ userId, projectId }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json', 'Set-Cookie': cookie },
+        });
+      }
+
+      if (url.pathname === '/api/auth/me' && request.method === 'GET') {
+        try {
+          const ctx = getSessionContext(request);
+          return json({ userId: ctx.userId, projectId: ctx.projectId, email: ctx.email });
+        } catch (r) { return r as Response; }
+      }
+
+      if (url.pathname === '/api/auth/logout' && request.method === 'POST') {
+        try {
+          const cookieHeader = request.headers.get('cookie') ?? '';
+          const match = cookieHeader.match(/(?:^|;\s*)lumen_session=([^;]+)/);
+          if (match) deleteSession(match[1]);
+        } catch {}
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Set-Cookie': 'lumen_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0',
+          },
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // Collections: /api/collections
+      // -----------------------------------------------------------------------
+      if (url.pathname === '/api/collections') {
+        try {
+          const ctx = getSessionContext(request);
+          if (request.method === 'GET') {
+            const all = readCollections().filter(c => c.projectId === ctx.projectId);
+            return json(all);
+          }
+          if (request.method === 'POST') {
+            const body = await request.json() as Omit<Collection, 'id' | 'projectId' | 'createdAt'>;
+            if (!body.name?.trim()) return json({ error: 'name is required' }, 400);
+            const col: Collection = {
+              id: generateId('col_'),
+              name: body.name.trim(),
+              projectId: ctx.projectId, // ALWAYS from session — never from body
+              attributes: Array.isArray(body.attributes) ? body.attributes : [],
+              createdAt: new Date().toISOString(),
+            };
+            const cols = readCollections();
+            writeCollections([...cols, col]);
+            return json(col, 201);
+          }
+        } catch (r) { return r as Response; }
+      }
+
+      // /api/collections/:id
+      const collMatch = url.pathname.match(/^\/api\/collections\/([^/]+)$/);
+      if (collMatch) {
+        try {
+          const ctx = getSessionContext(request);
+          const collId = collMatch[1];
+          const cols = readCollections();
+          const idx = cols.findIndex(c => c.id === collId);
+          if (idx === -1) return json({ error: 'Collection not found' }, 404);
+          assertCollectionOwnership(cols[idx], ctx);
+
+          if (request.method === 'GET') return json(cols[idx]);
+
+          if (request.method === 'PUT') {
+            const body = await request.json() as Partial<Pick<Collection, 'name' | 'attributes'>>;
+            if (body.name !== undefined) cols[idx].name = body.name.trim();
+            if (body.attributes !== undefined) cols[idx].attributes = body.attributes;
+            writeCollections(cols);
+            return json(cols[idx]);
+          }
+
+          if (request.method === 'DELETE') {
+            cols.splice(idx, 1);
+            writeCollections(cols);
+            // Also delete all items for this collection
+            const items = readCollectionData().filter(i => i.collectionId !== collId);
+            writeCollectionData(items);
+            return json({ success: true });
+          }
+        } catch (r) { return r as Response; }
+      }
+
+      // /api/collections/:id/items
+      const itemsMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/items$/);
+      if (itemsMatch) {
+        try {
+          const ctx = getSessionContext(request);
+          const collId = itemsMatch[1];
+          const cols = readCollections();
+          const col = cols.find(c => c.id === collId);
+          if (!col) return json({ error: 'Collection not found' }, 404);
+          assertCollectionOwnership(col, ctx);
+
+          if (request.method === 'GET') {
+            let items = readCollectionData().filter(i => i.collectionId === collId && i.projectId === ctx.projectId);
+            const status = url.searchParams.get('status');
+            const batchId = url.searchParams.get('batchId');
+            if (status) items = items.filter(i => i.status === status);
+            if (batchId) items = items.filter(i => i.batchId === batchId);
+            return json(items);
+          }
+        } catch (r) { return r as Response; }
+      }
+
+      // /api/collections/:id/items/:itemId
+      const itemMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/items\/([^/]+)$/);
+      if (itemMatch) {
+        try {
+          const ctx = getSessionContext(request);
+          const [, collId, itemId] = itemMatch;
+          const cols = readCollections();
+          const col = cols.find(c => c.id === collId);
+          if (!col) return json({ error: 'Collection not found' }, 404);
+          assertCollectionOwnership(col, ctx);
+
+          const allItems = readCollectionData();
+          const idx = allItems.findIndex(i => i.id === itemId && i.collectionId === collId && i.projectId === ctx.projectId);
+          if (idx === -1) return json({ error: 'Item not found' }, 404);
+
+          if (request.method === 'PATCH') {
+            const body = await request.json() as { data?: Record<string, unknown> };
+            if (body.data) allItems[idx].data = body.data;
+            allItems[idx].validationStatus = 'pending';
+            allItems[idx].validationErrors = [];
+            allItems[idx].updatedAt = new Date().toISOString();
+            writeCollectionData(allItems);
+            return json(allItems[idx]);
+          }
+
+          if (request.method === 'DELETE') {
+            allItems.splice(idx, 1);
+            writeCollectionData(allItems);
+            return json({ success: true });
+          }
+        } catch (r) { return r as Response; }
+      }
+
+      // /api/collections/:id/import
+      const importMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/import$/);
+      if (importMatch && request.method === 'POST') {
+        try {
+          const ctx = getSessionContext(request);
+          const collId = importMatch[1];
+          const cols = readCollections();
+          const col = cols.find(c => c.id === collId);
+          if (!col) return json({ error: 'Collection not found' }, 404);
+          assertCollectionOwnership(col, ctx);
+
+          const contentType = request.headers.get('content-type') ?? '';
+          const batchId = generateId('batch_');
+          const now = new Date().toISOString();
+          const newItems: CollectionItem[] = [];
+
+          if (contentType.includes('multipart/form-data')) {
+            // CSV import
+            const formData = await request.formData();
+            const file = formData.get('file') as File | null;
+            if (!file) return json({ error: 'No file provided' }, 400);
+            const text = await file.text();
+            const lines = text.split('\n').map(l => l.trimEnd()).filter(Boolean);
+            if (lines.length < 2) return json({ error: 'CSV must have a header row and at least one data row' }, 400);
+            const headers = parseCsvRow(lines[0]);
+            for (let i = 1; i < lines.length; i++) {
+              const values = parseCsvRow(lines[i]);
+              const raw: Record<string, unknown> = {};
+              headers.forEach((h, idx) => {
+                const attr = col.attributes.find(a => a.name === h);
+                raw[h] = attr ? coerce(values[idx] ?? '', attr.type) : (values[idx] ?? '');
+              });
+              const errs = validateItemData(raw, col.attributes);
+              newItems.push({
+                id: generateId('item_'),
+                collectionId: collId,
+                projectId: ctx.projectId, // ALWAYS from session
+                batchId,
+                status: 'staging',
+                validationStatus: errs.length === 0 ? 'valid' : 'invalid',
+                validationErrors: errs,
+                data: raw,
+                createdAt: now,
+                updatedAt: now,
+              });
+            }
+          } else {
+            // Manual item import
+            const body = await request.json() as { data?: Record<string, unknown> };
+            if (!body.data) return json({ error: 'data is required' }, 400);
+            const errs = validateItemData(body.data, col.attributes);
+            newItems.push({
+              id: generateId('item_'),
+              collectionId: collId,
+              projectId: ctx.projectId,
+              batchId: null,
+              status: 'staging',
+              validationStatus: errs.length === 0 ? 'valid' : 'invalid',
+              validationErrors: errs,
+              data: body.data,
+              createdAt: now,
+              updatedAt: now,
+            });
+          }
+
+          const existing = readCollectionData();
+          writeCollectionData([...existing, ...newItems]);
+          const valid = newItems.filter(i => i.validationStatus === 'valid').length;
+          return json({ batchId, total: newItems.length, valid, invalid: newItems.length - valid }, 201);
+        } catch (r) { return r as Response; }
+      }
+
+      // /api/collections/:id/validate
+      const validateMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/validate$/);
+      if (validateMatch && request.method === 'POST') {
+        try {
+          const ctx = getSessionContext(request);
+          const collId = validateMatch[1];
+          const cols = readCollections();
+          const col = cols.find(c => c.id === collId);
+          if (!col) return json({ error: 'Collection not found' }, 404);
+          assertCollectionOwnership(col, ctx);
+
+          const body = await request.json() as { itemIds: string[] };
+          if (!Array.isArray(body.itemIds)) return json({ error: 'itemIds array is required' }, 400);
+
+          const allItems = readCollectionData();
+          const now = new Date().toISOString();
+          const results: Array<{ id: string; validationStatus: string; validationErrors: unknown[] }> = [];
+
+          for (const itemId of body.itemIds) {
+            const idx = allItems.findIndex(i => i.id === itemId && i.collectionId === collId && i.projectId === ctx.projectId);
+            if (idx === -1) continue;
+            const errs = validateItemData(allItems[idx].data, col.attributes);
+            allItems[idx].validationStatus = errs.length === 0 ? 'valid' : 'invalid';
+            allItems[idx].validationErrors = errs;
+            allItems[idx].updatedAt = now;
+            results.push({ id: itemId, validationStatus: allItems[idx].validationStatus, validationErrors: errs });
+          }
+          writeCollectionData(allItems);
+          return json({ results });
+        } catch (r) { return r as Response; }
+      }
+
+      // /api/collections/:id/publish
+      const publishMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/publish$/);
+      if (publishMatch && request.method === 'POST') {
+        try {
+          const ctx = getSessionContext(request);
+          const collId = publishMatch[1];
+          const cols = readCollections();
+          const col = cols.find(c => c.id === collId);
+          if (!col) return json({ error: 'Collection not found' }, 404);
+          assertCollectionOwnership(col, ctx);
+
+          const body = await request.json() as { itemIds: string[] };
+          if (!Array.isArray(body.itemIds)) return json({ error: 'itemIds array is required' }, 400);
+
+          const allItems = readCollectionData();
+          const now = new Date().toISOString();
+          const published: string[] = [];
+          const rejected: Array<{ id: string; reason: string; validationErrors: unknown[] }> = [];
+
+          for (const itemId of body.itemIds) {
+            const idx = allItems.findIndex(
+              i => i.id === itemId && i.collectionId === collId && i.projectId === ctx.projectId // double ownership check
+            );
+            if (idx === -1) { rejected.push({ id: itemId, reason: 'Not found', validationErrors: [] }); continue; }
+            const item = allItems[idx];
+            if (item.validationStatus !== 'valid') {
+              rejected.push({ id: itemId, reason: 'Validation failed', validationErrors: item.validationErrors });
+              continue;
+            }
+            if (item.status !== 'staging') {
+              rejected.push({ id: itemId, reason: 'Item is not in staging', validationErrors: [] });
+              continue;
+            }
+            allItems[idx].status = 'published';
+            allItems[idx].updatedAt = now;
+            published.push(itemId);
+          }
+
+          writeCollectionData(allItems);
+          return json({ published: published.length, rejected });
+        } catch (r) { return r as Response; }
       }
 
       const handler = await getServerEntry();

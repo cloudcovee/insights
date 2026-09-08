@@ -11,8 +11,36 @@ import { Separator } from "@/components/ui/separator";
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
 function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [projectId, setProjectId] = useState("proj_default");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // projectId is included here for session binding — it is NOT used for
+        // client-side authorization. The server derives it from the session cookie.
+        body: JSON.stringify({ email, password, projectId }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Login failed" }));
+        throw new Error(err.error || "Login failed");
+      }
+      toast.success("Signed in");
+      navigate({ to: "/overview" });
+    } catch (e: any) {
+      toast.error(e.message ?? "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <AuthShell
       title="Welcome back"
@@ -36,21 +64,17 @@ function LoginPage() {
         <span className="text-xs text-muted-foreground">OR</span>
         <Separator className="flex-1" />
       </div>
-      <form
-        className="space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-            toast.success("Signed in");
-            navigate({ to: "/overview" });
-          }, 500);
-        }}
-      >
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="you@company.com" required />
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@company.com"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -59,7 +83,22 @@ function LoginPage() {
               Forgot?
             </Link>
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="projectId">Project ID</Label>
+          <Input
+            id="projectId"
+            placeholder="proj_default"
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+          />
         </div>
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Signing in…" : "Sign in"}
@@ -76,3 +115,4 @@ function GoogleIcon() {
     </svg>
   );
 }
+

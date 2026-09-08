@@ -81,6 +81,12 @@ function UsersPage() {
           }
           
           const user = userMap.get(uId)!;
+          
+          if (e.userId && user.name === 'Anon User') {
+            user.email = e.userId;
+            user.name = e.userId.includes('@') ? e.userId.split('@')[0] : e.userId;
+          }
+
           user.events += 1;
           
           const eventTime = new Date(e.timestamp).getTime();

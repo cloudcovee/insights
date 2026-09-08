@@ -1,4 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+
 import {
   LayoutDashboard,
   FolderKanban,
@@ -13,6 +15,8 @@ import {
   Activity,
   Globe,
   Image,
+  Library,
+  Layers,
 } from "lucide-react";
 
 import {
@@ -38,11 +42,9 @@ const workspaceItems = [
   { title: "Sessions", url: "/sessions", icon: MousePointerClick },
   { title: "Funnels", url: "/funnels", icon: Filter },
   { title: "Reports", url: "/reports", icon: FileBarChart2 },
-  { title: "Media", url: "/media", icon: Image },
 ];
 
 const settingsItems = [
-  { title: "API Keys", url: "/api-keys", icon: KeyRound },
   { title: "Documentation", url: "/documentation", icon: BookOpen },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
@@ -52,6 +54,17 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const isActive = (p: string) => pathname === p || pathname.startsWith(p + "/");
+
+  const [collections, setCollections] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    fetch('/api/collections')
+      .then(r => r.ok ? r.json() : [])
+      .then(data => { if (mounted && Array.isArray(data)) setCollections(data); })
+      .catch(() => {});
+    return () => { mounted = false; };
+  }, []);
 
   return (
     <Sidebar collapsible="icon">
@@ -86,6 +99,47 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Content Collections — dynamic, session-scoped */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="flex items-center gap-1.5">
+            <Library className="h-3.5 w-3.5" /> Content Collections
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {collections.length === 0 ? (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/settings" className="flex items-center gap-2 text-muted-foreground">
+                      <Layers className="h-4 w-4" />
+                      <span>Add collection…</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ) : (
+                collections.map((col) => (
+                  <SidebarMenuItem key={col.id}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive(`/collections/${col.id}`)}
+                      tooltip={col.name}
+                    >
+                      <Link
+                        to="/collections/$collectionId"
+                        params={{ collectionId: col.id }}
+                        className="flex items-center gap-2"
+                      >
+                        <Layers className="h-4 w-4" />
+                        <span>{col.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
         <SidebarGroup>
           <SidebarGroupLabel>Developer</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -120,3 +174,4 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
+
