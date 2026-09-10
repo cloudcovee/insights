@@ -1,0 +1,24 @@
+{
+  "name": "@insight-flow/analytics-sdk",
+  "version": "1.0.0",
+  "description": "Insight Flow Analytics SDK",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:tsc": "tsc",
+    "build:tag": "vite build",
+    "build": "npm run build:tsc && npm run build:tag",
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "analytics",
+    "sdk"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vite": "^8.1.4"
+  }
+}

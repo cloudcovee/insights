@@ -1,0 +1,96 @@
+[
+  {
+    "id": "col_0757efa2c3bf",
+    "name": "products",
+    "projectId": "",
+    "attributes": [
+      {
+        "name": "id",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "Name",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "price",
+        "type": "number",
+        "required": true
+      }
+    ],
+    "createdAt": "2026-09-07T10:21:22.372Z"
+  },
+  {
+    "id": "col_f940481f0b16",
+    "name": "Emp Details",
+    "projectId": "",
+    "attributes": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "first_name",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "last_name",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "age",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "city",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "salary",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "joined",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "createdAt": "2026-09-07T11:34:46.101Z"
+  },
+  {
+    "id": "col_625c98601f3a",
+    "name": "products",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "name",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "price",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "createdAt": "2026-09-08T10:57:52.566Z"
+  }
+]
