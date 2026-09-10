@@ -100,10 +100,10 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Content Collections — dynamic, session-scoped */}
+        {/* Catalog Content — dynamic, session-scoped */}
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center gap-1.5">
-            <Library className="h-3.5 w-3.5" /> Content Collections
+            <Library className="h-3.5 w-3.5" /> Catalog Content
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
