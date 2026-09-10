@@ -225,7 +225,7 @@ function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Database className="h-4 w-4" /> Catalog Content
+                  <Database className="h-4 w-4" /> Content Collections
                 </CardTitle>
                 <CardDescription>
                   You need to sign in to manage collections. Collections are scoped to your project
@@ -247,7 +247,7 @@ function SettingsPage() {
                 <Database className="h-4 w-4" /> New Collection
               </CardTitle>
               <CardDescription>
-                Define a schema. The collection will appear in the sidebar under "Catalog Content".
+                Define a schema. The collection will appear in the sidebar under "Content Collections".
               </CardDescription>
             </CardHeader>
             <form onSubmit={createCollection}>

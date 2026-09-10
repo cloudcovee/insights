@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProject } from "@/lib/project-context";
-import { resolveGeoRegion } from "@/lib/geo-utils";
 
 export const Route = createFileRoute("/_dash/sessions")({ component: SessionsPage });
 
@@ -196,17 +195,7 @@ function SessionsPage() {
                     <TableCell className="text-right tabular-nums">{s.pages}</TableCell>
                     <TableCell className="text-right tabular-nums">{s.events}</TableCell>
                     <TableCell className="text-xs">{s.browser}</TableCell>
-                    <TableCell>
-                      {(() => {
-                        const geo = resolveGeoRegion(s.country, s.user);
-                        return (
-                          <Badge variant="secondary" className="gap-1.5 font-medium">
-                            <span>{geo.flag}</span>
-                            <span>{geo.country}</span>
-                          </Badge>
-                        );
-                      })()}
-                    </TableCell>
+                    <TableCell><Badge variant="secondary">{s.country}</Badge></TableCell>
                     <TableCell>
                       {s.bounce ? (
                         <Badge variant="outline" className="border-destructive/40 text-destructive">Bounced</Badge>

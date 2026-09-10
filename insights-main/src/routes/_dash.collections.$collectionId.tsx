@@ -85,6 +85,7 @@ function CollectionPage() {
     } catch {}
   }, [collectionId]);
 
+
   useEffect(() => {
     fetchCollection();
     fetchItems();
@@ -137,18 +138,9 @@ function CollectionPage() {
     }
   }
 
-  async function handlePublish(explicitIds?: string[]) {
-    const validStagingItems = stagingItems.filter((i) => i.validationStatus === "valid");
-    let ids: string[] = [];
-    if (explicitIds && explicitIds.length > 0) {
-      ids = explicitIds;
-    } else if (selectedIds.size > 0) {
-      ids = Array.from(selectedIds);
-    } else {
-      ids = validStagingItems.map((i) => i.id);
-    }
-
-    if (ids.length === 0) { toast.error("No valid staged items to publish"); return; }
+  async function handlePublish() {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) { toast.error("Select valid staged items to publish"); return; }
     setPublishing(true);
     try {
       const res = await fetch(`/api/collections/${collectionId}/publish`, {
@@ -213,12 +205,10 @@ function CollectionPage() {
     (i) => selectedIds.has(i.id) && i.validationStatus === "valid"
   ).length;
 
-  const titleFormatted = collection.name.charAt(0).toUpperCase() + collection.name.slice(1);
-
   return (
     <div className="mx-auto max-w-[1400px]">
       <PageHeader
-        title={titleFormatted}
+        title={collection.name}
         subtitle={`${collection.attributes.length} field schema · ${stagingItems.length} staging · ${publishedItems.length} published`}
         actions={
           <div className="flex items-center gap-2">
@@ -268,15 +258,11 @@ function CollectionPage() {
               </Button>
               <Button
                 size="sm"
-                disabled={validStagingCount === 0 || publishing}
-                onClick={() => handlePublish()}
+                disabled={selectedValidCount === 0 || publishing}
+                onClick={handlePublish}
               >
                 <Send className="mr-1.5 h-3.5 w-3.5" />
-                {publishing
-                  ? "Publishing…"
-                  : selectedIds.size > 0
-                  ? `Publish Selected (${selectedValidCount})`
-                  : `Publish All Staged (${validStagingCount})`}
+                {publishing ? "Publishing…" : `Publish (${selectedValidCount})`}
               </Button>
             </div>
           </div>

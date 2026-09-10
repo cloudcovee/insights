@@ -333,9 +333,16 @@ function EventsPage() {
                     🛒 Cart & Product Details
                   </div>
                   <div className="flex items-center justify-between text-base font-bold">
-                    <span>{selectedDetail.properties?.productName || 'MacBook Pro 16"'}</span>
+                    <div className="flex items-center gap-2">
+                      <span>{selectedDetail.properties?.productName || 'MacBook Pro 16"'}</span>
+                      {selectedDetail.properties?.productId && (
+                        <Badge variant="outline" className="font-mono text-[10px] font-normal">
+                          ID: {selectedDetail.properties.productId}
+                        </Badge>
+                      )}
+                    </div>
                     <span className="text-emerald-600 dark:text-emerald-400">
-                      ${((selectedDetail.properties?.price || 3299) * (selectedDetail.properties?.quantity || 3)).toLocaleString()}
+                      ${((selectedDetail.properties?.price || 3299) * (selectedDetail.properties?.quantity || 1)).toLocaleString()}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
@@ -364,7 +371,7 @@ function EventsPage() {
               )}
 
               {/* Event metadata details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                 <div className="rounded border p-2.5 space-y-1 min-w-0">
                   <span className="text-[10px] text-muted-foreground uppercase font-semibold">Project & User</span>
                   <div className="font-semibold text-primary truncate">{selectedDetail.userId || 'Anonymous Visitor'}</div>
@@ -373,12 +380,25 @@ function EventsPage() {
                 </div>
                 <div className="rounded border p-2.5 space-y-1 min-w-0">
                   <span className="text-[10px] text-muted-foreground uppercase font-semibold">Browser & Device</span>
-                  <div className="font-medium text-foreground">
+                  <div className="font-medium text-foreground truncate">
                     {typeof selectedDetail.browser === 'object' ? selectedDetail.browser?.name : selectedDetail.browser || 'Chrome'} on {selectedDetail.os || 'macOS/Windows'}
                   </div>
                   <div className="text-[10px] text-muted-foreground">
                     {typeof selectedDetail.device === 'object' ? selectedDetail.device?.type : selectedDetail.device || 'Desktop'}
                   </div>
+                </div>
+                <div className="rounded border p-2.5 space-y-1 min-w-0">
+                  <span className="text-[10px] text-muted-foreground uppercase font-semibold">Location</span>
+                  <div className="font-medium text-foreground truncate">
+                    {(selectedDetail.properties?.city || selectedDetail.city) 
+                      ? `${selectedDetail.properties?.city || selectedDetail.city}, ${selectedDetail.country && selectedDetail.country !== 'Unknown' ? selectedDetail.country : (selectedDetail.properties?.country || 'India')}`
+                      : (selectedDetail.country && selectedDetail.country !== 'Unknown' ? selectedDetail.country : (selectedDetail.properties?.country || 'India'))}
+                  </div>
+                  {(selectedDetail.properties?.region || selectedDetail.region) && (
+                    <div className="text-[10px] text-muted-foreground truncate">
+                      {selectedDetail.properties?.region || selectedDetail.region}
+                    </div>
+                  )}
                 </div>
               </div>
 

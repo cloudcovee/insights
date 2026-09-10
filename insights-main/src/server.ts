@@ -47,14 +47,13 @@ function isH3SwallowedErrorBody(body: string): boolean {
 }
 
 import {
-  getEvents, addEvent, getSitemaps, addSitemap,
+  getEvents, addEvent, updateEvent, getSitemaps, addSitemap,
   getSessionContext, createSession, deleteSession, assertCollectionOwnership,
   readCollections, writeCollections, readCollectionData, writeCollectionData,
   validateItemData, generateId,
   type Collection, type CollectionItem,
 } from "./lib/server-db";
 import { triggerAutomations } from "./lib/automations";
-import { resolveGeoRegion } from "./lib/geo-utils";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -250,45 +249,53 @@ export default {
           const data = await request.json();
           const payloads = Array.isArray(data) ? data : [data];
           
+          // Extract the IP address from common reverse proxy headers, or fallback to localhost
+          const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() 
+                  || request.headers.get('cf-connecting-ip') 
+                  || '127.0.0.1';
+          
           for (const item of payloads) {
-            let props = item.properties || {};
-            const eventName = item.eventName || item.event || 'page_view';
-            if (eventName === 'Add to Cart' || props.productName === 'MacBook Pro 16"' || props.productId === 'prod_1') {
-              props = {
-                productName: props.productName || 'MacBook Pro 16"',
-                productId: props.productId || 'prod_1',
-                price: props.price || 3299,
-                originalPrice: props.originalPrice || 3499,
-                quantity: props.quantity || 3,
-                subtotal: (props.price || 3299) * (props.quantity || 3),
-                discount: 'Save 6% ($200 off)',
-                shipping: 'Free shipping worldwide',
-                ...props
-              };
-            }
-            const userIdentifier = item.userId || item.anonymousId || 'unknown';
-            const rawCountry = item.context?.country || item.country || item.properties?.country;
-            const geo = resolveGeoRegion(rawCountry, userIdentifier);
-
+            const eventId = crypto.randomUUID();
             const event = {
-              id: crypto.randomUUID(),
+              id: eventId,
               timestamp: item.timestamp || new Date().toISOString(),
-              event: eventName,
-              url: props.url || item.url || '',
-              path: props.path || item.path || '',
-              title: props.title || item.title || '',
-              referrer: props.referrer || item.referrer || '',
-              browser: item.context?.browser?.name || item.context?.browser || 'Chrome',
-              os: item.context?.browser?.os || item.context?.os || 'Windows',
+              event: item.eventName || item.event || 'page_view',
+              url: item.properties?.url || '',
+              path: item.properties?.path || '',
+              title: item.properties?.title || '',
+              referrer: item.properties?.referrer || '',
+              browser: item.context?.browser?.name || item.context?.browser || 'Unknown',
+              os: item.context?.browser?.os || item.context?.os || 'Unknown',
               device: item.context?.device?.type || item.context?.device || 'Desktop',
-              screenSize: item.context?.device?.screenWidth ? `${item.context.device.screenWidth}x${item.context.device.screenHeight}` : item.context?.screenSize || '1920x1080',
-              country: geo.country,
-              countryCode: geo.countryCode,
+              screenSize: item.context?.device?.screenWidth ? `${item.context.device.screenWidth}x${item.context.device.screenHeight}` : item.context?.screenSize || '',
               anonId: item.anonymousId || 'unknown',
               userId: item.userId || null,
               projectId: item.projectId || item.project || item.apiKey || 'Unknown',
-              properties: props
+              country: 'Unknown',
+              properties: item.properties || {}
             };
+            
+            // Background async IP Lookup using ipinfo.io
+            setTimeout(async () => {
+              try {
+                // If it's a local testing IP, we use a default. Otherwise, look up the IP.
+                const lookupIp = (ip === '127.0.0.1' || ip === '::1') ? '' : `${ip}/`;
+                const token = process.env.IPINFO_TOKEN ? `?token=${process.env.IPINFO_TOKEN}` : '';
+                const res = await fetch(`https://ipinfo.io/${lookupIp}json${token}`);
+                if (res.ok) {
+                  const geo = await res.json();
+                  const countryCode = geo.country || (ip === '127.0.0.1' ? 'US' : 'Unknown');
+                  updateEvent(eventId, { 
+                    country: countryCode,
+                    properties: { ...event.properties, city: geo.city || '', region: geo.region || '' }
+                  });
+                }
+              } catch (err) {
+                // Silently ignore network failures for background enrichment
+                console.error('IPInfo lookup failed:', err);
+              }
+            }, 0);
+
             addEvent(event);
             triggerAutomations(event);
           }
@@ -596,109 +603,6 @@ export default {
 
           writeCollectionData(allItems);
           return json({ published: published.length, rejected });
-        } catch (r) { return r as Response; }
-      }
-
-      // /api/collections/:id/sync-live
-      const syncLiveMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/sync-live$/);
-      if (syncLiveMatch && (request.method === 'POST' || request.method === 'GET')) {
-        try {
-          const ctx = getSessionContext(request);
-          const collId = syncLiveMatch[1];
-          const cols = readCollections();
-          const col = cols.find(c => c.id === collId);
-          if (!col) return json({ error: 'Collection not found' }, 404);
-          assertCollectionOwnership(col, ctx);
-
-          // Attempt real-time fetch from connected store / website
-          let liveProducts: Array<{ name: string; price: string; category?: string }> = [];
-          let source = 'attached-website';
-
-          const storeEndpoints = [
-            'http://localhost:3000/api/products',
-            'http://localhost:5000/api/products',
-            'http://localhost:3001/api/products',
-            'http://localhost:5173/api/products'
-          ];
-
-          for (const endpoint of storeEndpoints) {
-            try {
-              const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 1500);
-              const storeRes = await fetch(endpoint, { signal: controller.signal });
-              clearTimeout(timeoutId);
-              if (storeRes.ok) {
-                const data = await storeRes.json();
-                const rawArray = Array.isArray(data) ? data : data.products || data.items || [];
-                if (rawArray.length > 0) {
-                  liveProducts = rawArray.map((p: any) => ({
-                    name: p.name || p.title || p.productName || 'Unnamed Product',
-                    price: String(p.price || p.amount || '0'),
-                    category: p.category || p.type || 'General'
-                  }));
-                  source = endpoint;
-                  break;
-                }
-              }
-            } catch {}
-          }
-
-          // Real-time catalog fallback if external website endpoint is currently starting or not sending CORS
-          if (liveProducts.length === 0) {
-            liveProducts = [
-              { name: "Wireless Headphones", price: "2999", category: "Electronics" },
-              { name: "Smart Fitness Watch", price: "4999", category: "Wearables" },
-              { name: "Ergonomic Gaming Mouse", price: "1499", category: "Accessories" },
-              { name: "Mechanical RGB Keyboard", price: "3999", category: "Peripherals" },
-              { name: "Ultra HD Monitor 27\"", price: "18999", category: "Displays" },
-              { name: "Noise Cancelling Earbuds", price: "1999", category: "Audio" }
-            ];
-            source = 'realtime-store-emulator';
-          }
-
-          const existingItems = readCollectionData();
-          const now = new Date().toISOString();
-          let addedCount = 0;
-
-          // Upsert items into published or staging status
-          for (const prod of liveProducts) {
-            const exists = existingItems.some(
-              i => i.collectionId === collId && i.projectId === ctx.projectId && i.data.name === prod.name
-            );
-            if (!exists) {
-              const itemData: Record<string, unknown> = {
-                name: prod.name,
-                price: prod.price,
-                category: prod.category || 'General'
-              };
-              const errs = validateItemData(itemData, col.attributes);
-              existingItems.push({
-                id: generateId('item_'),
-                collectionId: collId,
-                projectId: ctx.projectId,
-                batchId: 'batch_live_sync',
-                status: 'published',
-                validationStatus: errs.length === 0 ? 'valid' : 'invalid',
-                validationErrors: errs,
-                data: itemData,
-                createdAt: now,
-                updatedAt: now
-              });
-              addedCount++;
-            }
-          }
-
-          if (addedCount > 0) {
-            writeCollectionData(existingItems);
-          }
-
-          return json({
-            success: true,
-            syncedCount: liveProducts.length,
-            addedCount,
-            source,
-            timestamp: now
-          });
         } catch (r) { return r as Response; }
       }
 
