@@ -47,7 +47,7 @@ function isH3SwallowedErrorBody(body: string): boolean {
 }
 
 import {
-  getEvents, addEvent, getSitemaps, addSitemap,
+  getEvents, addEvent, updateEvent, getSitemaps, addSitemap,
   getSessionContext, createSession, deleteSession, assertCollectionOwnership,
   readCollections, writeCollections, readCollectionData, writeCollectionData,
   validateItemData, generateId,
@@ -249,9 +249,15 @@ export default {
           const data = await request.json();
           const payloads = Array.isArray(data) ? data : [data];
           
+          // Extract the IP address from common reverse proxy headers, or fallback to localhost
+          const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() 
+                  || request.headers.get('cf-connecting-ip') 
+                  || '127.0.0.1';
+          
           for (const item of payloads) {
+            const eventId = crypto.randomUUID();
             const event = {
-              id: crypto.randomUUID(),
+              id: eventId,
               timestamp: item.timestamp || new Date().toISOString(),
               event: item.eventName || item.event || 'page_view',
               url: item.properties?.url || '',
@@ -265,8 +271,31 @@ export default {
               anonId: item.anonymousId || 'unknown',
               userId: item.userId || null,
               projectId: item.projectId || item.project || item.apiKey || 'Unknown',
+              country: 'Unknown',
               properties: item.properties || {}
             };
+            
+            // Background async IP Lookup using ipinfo.io
+            setTimeout(async () => {
+              try {
+                // If it's a local testing IP, we use a default. Otherwise, look up the IP.
+                const lookupIp = (ip === '127.0.0.1' || ip === '::1') ? '' : `${ip}/`;
+                const token = process.env.IPINFO_TOKEN ? `?token=${process.env.IPINFO_TOKEN}` : '';
+                const res = await fetch(`https://ipinfo.io/${lookupIp}json${token}`);
+                if (res.ok) {
+                  const geo = await res.json();
+                  const countryCode = geo.country || (ip === '127.0.0.1' ? 'US' : 'Unknown');
+                  updateEvent(eventId, { 
+                    country: countryCode,
+                    properties: { ...event.properties, city: geo.city || '', region: geo.region || '' }
+                  });
+                }
+              } catch (err) {
+                // Silently ignore network failures for background enrichment
+                console.error('IPInfo lookup failed:', err);
+              }
+            }, 0);
+
             addEvent(event);
             triggerAutomations(event);
           }

@@ -903,5 +903,35 @@
     },
     "createdAt": "2026-09-07T13:15:17.013Z",
     "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_103f2aa4beb8",
+    "collectionId": "col_19c3ed8c14b1",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "asdf": "2",
+      "adsf": "q"
+    },
+    "createdAt": "2026-09-10T12:44:34.434Z",
+    "updatedAt": "2026-09-10T12:44:41.946Z"
+  },
+  {
+    "id": "item_a09cf496defe",
+    "collectionId": "col_19c3ed8c14b1",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "asdf": "qwe",
+      "adsf": "rqwer"
+    },
+    "createdAt": "2026-09-10T12:44:39.888Z",
+    "updatedAt": "2026-09-10T12:44:41.946Z"
   }
 ]

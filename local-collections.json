@@ -69,5 +69,23 @@
       }
     ],
     "createdAt": "2026-09-07T11:34:46.101Z"
+  },
+  {
+    "id": "col_19c3ed8c14b1",
+    "name": "products",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "asdf",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "adsf",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "createdAt": "2026-09-10T12:44:00.785Z"
   }
 ]

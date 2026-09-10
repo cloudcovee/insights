@@ -364,7 +364,7 @@ function EventsPage() {
               )}
 
               {/* Event metadata details */}
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
                 <div className="rounded border p-2.5 space-y-1">
                   <span className="text-[10px] text-muted-foreground uppercase font-semibold">Project & User</span>
                   <div className="font-semibold text-primary truncate">{selectedDetail.userId || 'Anonymous Visitor'}</div>
@@ -379,6 +379,15 @@ function EventsPage() {
                   <div className="text-[10px] text-muted-foreground">
                     {typeof selectedDetail.device === 'object' ? selectedDetail.device?.type : selectedDetail.device || 'Desktop'}
                   </div>
+                </div>
+                <div className="rounded border p-2.5 space-y-1">
+                  <span className="text-[10px] text-muted-foreground uppercase font-semibold">Location</span>
+                  <div className="font-medium text-foreground truncate">
+                    {selectedDetail.properties?.city ? `${selectedDetail.properties.city}, ` : ''}{selectedDetail.country && selectedDetail.country !== 'Unknown' ? selectedDetail.country : 'Unknown'}
+                  </div>
+                  {selectedDetail.properties?.region && (
+                    <div className="text-[10px] text-muted-foreground truncate">{selectedDetail.properties.region}</div>
+                  )}
                 </div>
               </div>
 

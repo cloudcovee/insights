@@ -251,6 +251,15 @@ export function addEvent(event: ServerEvent) {
   fs.writeFileSync(DB_PATH, JSON.stringify(events, null, 2), 'utf-8');
 }
 
+export function updateEvent(eventId: string, updates: Partial<ServerEvent>) {
+  const events = getEvents();
+  const idx = events.findIndex(e => e.id === eventId);
+  if (idx !== -1) {
+    events[idx] = { ...events[idx], ...updates };
+    fs.writeFileSync(DB_PATH, JSON.stringify(events, null, 2), 'utf-8');
+  }
+}
+
 export function getSitemaps(): SitemapEntry[] {
   try {
     if (fs.existsSync(SITEMAP_DB_PATH)) {
