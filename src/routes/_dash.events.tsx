@@ -336,7 +336,52 @@ function EventsPage() {
         }
 
         return true;
-      }),
+      });
+
+      // Deduplicate auto-tracked click events when explicit custom Add to Cart events exist,
+      // and deduplicate rapid duplicate Product Viewed events for the same user
+      const deduplicated: typeof rawList = [];
+      for (let i = 0; i < rawList.length; i++) {
+        const curr = rawList[i];
+        const currP = parseProps(curr.properties);
+        const currTime = new Date(curr.timestamp).getTime();
+        const currUser = curr.userId || curr.anonId;
+        const currEventName = String(curr.event || "").toLowerCase();
+
+        // 1. If this is an auto-tracked click on "Add to Cart" button, skip if an explicit Add to Cart event exists nearby (< 3s)
+        if (currEventName === "click" && String(currP.text || "").toLowerCase().includes("add to cart")) {
+          const hasExplicitAdd = rawList.some((other, j) => {
+            if (i === j) return false;
+            const otherUser = other.userId || other.anonId;
+            if (otherUser !== currUser) return false;
+            const otherTime = new Date(other.timestamp).getTime();
+            const otherName = String(other.event || "").toLowerCase();
+            return (otherName === "add to cart" || otherName === "add_to_cart") && Math.abs(currTime - otherTime) < 3000;
+          });
+          if (hasExplicitAdd) continue;
+        }
+
+        // 2. Deduplicate consecutive identical Product Viewed / Add to Cart events within 2 seconds
+        if (deduplicated.length > 0) {
+          const prev = deduplicated[deduplicated.length - 1];
+          const prevUser = prev.userId || prev.anonId;
+          const prevTime = new Date(prev.timestamp).getTime();
+          const prevP = parseProps(prev.properties);
+          const sameProd = (currP.productId && currP.productId === prevP.productId) || (currP.productName && currP.productName === prevP.productName);
+
+          if (
+            prevUser === currUser &&
+            (prev.event === curr.event || (getDisplayEventName(prev) === getDisplayEventName(curr) && getDisplayEventName(curr) !== "click")) &&
+            (sameProd || Math.abs(currTime - prevTime) < 2000)
+          ) {
+            continue;
+          }
+        }
+
+        deduplicated.push(curr);
+      }
+      return deduplicated;
+    },
     [q, eventFilter, deviceFilter, date, events]
   );
 
