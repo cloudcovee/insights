@@ -1,0 +1,937 @@
+[
+  {
+    "id": "item_386c7800d493",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {},
+    "createdAt": "2026-09-07T10:31:07.068Z",
+    "updatedAt": "2026-09-07T11:12:13.134Z"
+  },
+  {
+    "id": "item_829539423ce0",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": 23,
+      "Name": "shoes",
+      "price": 3000
+    },
+    "createdAt": "2026-09-07T11:12:43.938Z",
+    "updatedAt": "2026-09-07T11:12:48.619Z"
+  },
+  {
+    "id": "item_8d02ad024438",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_6edac19c1659",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 1,
+      "first_name": "Liam",
+      "last_name": "Williams",
+      "email": "liam.williams1@sample.net",
+      "age": "49",
+      "city": "Riverside",
+      "salary": "156973.24",
+      "joined": "2020-04-18"
+    },
+    "createdAt": "2026-09-07T11:28:40.238Z",
+    "updatedAt": "2026-09-07T11:28:40.238Z"
+  },
+  {
+    "id": "item_239e09071b7b",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_6edac19c1659",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 2,
+      "first_name": "Jane",
+      "last_name": "Williams",
+      "email": "jane.williams2@example.com",
+      "age": "71",
+      "city": "Fairview",
+      "salary": "50435.05",
+      "joined": "2024-01-27"
+    },
+    "createdAt": "2026-09-07T11:28:40.238Z",
+    "updatedAt": "2026-09-07T11:28:40.238Z"
+  },
+  {
+    "id": "item_206c00c00d5d",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_6edac19c1659",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 9,
+      "first_name": "Isabella",
+      "last_name": "Lopez",
+      "email": "isabella.lopez9@sample.net",
+      "age": "29",
+      "city": "Greenville",
+      "salary": "175981.13",
+      "joined": "2015-01-27"
+    },
+    "createdAt": "2026-09-07T11:28:40.238Z",
+    "updatedAt": "2026-09-07T11:28:40.238Z"
+  },
+  {
+    "id": "item_7f91f020a83d",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_6edac19c1659",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 10,
+      "first_name": "Amelia",
+      "last_name": "Johnson",
+      "email": "amelia.johnson10@demo.io",
+      "age": "54",
+      "city": "Madison",
+      "salary": "22669.84",
+      "joined": "2020-03-09"
+    },
+    "createdAt": "2026-09-07T11:28:40.238Z",
+    "updatedAt": "2026-09-07T11:28:40.238Z"
+  },
+  {
+    "id": "item_c5e0b818cd4c",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1",
+      "first_name": "Liam",
+      "last_name": "Williams",
+      "email": "liam.williams1@sample.net",
+      "age": "49",
+      "city": "Riverside",
+      "salary": "156973.24",
+      "joined": "2020-04-18"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_55b0b4582655",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "2",
+      "first_name": "Jane",
+      "last_name": "Williams",
+      "email": "jane.williams2@example.com",
+      "age": "71",
+      "city": "Fairview",
+      "salary": "50435.05",
+      "joined": "2024-01-27"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:37:35.567Z"
+  },
+  {
+    "id": "item_1defb4fc1347",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "3",
+      "first_name": "Emma",
+      "last_name": "Moore",
+      "email": "emma.moore3@test.org",
+      "age": "76",
+      "city": "Fairview",
+      "salary": "128705.61",
+      "joined": "2022-01-06"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_35b8793314df",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "4",
+      "first_name": "Emma",
+      "last_name": "Martinez",
+      "email": "emma.martinez4@example.com",
+      "age": "43",
+      "city": "Burlington",
+      "salary": "106198.11",
+      "joined": "2016-01-05"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_a42d6158dece",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "5",
+      "first_name": "Benjamin",
+      "last_name": "Rodriguez",
+      "email": "benjamin.rodriguez5@sample.net",
+      "age": "62",
+      "city": "Manchester",
+      "salary": "189641.05",
+      "joined": "2023-04-19"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_f0dd3b766d5f",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "6",
+      "first_name": "Amelia",
+      "last_name": "Williams",
+      "email": "amelia.williams6@demo.io",
+      "age": "34",
+      "city": "Manchester",
+      "salary": "26628.09",
+      "joined": "2016-08-19"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_b8e441c5ec1a",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "7",
+      "first_name": "Mia",
+      "last_name": "Jones",
+      "email": "mia.jones7@demo.io",
+      "age": "21",
+      "city": "Ashland",
+      "salary": "33038.53",
+      "joined": "2021-01-03"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:43.500Z"
+  },
+  {
+    "id": "item_4f9874ab15ae",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "8",
+      "first_name": "Emma",
+      "last_name": "Lopez",
+      "email": "emma.lopez8@demo.io",
+      "age": "30",
+      "city": "Greenville",
+      "salary": "146867.05",
+      "joined": "2015-12-15"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_0f20e92b1839",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "9",
+      "first_name": "Isabella",
+      "last_name": "Lopez",
+      "email": "isabella.lopez9@sample.net",
+      "age": "29",
+      "city": "Greenville",
+      "salary": "175981.13",
+      "joined": "2015-01-27"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_633008904b80",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_38ae61b2fff7",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "10",
+      "first_name": "Amelia",
+      "last_name": "Johnson",
+      "email": "amelia.johnson10@demo.io",
+      "age": "54",
+      "city": "Madison",
+      "salary": "22669.84",
+      "joined": "2020-03-09"
+    },
+    "createdAt": "2026-09-07T11:35:00.365Z",
+    "updatedAt": "2026-09-07T11:35:00.365Z"
+  },
+  {
+    "id": "item_613320dab4a0",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "10",
+      "first_name": "VAIBHAV",
+      "last_name": "MAHALE",
+      "email": "vaibhav.mahale24@vmart.org",
+      "age": "46",
+      "city": "pune",
+      "salary": "17855",
+      "joined": ""
+    },
+    "createdAt": "2026-09-07T11:37:09.844Z",
+    "updatedAt": "2026-09-07T11:37:09.844Z"
+  },
+  {
+    "id": "item_e59325fc25c3",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": 10,
+      "Name": "clothes",
+      "price": 3000
+    },
+    "createdAt": "2026-09-07T11:38:47.746Z",
+    "updatedAt": "2026-09-07T11:38:47.746Z"
+  },
+  {
+    "id": "item_cbc0dcfea767",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 1,
+      "first_name": "Liam",
+      "last_name": "Williams",
+      "email": "liam.williams1@sample.net",
+      "age": "49",
+      "city": "Riverside",
+      "salary": "156973.24",
+      "joined": "2020-04-18"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_35c8dbad6216",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 2,
+      "first_name": "Jane",
+      "last_name": "Williams",
+      "email": "jane.williams2@example.com",
+      "age": "71",
+      "city": "Fairview",
+      "salary": "50435.05",
+      "joined": "2024-01-27"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_4bb83f17ab67",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 3,
+      "first_name": "Emma",
+      "last_name": "Moore",
+      "email": "emma.moore3@test.org",
+      "age": "76",
+      "city": "Fairview",
+      "salary": "128705.61",
+      "joined": "2022-01-06"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_3d099ce8ea54",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 4,
+      "first_name": "Emma",
+      "last_name": "Martinez",
+      "email": "emma.martinez4@example.com",
+      "age": "43",
+      "city": "Burlington",
+      "salary": "106198.11",
+      "joined": "2016-01-05"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_a040be7aace3",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 5,
+      "first_name": "Benjamin",
+      "last_name": "Rodriguez",
+      "email": "benjamin.rodriguez5@sample.net",
+      "age": "62",
+      "city": "Manchester",
+      "salary": "189641.05",
+      "joined": "2023-04-19"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_b6916ebec5cb",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 6,
+      "first_name": "Amelia",
+      "last_name": "Williams",
+      "email": "amelia.williams6@demo.io",
+      "age": "34",
+      "city": "Manchester",
+      "salary": "26628.09",
+      "joined": "2016-08-19"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_85427c0f8010",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 7,
+      "first_name": "Mia",
+      "last_name": "Jones",
+      "email": "mia.jones7@demo.io",
+      "age": "21",
+      "city": "Ashland",
+      "salary": "33038.53",
+      "joined": "2021-01-03"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_b3e9f4468640",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 8,
+      "first_name": "Emma",
+      "last_name": "Lopez",
+      "email": "emma.lopez8@demo.io",
+      "age": "30",
+      "city": "Greenville",
+      "salary": "146867.05",
+      "joined": "2015-12-15"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_dbd4d8c37b1b",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 9,
+      "first_name": "Isabella",
+      "last_name": "Lopez",
+      "email": "isabella.lopez9@sample.net",
+      "age": "29",
+      "city": "Greenville",
+      "salary": "175981.13",
+      "joined": "2015-01-27"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_a1d0ee6ac829",
+    "collectionId": "col_0757efa2c3bf",
+    "projectId": "",
+    "batchId": "batch_9e35de384cb0",
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "Name",
+        "message": "\"Name\" is required"
+      },
+      {
+        "field": "price",
+        "message": "\"price\" is required"
+      }
+    ],
+    "data": {
+      "id": 10,
+      "first_name": "Amelia",
+      "last_name": "Johnson",
+      "email": "amelia.johnson10@demo.io",
+      "age": "54",
+      "city": "Madison",
+      "salary": "22669.84",
+      "joined": "2020-03-09"
+    },
+    "createdAt": "2026-09-07T13:04:34.404Z",
+    "updatedAt": "2026-09-07T13:04:34.404Z"
+  },
+  {
+    "id": "item_3b9070e1f725",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1",
+      "first_name": "Liam",
+      "last_name": "Williams",
+      "email": "liam.williams1@sample.net",
+      "age": "49",
+      "city": "Riverside",
+      "salary": "156973.24",
+      "joined": "2020-04-18"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_746afca30f8e",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "2",
+      "first_name": "Jane",
+      "last_name": "Williams",
+      "email": "jane.williams2@example.com",
+      "age": "71",
+      "city": "Fairview",
+      "salary": "50435.05",
+      "joined": "2024-01-27"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_d946d2588c72",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "3",
+      "first_name": "Emma",
+      "last_name": "Moore",
+      "email": "emma.moore3@test.org",
+      "age": "76",
+      "city": "Fairview",
+      "salary": "128705.61",
+      "joined": "2022-01-06"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_d04a27461bed",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "4",
+      "first_name": "Emma",
+      "last_name": "Martinez",
+      "email": "emma.martinez4@example.com",
+      "age": "43",
+      "city": "Burlington",
+      "salary": "106198.11",
+      "joined": "2016-01-05"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_af450a836005",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "5",
+      "first_name": "Benjamin",
+      "last_name": "Rodriguez",
+      "email": "benjamin.rodriguez5@sample.net",
+      "age": "62",
+      "city": "Manchester",
+      "salary": "189641.05",
+      "joined": "2023-04-19"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_ffa3a1610da2",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "6",
+      "first_name": "Amelia",
+      "last_name": "Williams",
+      "email": "amelia.williams6@demo.io",
+      "age": "34",
+      "city": "Manchester",
+      "salary": "26628.09",
+      "joined": "2016-08-19"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_3f2b47831059",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "7",
+      "first_name": "Mia",
+      "last_name": "Jones",
+      "email": "mia.jones7@demo.io",
+      "age": "21",
+      "city": "Ashland",
+      "salary": "33038.53",
+      "joined": "2021-01-03"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_f37206cece43",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "8",
+      "first_name": "Emma",
+      "last_name": "Lopez",
+      "email": "emma.lopez8@demo.io",
+      "age": "30",
+      "city": "Greenville",
+      "salary": "146867.05",
+      "joined": "2015-12-15"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_36ad499a9444",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "9",
+      "first_name": "Isabella",
+      "last_name": "Lopez",
+      "email": "isabella.lopez9@sample.net",
+      "age": "29",
+      "city": "Greenville",
+      "salary": "175981.13",
+      "joined": "2015-01-27"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_9ff4be2b8dee",
+    "collectionId": "col_f940481f0b16",
+    "projectId": "",
+    "batchId": "batch_92d2cd2771eb",
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "10",
+      "first_name": "Amelia",
+      "last_name": "Johnson",
+      "email": "amelia.johnson10@demo.io",
+      "age": "54",
+      "city": "Madison",
+      "salary": "22669.84",
+      "joined": "2020-03-09"
+    },
+    "createdAt": "2026-09-07T13:15:17.013Z",
+    "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_103f2aa4beb8",
+    "collectionId": "col_19c3ed8c14b1",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "asdf": "2",
+      "adsf": "q"
+    },
+    "createdAt": "2026-09-10T12:44:34.434Z",
+    "updatedAt": "2026-09-10T12:44:41.946Z"
+  },
+  {
+    "id": "item_a09cf496defe",
+    "collectionId": "col_19c3ed8c14b1",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "asdf": "qwe",
+      "adsf": "rqwer"
+    },
+    "createdAt": "2026-09-10T12:44:39.888Z",
+    "updatedAt": "2026-09-10T12:44:41.946Z"
+  }
+]

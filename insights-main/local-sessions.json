@@ -1,0 +1,42 @@
+[
+  {
+    "token": "sess_56f9d0a3ed62",
+    "userId": "user_asdf_gmail_com",
+    "email": "asdf@gmail.com",
+    "projectId": "proj_default",
+    "createdAt": "2026-09-07T10:14:34.055Z",
+    "expiresAt": "2026-09-14T10:14:34.055Z"
+  },
+  {
+    "token": "sess_dbd072c58f32",
+    "userId": "user_asdf_gmail_com",
+    "email": "asdf@gmail.com",
+    "projectId": "",
+    "createdAt": "2026-09-07T10:14:59.472Z",
+    "expiresAt": "2026-09-14T10:14:59.472Z"
+  },
+  {
+    "token": "sess_1b5feef730c0",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
+    "projectId": "proj_default",
+    "createdAt": "2026-09-08T11:17:08.735Z",
+    "expiresAt": "2026-09-15T11:17:08.735Z"
+  },
+  {
+    "token": "sess_96ed75a44c2e",
+    "userId": "user_asdf_gmail_com",
+    "email": "asdf@gmail.com",
+    "projectId": "proj_default",
+    "createdAt": "2026-09-10T12:12:56.707Z",
+    "expiresAt": "2026-09-17T12:12:56.707Z"
+  },
+  {
+    "token": "sess_411f60c37fbe",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
+    "projectId": "proj_default",
+    "createdAt": "2026-09-11T07:12:44.123Z",
+    "expiresAt": "2026-09-18T07:12:44.123Z"
+  }
+]
