@@ -24,11 +24,11 @@
     "expiresAt": "2026-09-15T11:17:08.735Z"
   },
   {
-    "token": "sess_96ed75a44c2e",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
+    "token": "sess_25f01dafd9af",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
     "projectId": "proj_default",
-    "createdAt": "2026-09-10T12:12:56.707Z",
-    "expiresAt": "2026-09-17T12:12:56.707Z"
+    "createdAt": "2026-09-10T12:26:09.654Z",
+    "expiresAt": "2026-09-17T12:26:09.654Z"
   }
 ]
