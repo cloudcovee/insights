@@ -257,23 +257,32 @@ function EventsPage() {
                   </TableCell>
                 </TableRow>
               ) : (
-                paged.map((r) => (
-                  <TableRow key={r.id} className="cursor-pointer hover:bg-muted/40 transition-colors" onClick={() => setSelectedDetail(r)}>
-                    <TableCell className="w-1/3 whitespace-nowrap text-xs text-muted-foreground font-mono text-left">
-                      {new Date(r.timestamp).toLocaleTimeString()}
-                    </TableCell>
-                    <TableCell className="w-1/3 text-center">
-                      <Badge variant={r.event === 'Add to Cart' ? 'default' : 'secondary'} className="font-mono text-[11px] whitespace-nowrap">
-                        {r.event}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="w-1/3 text-right py-2.5">
-                      <span className="font-mono text-xs text-foreground/80 bg-muted/60 px-2.5 py-1 rounded-md border font-medium truncate max-w-[220px] inline-block align-middle" title={r.anonId || r.userId || 'N/A'}>
-                        {r.anonId || r.userId || 'N/A'}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))
+                paged.map((r) => {
+                  let p = r.properties || {};
+                  if (typeof p === 'string') {
+                    try { p = JSON.parse(p); } catch (e) {}
+                  }
+                  const isAddToCart = r.event === 'Add to Cart' || (p && typeof p === 'object' && String(p.text || '').toLowerCase().includes('add to cart'));
+                  const displayEvent = isAddToCart ? 'Add to Cart' : r.event;
+
+                  return (
+                    <TableRow key={r.id} className="cursor-pointer hover:bg-muted/40 transition-colors" onClick={() => setSelectedDetail(r)}>
+                      <TableCell className="w-1/3 whitespace-nowrap text-xs text-muted-foreground font-mono text-left">
+                        {new Date(r.timestamp).toLocaleTimeString()}
+                      </TableCell>
+                      <TableCell className="w-1/3 text-center">
+                        <Badge variant={isAddToCart ? 'default' : 'secondary'} className="font-mono text-[11px] whitespace-nowrap">
+                          {displayEvent}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="w-1/3 text-right py-2.5">
+                        <span className="font-mono text-xs text-foreground/80 bg-muted/60 px-2.5 py-1 rounded-md border font-medium truncate max-w-[220px] inline-block align-middle" title={r.anonId || r.userId || 'N/A'}>
+                          {r.anonId || r.userId || 'N/A'}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
               )}
             </TableBody>
           </Table>
