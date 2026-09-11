@@ -259,10 +259,10 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
       const targetProd = (ep.productId && productCatalog[ep.productId]) || currentActiveProduct || productCatalog["prod_3"];
       const targetKey = targetProd?.productId || targetProd?.productName || "prod_3";
       const addQty = Number(ep.quantity) > 0 ? Number(ep.quantity) : 1;
-      sessionCart[targetKey] = addQty;
+      sessionCart[targetKey] = (sessionCart[targetKey] || 0) + addQty;
 
       if (eTime <= currentEventTime) {
-        cartAddCountUpToEvent[targetKey] = addQty;
+        cartAddCountUpToEvent[targetKey] = (cartAddCountUpToEvent[targetKey] || 0) + addQty;
       }
     }
   }
