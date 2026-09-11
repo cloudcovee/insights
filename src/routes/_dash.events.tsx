@@ -150,103 +150,293 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
   const isCart = isAddToCartEvent(r, p);
   const isView = isProductViewedEvent(r, p);
 
-  // 1. Direct properties on this event
-  if (p.productName || p.productId || p.price) {
-    const qty = Number(p.quantity) || 1;
-    const price = Number(p.price) || 349;
-    return {
-      type: isPurchased ? "purchase" : isCart ? "cart" : isView ? "view" : "product",
-      productName: p.productName || "Apple Watch Series 9",
-      productId: p.productId || "prod_3",
-      price: price,
-      quantity: qty,
-      category: p.category || "Electronics & Accessories",
-      subtotal: p.subtotal || price * qty,
-      discount: p.discount || (isPurchased ? "Special Promo Applied" : "Save 6%"),
-      shipping: p.shipping || "Free standard shipping",
-      status: isPurchased ? "Order Confirmed" : isCart ? "In Cart" : "Viewed",
-    };
+  if (!isPurchased && !isCart && !isView && !p.productName && !p.productId && !p.items) {
+    return null;
   }
 
-  // 2. If it's a purchase, cart, or view event without direct product props, look up recent product events for this user/session
-  if (isPurchased || isCart || isView) {
-    const userKey = r.userId || r.anonId;
-    if (userKey && Array.isArray(allEvents)) {
-      const eventTime = new Date(r.timestamp).getTime();
-      const candidate = allEvents.find((e: any) => {
-        const sameUser =
-          (e.userId && e.userId === r.userId) || (e.anonId && e.anonId === r.anonId);
-        if (!sameUser) return false;
-        const ep = parseProps(e.properties);
-        const hasProd = ep.productName || ep.productId || ep.price;
-        const eTime = new Date(e.timestamp).getTime();
-        return hasProd && (eTime <= eventTime || Math.abs(eTime - eventTime) < 600000);
-      });
+  const currentEventTime = new Date(r.timestamp).getTime();
+  const userKey = r.userId || r.anonId;
 
-      if (candidate) {
-        const cp = parseProps(candidate.properties);
-        const qty = Number(p.quantity || cp.quantity) || 1;
-        const price = Number(cp.price) || (isPurchased ? 349 : 3299);
-        return {
-          type: isPurchased ? "purchase" : isCart ? "cart" : isView ? "view" : "product",
-          productName: cp.productName || (isPurchased ? "Apple Watch Series 9" : "MacBook Pro 16\""),
-          productId: cp.productId || (isPurchased ? "prod_3" : "prod_1"),
-          price: price,
-          quantity: qty,
-          category: cp.category || "Electronics & Gadgets",
-          subtotal: price * qty,
-          discount: cp.discount || (isPurchased ? "Saved $20 (Promo)" : "Save 6%"),
-          shipping: cp.shipping || "Free express shipping",
-          status: isPurchased ? "Order Placed & Confirmed" : isCart ? "Added to Cart" : "Product Viewed",
-        };
+  // Filter and sort events for this user/session in chronological order (oldest to newest)
+  const sessionEvents = (Array.isArray(allEvents) ? allEvents : [])
+    .filter((e: any) => {
+      const sameUser =
+        (e.userId && r.userId && e.userId === r.userId) ||
+        (e.anonId && r.anonId && e.anonId === r.anonId) ||
+        (userKey && (e.userId === userKey || e.anonId === userKey));
+      if (!sameUser) return false;
+      const t = new Date(e.timestamp).getTime();
+      // Within 2 hours before or 1 minute after
+      return t <= currentEventTime + 60000 && t >= currentEventTime - 2 * 60 * 60 * 1000;
+    })
+    .sort((a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
+  // Base catalog
+  const productCatalog: Record<string, { productId: string; productName: string; price: number; category: string }> = {
+    prod_1: { productId: "prod_1", productName: "MacBook Pro 16\"", price: 3299, category: "Laptops" },
+    prod_2: { productId: "prod_2", productName: "iPhone 15 Pro Max", price: 1199, category: "Smartphones" },
+    prod_3: { productId: "prod_3", productName: "Apple Watch Series 9", price: 349, category: "Smart Watches" },
+    prod_4: { productId: "prod_4", productName: "Sony WH-1000XM5", price: 399, category: "Audio" },
+    prod_5: { productId: "prod_5", productName: "Dell XPS 15", price: 1899, category: "Laptops" },
+    prod_6: { productId: "prod_6", productName: "Lenovo ThinkPad X1 Carbon", price: 1549, category: "Business Laptops" },
+  };
+
+  // Populate/update catalog from session events
+  sessionEvents.forEach((e: any) => {
+    const ep = parseProps(e.properties);
+    let pid = ep.productId;
+    if (!pid && ep.url && ep.url.includes("/product/")) {
+      pid = ep.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+    if (!pid && ep.href && ep.href.includes("/product/")) {
+      pid = ep.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+
+    if (pid || ep.productName) {
+      const idKey = pid || ep.productName;
+      const existing = productCatalog[idKey] || {};
+      const itemData = {
+        productId: pid || existing.productId || idKey,
+        productName: ep.productName || existing.productName || (idKey.startsWith("prod_") ? `Product ${idKey}` : idKey),
+        price: Number(ep.price) || existing.price || 199,
+        category: ep.category || existing.category || "General",
+      };
+      productCatalog[idKey] = itemData;
+      if (pid) productCatalog[pid] = itemData;
+      if (ep.productName) productCatalog[ep.productName] = itemData;
+    }
+  });
+
+  // Track session cart & active product
+  let currentActiveProduct: any = null;
+  const sessionCart: Record<string, number> = {}; // productId -> quantity
+  const cartAddCountUpToEvent: Record<string, number> = {}; // count of cart adds up to r
+
+  for (const e of sessionEvents) {
+    const ep = parseProps(e.properties);
+    const isECart = isAddToCartEvent(e, ep);
+    const eTime = new Date(e.timestamp).getTime();
+
+    let pid = ep.productId;
+    if (!pid && ep.url && ep.url.includes("/product/")) {
+      pid = ep.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+    if (!pid && ep.href && ep.href.includes("/product/")) {
+      pid = ep.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+    if (!pid && ep.text) {
+      for (const knownId of Object.keys(productCatalog)) {
+        if (ep.text.includes(productCatalog[knownId].productName)) {
+          pid = knownId;
+          break;
+        }
       }
     }
 
-    // Default fallback for demo / store items if nothing found
-    if (isPurchased) {
-      return {
-        type: "purchase",
-        productName: "Apple Watch Series 9 (Midnight Aluminium)",
-        productId: "prod_3",
-        price: 349,
-        quantity: 1,
-        category: "Wearables & Watches",
-        subtotal: 349,
-        discount: "Free Worldwide Delivery",
-        shipping: "Delivering to Pune, Maharashtra",
-        status: "Order Completed & Paid",
+    if (pid && productCatalog[pid]) {
+      currentActiveProduct = productCatalog[pid];
+    } else if (ep.productName) {
+      currentActiveProduct = {
+        productId: ep.productId || "prod_custom",
+        productName: ep.productName,
+        price: Number(ep.price) || 199,
+        category: ep.category || "General",
       };
     }
 
-    if (isCart) {
-      return {
-        type: "cart",
-        productName: "MacBook Pro 16\" (M3 Max, 36GB)",
-        productId: "prod_1",
-        price: 3299,
-        quantity: 1,
-        category: "Laptops & Computers",
-        subtotal: 3299,
-        discount: "Save 6% ($200 off)",
-        shipping: "Free worldwide express",
-        status: "Ready for Checkout",
-      };
+    if (isECart) {
+      const targetProd = (ep.productId && productCatalog[ep.productId]) || currentActiveProduct || productCatalog["prod_3"];
+      const targetKey = targetProd?.productId || targetProd?.productName || "prod_3";
+      const addQty = Number(ep.quantity) || 1;
+      sessionCart[targetKey] = (sessionCart[targetKey] || 0) + addQty;
+
+      if (eTime <= currentEventTime) {
+        cartAddCountUpToEvent[targetKey] = (cartAddCountUpToEvent[targetKey] || 0) + addQty;
+      }
+    }
+  }
+
+  // Location string for shipping
+  const city = r?.properties?.city || (typeof r?.properties === "string" && parseProps(r.properties).city);
+  const country = r?.country && r.country !== "Unknown" ? r.country : "IN";
+  const locationStr = city ? `${city}, ${country}` : country;
+
+  // Case 1: Item Purchased / Place Order Event
+  if (isPurchased) {
+    let items: Array<{
+      productId: string;
+      productName: string;
+      category: string;
+      price: number;
+      quantity: number;
+      subtotal: number;
+    }> = [];
+
+    // If session cart has items, build full order breakdown
+    const cartKeys = Object.keys(sessionCart);
+    if (cartKeys.length > 0) {
+      items = cartKeys.map((key) => {
+        const prod = productCatalog[key] || {
+          productId: key,
+          productName: key.startsWith("prod_") ? `Product ${key}` : key,
+          price: 199,
+          category: "General",
+        };
+        const qty = sessionCart[key] || 1;
+        const price = Number(prod.price) || 199;
+        return {
+          productId: prod.productId || key,
+          productName: prod.productName,
+          category: prod.category || "General",
+          price: price,
+          quantity: qty,
+          subtotal: price * qty,
+        };
+      });
+    } else if (p.items && Array.isArray(p.items)) {
+      items = p.items.map((item: any, idx: number) => ({
+        productId: item.productId || `prod_${idx + 1}`,
+        productName: item.productName || item.title || "Item",
+        category: item.category || "General",
+        price: Number(item.price) || 199,
+        quantity: Number(item.quantity) || 1,
+        subtotal: (Number(item.price) || 199) * (Number(item.quantity) || 1),
+      }));
+    } else if (p.productName || p.productId) {
+      const qty = Number(p.quantity) || 1;
+      const price = Number(p.price) || 349;
+      items = [
+        {
+          productId: p.productId || "prod_3",
+          productName: p.productName || "Apple Watch Series 9",
+          category: p.category || "Smart Watches",
+          price: price,
+          quantity: qty,
+          subtotal: price * qty,
+        },
+      ];
+    } else if (currentActiveProduct) {
+      items = [
+        {
+          productId: currentActiveProduct.productId,
+          productName: currentActiveProduct.productName,
+          category: currentActiveProduct.category,
+          price: currentActiveProduct.price,
+          quantity: 1,
+          subtotal: currentActiveProduct.price,
+        },
+      ];
+    } else {
+      // Default fallback
+      items = [
+        {
+          productId: "prod_3",
+          productName: "Apple Watch Series 9 (Midnight Aluminium)",
+          category: "Wearables & Watches",
+          price: 349,
+          quantity: 1,
+          subtotal: 349,
+        },
+      ];
     }
 
-    if (isView) {
-      return {
-        type: "view",
-        productName: "MacBook Pro 16\"",
-        productId: "prod_1",
-        price: 3299,
-        quantity: 1,
-        category: "Laptops",
-        subtotal: 3299,
-        discount: "In Stock",
-        shipping: "Free shipping available",
-        status: "Active Product Page View",
-      };
+    const grandTotal = items.reduce((sum, it) => sum + it.subtotal, 0);
+    const totalUnits = items.reduce((sum, it) => sum + it.quantity, 0);
+
+    return {
+      type: "purchase",
+      items,
+      grandTotal,
+      totalUnits,
+      itemCount: items.length,
+      discount: p.discount || "Special Promo Applied",
+      shipping: p.shipping || `Delivering to ${locationStr}`,
+      status: "Order Confirmed",
+    };
+  }
+
+  // Case 2: Add to Cart Event
+  if (isCart) {
+    let targetPid = p.productId;
+    if (!targetPid && p.url && p.url.includes("/product/")) {
+      targetPid = p.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
     }
+    if (!targetPid && p.href && p.href.includes("/product/")) {
+      targetPid = p.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+
+    const prod =
+      (targetPid && productCatalog[targetPid]) ||
+      (p.productName && productCatalog[p.productName]) ||
+      currentActiveProduct ||
+      productCatalog["prod_3"];
+
+    const targetKey = prod.productId || prod.productName || "prod_3";
+    const qty = Math.max(1, cartAddCountUpToEvent[targetKey] || Number(p.quantity) || 1);
+    const price = Number(p.price) || prod.price || 349;
+
+    return {
+      type: "cart",
+      productName: p.productName || prod.productName,
+      productId: prod.productId || targetKey,
+      price: price,
+      quantity: qty,
+      category: p.category || prod.category || "General",
+      subtotal: price * qty,
+      discount: p.discount || "Save 6%",
+      shipping: p.shipping || "Free standard shipping",
+      status: "In Cart",
+    };
+  }
+
+  // Case 3: Product Viewed Event
+  if (isView) {
+    let targetPid = p.productId;
+    if (!targetPid && p.url && p.url.includes("/product/")) {
+      targetPid = p.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+    if (!targetPid && p.href && p.href.includes("/product/")) {
+      targetPid = p.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+    }
+
+    const prod =
+      (targetPid && productCatalog[targetPid]) ||
+      (p.productName && productCatalog[p.productName]) ||
+      currentActiveProduct ||
+      productCatalog["prod_1"];
+
+    const price = Number(p.price) || prod.price || 3299;
+
+    return {
+      type: "view",
+      productName: p.productName || prod.productName,
+      productId: prod.productId || targetPid || "prod_1",
+      price: price,
+      quantity: 1,
+      category: p.category || prod.category || "General",
+      subtotal: price,
+      discount: p.discount || "In Stock",
+      shipping: p.shipping || "Free shipping available",
+      status: "Product Viewed",
+    };
+  }
+
+  // Case 4: General Product Event
+  if (p.productName || p.productId) {
+    const qty = Number(p.quantity) || 1;
+    const price = Number(p.price) || 199;
+    return {
+      type: "product",
+      productName: p.productName || "Product",
+      productId: p.productId || "prod_custom",
+      price: price,
+      quantity: qty,
+      category: p.category || "General",
+      subtotal: price * qty,
+      discount: p.discount || "Standard Pricing",
+      shipping: p.shipping || "Standard shipping",
+      status: "Product Interaction",
+    };
   }
 
   return null;
@@ -258,8 +448,8 @@ function EventsPage() {
   const [eventFilter, setEventFilter] = useState<string>("all");
   const [deviceFilter, setDeviceFilter] = useState<string>("all");
   const [date, setDate] = useState<Date | undefined>();
-  const [page, setPage] = useState(1);
   const pageSize = 15;
+  const [page, setPage] = useState(1);
   const [events, setEvents] = useState<any[]>([]);
   const [selectedDetail, setSelectedDetail] = useState<any | null>(null);
 
@@ -293,8 +483,8 @@ function EventsPage() {
   }, [activeProjectId]);
 
   const filtered = useMemo(
-    () =>
-      events.filter((r) => {
+    () => {
+      const rawList = events.filter((r) => {
         const p = parseProps(r.properties);
         const displayEvent = getDisplayEventName(r);
         const devType = r.device?.type || r.device || "Unknown";
@@ -596,7 +786,7 @@ function EventsPage() {
                   <div className="flex items-center justify-between">
                     <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                       {selectedProductInfo.type === "purchase"
-                        ? "PURCHASE & ORDER DETAILS"
+                        ? "PURCHASE & ORDER BREAKDOWN"
                         : selectedProductInfo.type === "cart"
                         ? "CART & PRODUCT DETAILS"
                         : "PRODUCT INFORMATION"}
@@ -606,51 +796,109 @@ function EventsPage() {
                     </Badge>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="space-y-0.5">
-                      <div className="text-base font-bold text-foreground">
-                        {selectedProductInfo.productName}
+                  {selectedProductInfo.type === "purchase" && Array.isArray(selectedProductInfo.items) ? (
+                    <div className="space-y-3">
+                      {/* Multi-item list */}
+                      <div className="rounded-md border bg-background divide-y divide-border/60 overflow-hidden">
+                        {selectedProductInfo.items.map((item: any, idx: number) => (
+                          <div key={idx} className="flex items-center justify-between p-3 gap-3">
+                            <div className="min-w-0 space-y-0.5">
+                              <div className="font-semibold text-xs text-foreground truncate">
+                                {item.productName}
+                              </div>
+                              <div className="text-[11px] text-muted-foreground font-mono">
+                                {item.category} · ID: {item.productId}
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <div className="font-bold text-xs font-mono text-foreground">
+                                ${item.subtotal.toLocaleString()}
+                              </div>
+                              <div className="text-[10px] text-muted-foreground font-mono">
+                                ${item.price.toLocaleString()} × {item.quantity} {item.quantity > 1 ? "units" : "unit"}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        Category: {selectedProductInfo.category} · ID: {selectedProductInfo.productId}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-lg font-extrabold text-foreground font-mono">
-                        ${selectedProductInfo.subtotal.toLocaleString()}
-                      </div>
-                      <div className="text-[11px] text-muted-foreground font-mono">
-                        ${selectedProductInfo.price.toLocaleString()} × {selectedProductInfo.quantity}
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
-                    <div className="rounded bg-background p-2 border">
-                      <span className="text-muted-foreground block text-[10px]">Quantity</span>
-                      <span className="font-medium text-xs text-foreground block">
-                        {selectedProductInfo.quantity} unit{selectedProductInfo.quantity > 1 ? "s" : ""}
-                      </span>
+                      {/* Order Summary Footer */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Total Items</span>
+                          <span className="font-medium text-xs text-foreground block">
+                            {selectedProductInfo.totalUnits} units ({selectedProductInfo.itemCount} {selectedProductInfo.itemCount > 1 ? "items" : "item"})
+                          </span>
+                        </div>
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Grand Total</span>
+                          <span className="font-bold text-xs text-foreground block font-mono">
+                            ${selectedProductInfo.grandTotal.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Discount / Offer</span>
+                          <span className="font-medium text-xs text-foreground truncate block">
+                            {selectedProductInfo.discount}
+                          </span>
+                        </div>
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Shipping</span>
+                          <span className="font-medium text-xs text-foreground truncate block">
+                            {selectedProductInfo.shipping}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="rounded bg-background p-2 border">
-                      <span className="text-muted-foreground block text-[10px]">Unit Price</span>
-                      <span className="font-medium text-xs text-foreground block">
-                        ${selectedProductInfo.price.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="rounded bg-background p-2 border">
-                      <span className="text-muted-foreground block text-[10px]">Discount / Offer</span>
-                      <span className="font-medium text-xs text-foreground truncate block">
-                        {selectedProductInfo.discount}
-                      </span>
-                    </div>
-                    <div className="rounded bg-background p-2 border">
-                      <span className="text-muted-foreground block text-[10px]">Shipping</span>
-                      <span className="font-medium text-xs text-foreground truncate block">
-                        {selectedProductInfo.shipping}
-                      </span>
-                    </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="space-y-0.5">
+                          <div className="text-base font-bold text-foreground">
+                            {selectedProductInfo.productName}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Category: {selectedProductInfo.category} · ID: {selectedProductInfo.productId}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-lg font-extrabold text-foreground font-mono">
+                            ${selectedProductInfo.subtotal.toLocaleString()}
+                          </div>
+                          <div className="text-[11px] text-muted-foreground font-mono">
+                            ${selectedProductInfo.price.toLocaleString()} × {selectedProductInfo.quantity}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Quantity</span>
+                          <span className="font-medium text-xs text-foreground block">
+                            {selectedProductInfo.quantity} unit{selectedProductInfo.quantity > 1 ? "s" : ""}
+                          </span>
+                        </div>
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Unit Price</span>
+                          <span className="font-medium text-xs text-foreground block font-mono">
+                            ${selectedProductInfo.price.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Discount / Offer</span>
+                          <span className="font-medium text-xs text-foreground truncate block">
+                            {selectedProductInfo.discount}
+                          </span>
+                        </div>
+                        <div className="rounded bg-background p-2 border">
+                          <span className="text-muted-foreground block text-[10px]">Shipping</span>
+                          <span className="font-medium text-xs text-foreground truncate block">
+                            {selectedProductInfo.shipping}
+                          </span>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 

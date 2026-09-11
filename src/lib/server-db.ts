@@ -27,7 +27,10 @@ export interface ServerEvent {
   device: string;
   screenSize: string;
   anonId?: string;
+  userId?: string;
   projectId?: string;
+  ip?: string;
+  country?: string;
   properties?: any;
 }
 
