@@ -259,10 +259,10 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
       const targetProd = (ep.productId && productCatalog[ep.productId]) || currentActiveProduct || productCatalog["prod_3"];
       const targetKey = targetProd?.productId || targetProd?.productName || "prod_3";
       const addQty = Number(ep.quantity) > 0 ? Number(ep.quantity) : 1;
-      sessionCart[targetKey] = (sessionCart[targetKey] || 0) + addQty;
+      sessionCart[targetKey] = addQty;
 
       if (eTime <= currentEventTime) {
-        cartAddCountUpToEvent[targetKey] = (cartAddCountUpToEvent[targetKey] || 0) + addQty;
+        cartAddCountUpToEvent[targetKey] = addQty;
       }
     }
   }
@@ -383,8 +383,9 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
       productCatalog["prod_3"];
 
     const targetKey = prod.productId || prod.productName || "prod_3";
-    const qty = Math.max(1, cartAddCountUpToEvent[targetKey] || Number(p.quantity) || 1);
-    const price = Number(p.price) || prod.price || 349;
+    const qty = Number(p.quantity) > 0 ? Number(p.quantity) : 1;
+    const price = Number(p.price) || prod.price || 199;
+    const subtotal = Number(p.subtotal) > 0 ? Number(p.subtotal) : (price * qty);
 
     return {
       type: "cart",
@@ -393,7 +394,7 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
       price: price,
       quantity: qty,
       category: p.category || prod.category || "General",
-      subtotal: price * qty,
+      subtotal: subtotal,
       discount: p.discount || "Save 6%",
       shipping: p.shipping || "Free standard shipping",
       status: "In Cart",
