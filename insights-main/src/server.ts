@@ -629,6 +629,29 @@ export default {
               clearTimeout(timeoutId);
               if (storeRes.ok) {
                 const data = await storeRes.json();
+
+                // Background async IP Lookup using ipinfo.io
+                setTimeout(async () => {
+                  try {
+                    // If it's a local testing IP, we use a default. Otherwise, look up the IP.
+                    const lookupIp = (ip === '127.0.0.1' || ip === '::1') ? '' : `${ip}/`;
+                    const token = process.env.IPINFO_TOKEN ? `?token=${process.env.IPINFO_TOKEN}` : '';
+                    const res = await fetch(`https://ipinfo.io/${lookupIp}json${token}`);
+                    if (res.ok) {
+                      const geo = await res.json();
+                      const countryCode = geo.country || (ip === '127.0.0.1' ? 'US' : 'Unknown');
+                      updateEvent(eventId, { 
+                        ip: geo.ip || ip,
+                        country: countryCode,
+                        properties: { ...event.properties, ip: geo.ip || ip, city: geo.city || '', region: geo.region || '', org: geo.org || '' }
+                      });
+                    }
+                  } catch (err) {
+                    // Silently ignore network failures for background enrichment
+                    console.error('IPInfo lookup failed:', err);
+                  }
+                }, 0);
+
                 const rawArray = Array.isArray(data) ? data : data.products || data.items || [];
                 if (rawArray.length > 0) {
                   liveProducts = rawArray.map((p: any) => ({

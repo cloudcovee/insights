@@ -30,5 +30,13 @@
     "projectId": "proj_default",
     "createdAt": "2026-09-10T12:26:09.654Z",
     "expiresAt": "2026-09-17T12:26:09.654Z"
+  },
+  {
+    "token": "sess_c7aeed065b50",
+    "userId": "user_asdf_gmail_com",
+    "email": "asdf@gmail.com",
+    "projectId": "proj_default",
+    "createdAt": "2026-09-11T07:51:25.597Z",
+    "expiresAt": "2026-09-18T07:51:25.598Z"
   }
 ]

@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { toast } from "sonner";
 
 export interface Attribute {
   name: string;
@@ -21,17 +22,35 @@ export interface Attribute {
 interface Props {
   value: Attribute[];
   onChange: (attrs: Attribute[]) => void;
+  pendingName?: string;
+  onPendingNameChange?: (name: string) => void;
 }
 
-export function SchemaAttributeBuilder({ value, onChange }: Props) {
-  const [newName, setNewName] = useState("");
+export function SchemaAttributeBuilder({
+  value,
+  onChange,
+  pendingName: controlledPendingName,
+  onPendingNameChange,
+}: Props) {
+  const [internalName, setInternalName] = useState("");
+  const newName = controlledPendingName !== undefined ? controlledPendingName : internalName;
+  const setNewName = (name: string) => {
+    if (onPendingNameChange) onPendingNameChange(name);
+    setInternalName(name);
+  };
   const [newType, setNewType] = useState<Attribute["type"]>("string");
   const [newRequired, setNewRequired] = useState(false);
 
   function add() {
     const name = newName.trim();
-    if (!name) return;
-    if (value.some((a) => a.name === name)) return;
+    if (!name) {
+      toast.error("Please enter a field name first.");
+      return;
+    }
+    if (value.some((a) => a.name.toLowerCase() === name.toLowerCase())) {
+      toast.error(`Field "${name}" already exists.`);
+      return;
+    }
     onChange([...value, { name, type: newType, required: newRequired }]);
     setNewName("");
     setNewType("string");

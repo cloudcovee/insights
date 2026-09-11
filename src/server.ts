@@ -271,6 +271,7 @@ export default {
               anonId: item.anonymousId || 'unknown',
               userId: item.userId || null,
               projectId: item.projectId || item.project || item.apiKey || 'Unknown',
+              ip: ip !== '127.0.0.1' && ip !== '::1' ? ip : (item.properties?.ip || '127.0.0.1'),
               country: 'Unknown',
               properties: item.properties || {}
             };
@@ -286,8 +287,9 @@ export default {
                   const geo = await res.json();
                   const countryCode = geo.country || (ip === '127.0.0.1' ? 'US' : 'Unknown');
                   updateEvent(eventId, { 
+                    ip: geo.ip || ip,
                     country: countryCode,
-                    properties: { ...event.properties, city: geo.city || '', region: geo.region || '' }
+                    properties: { ...event.properties, ip: geo.ip || ip, city: geo.city || '', region: geo.region || '', org: geo.org || '' }
                   });
                 }
               } catch (err) {

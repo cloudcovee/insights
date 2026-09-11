@@ -59,11 +59,24 @@ export function AppSidebar() {
 
   useEffect(() => {
     let mounted = true;
-    fetch('/api/collections')
-      .then(r => r.ok ? r.json() : [])
-      .then(data => { if (mounted && Array.isArray(data)) setCollections(data); })
-      .catch(() => {});
-    return () => { mounted = false; };
+    const loadCatalogs = () => {
+      fetch('/api/collections')
+        .then(r => (r.ok ? r.json() : []))
+        .then(data => {
+          if (mounted && Array.isArray(data)) setCollections(data);
+        })
+        .catch(() => {});
+    };
+
+    loadCatalogs();
+    window.addEventListener('catalog-updated', loadCatalogs);
+    const interval = setInterval(loadCatalogs, 3000);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener('catalog-updated', loadCatalogs);
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -112,7 +125,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <Link to="/settings" className="flex items-center gap-2 text-muted-foreground">
                       <Layers className="h-4 w-4" />
-                      <span>Add collection…</span>
+                      <span>Add catalog…</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
