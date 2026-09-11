@@ -22,5 +22,13 @@
     "projectId": "proj_default",
     "createdAt": "2026-09-08T11:17:08.735Z",
     "expiresAt": "2026-09-15T11:17:08.735Z"
+  },
+  {
+    "token": "sess_25f01dafd9af",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
+    "projectId": "proj_default",
+    "createdAt": "2026-09-10T12:26:09.654Z",
+    "expiresAt": "2026-09-17T12:26:09.654Z"
   }
 ]

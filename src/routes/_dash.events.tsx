@@ -267,8 +267,8 @@ function EventsPage() {
                         {r.event}
                       </Badge>
                     </TableCell>
-                    <TableCell className="w-1/3 text-right py-3">
-                      <span className="font-mono text-xs text-foreground/80 bg-muted/60 px-2.5 py-1 rounded-md border font-medium truncate max-w-[240px] inline-block">
+                    <TableCell className="w-1/3 text-right py-2.5">
+                      <span className="font-mono text-xs text-foreground/80 bg-muted/60 px-2.5 py-1 rounded-md border font-medium truncate max-w-[220px] inline-block align-middle" title={r.anonId || r.userId || 'N/A'}>
                         {r.anonId || r.userId || 'N/A'}
                       </span>
                     </TableCell>
@@ -305,7 +305,7 @@ function EventsPage() {
 
       {/* Minute Event Details Modal */}
       <Dialog open={!!selectedDetail} onOpenChange={(open) => !open && setSelectedDetail(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-xl sm:max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center justify-between text-base">
               <span className="flex items-center gap-2">
@@ -333,9 +333,16 @@ function EventsPage() {
                     🛒 Cart & Product Details
                   </div>
                   <div className="flex items-center justify-between text-base font-bold">
-                    <span>{selectedDetail.properties?.productName || 'MacBook Pro 16"'}</span>
+                    <div className="flex items-center gap-2">
+                      <span>{selectedDetail.properties?.productName || 'MacBook Pro 16"'}</span>
+                      {selectedDetail.properties?.productId && (
+                        <Badge variant="outline" className="font-mono text-[10px] font-normal">
+                          ID: {selectedDetail.properties.productId}
+                        </Badge>
+                      )}
+                    </div>
                     <span className="text-emerald-600 dark:text-emerald-400">
-                      ${((selectedDetail.properties?.price || 3299) * (selectedDetail.properties?.quantity || 3)).toLocaleString()}
+                      ${((selectedDetail.properties?.price || 3299) * (selectedDetail.properties?.quantity || 1)).toLocaleString()}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
@@ -364,28 +371,41 @@ function EventsPage() {
               )}
 
               {/* Event metadata details */}
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="rounded border p-2.5 space-y-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <div className="rounded border p-2.5 space-y-1 min-w-0">
                   <span className="text-[10px] text-muted-foreground uppercase font-semibold">Project & User</span>
                   <div className="font-semibold text-primary truncate">{selectedDetail.userId || 'Anonymous Visitor'}</div>
                   <div className="text-[10px] text-muted-foreground font-mono">Project: {selectedDetail.projectId || selectedDetail.project || 'Go_Kart'}</div>
-                  {selectedDetail.anonId && <div className="text-[10px] font-mono text-muted-foreground truncate">Anon ID: {selectedDetail.anonId}</div>}
+                  {selectedDetail.anonId && <div className="text-[10px] font-mono text-muted-foreground truncate" title={selectedDetail.anonId}>Anon ID: {selectedDetail.anonId}</div>}
                 </div>
-                <div className="rounded border p-2.5 space-y-1">
+                <div className="rounded border p-2.5 space-y-1 min-w-0">
                   <span className="text-[10px] text-muted-foreground uppercase font-semibold">Browser & Device</span>
-                  <div className="font-medium text-foreground">
+                  <div className="font-medium text-foreground truncate">
                     {typeof selectedDetail.browser === 'object' ? selectedDetail.browser?.name : selectedDetail.browser || 'Chrome'} on {selectedDetail.os || 'macOS/Windows'}
                   </div>
                   <div className="text-[10px] text-muted-foreground">
                     {typeof selectedDetail.device === 'object' ? selectedDetail.device?.type : selectedDetail.device || 'Desktop'}
                   </div>
                 </div>
+                <div className="rounded border p-2.5 space-y-1 min-w-0">
+                  <span className="text-[10px] text-muted-foreground uppercase font-semibold">Location</span>
+                  <div className="font-medium text-foreground truncate">
+                    {(selectedDetail.properties?.city || selectedDetail.city) 
+                      ? `${selectedDetail.properties?.city || selectedDetail.city}, ${selectedDetail.country && selectedDetail.country !== 'Unknown' ? selectedDetail.country : (selectedDetail.properties?.country || 'India')}`
+                      : (selectedDetail.country && selectedDetail.country !== 'Unknown' ? selectedDetail.country : (selectedDetail.properties?.country || 'India'))}
+                  </div>
+                  {(selectedDetail.properties?.region || selectedDetail.region) && (
+                    <div className="text-[10px] text-muted-foreground truncate">
+                      {selectedDetail.properties?.region || selectedDetail.region}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Raw Properties payload */}
               <div className="space-y-1">
                 <span className="text-xs font-semibold">Minute Event Details & Properties</span>
-                <pre className="p-3 rounded-md bg-muted font-mono text-xs overflow-x-auto max-h-[180px]">
+                <pre className="p-3 rounded-md bg-muted font-mono text-xs overflow-x-auto max-h-[200px] whitespace-pre-wrap break-all">
                   {JSON.stringify(selectedDetail.properties || {}, null, 2)}
                 </pre>
               </div>
