@@ -254,15 +254,14 @@ export default {
             let props = item.properties || {};
             const eventName = item.eventName || item.event || 'page_view';
             if (eventName === 'Add to Cart' || props.productName === 'MacBook Pro 16"' || props.productId === 'prod_1') {
+              const itemPrice = Number(props.price) > 0 ? Number(props.price) : 49;
+              const itemQty = Number(props.quantity) > 0 ? Number(props.quantity) : 1;
               props = {
-                productName: props.productName || 'MacBook Pro 16"',
+                productName: props.productName || 'Product Item',
                 productId: props.productId || 'prod_1',
-                price: props.price || 3299,
-                originalPrice: props.originalPrice || 3499,
-                quantity: props.quantity || 3,
-                subtotal: (props.price || 3299) * (props.quantity || 3),
-                discount: 'Save 6% ($200 off)',
-                shipping: 'Free shipping worldwide',
+                price: itemPrice,
+                quantity: itemQty,
+                subtotal: props.subtotal || (itemPrice * itemQty),
                 ...props
               };
             }
