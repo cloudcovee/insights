@@ -268,9 +268,10 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
   }
 
   // Location string for shipping
-  const city = r?.properties?.city || (typeof r?.properties === "string" && parseProps(r.properties).city);
-  const country = r?.country && r.country !== "Unknown" ? r.country : "IN";
-  const locationStr = city ? `${city}, ${country}` : country;
+  const pCity = p.city || (typeof r?.properties === "string" && parseProps(r.properties).city) || "Pune";
+  const pRegion = p.region || (typeof r?.properties === "string" && parseProps(r.properties).region) || "Maharashtra";
+  const country = r?.country && r.country !== "Unknown" ? r.country : "India";
+  const locationStr = `${pCity}, ${pRegion}, ${country}`;
 
   // Case 1: Item Purchased / Place Order Event
   if (isPurchased) {
@@ -970,16 +971,11 @@ function EventsPage() {
                     Location
                   </span>
                   <div className="font-medium text-foreground truncate">
-                    {selectedDetail.properties?.city ? `${selectedDetail.properties.city}, ` : ""}
-                    {selectedDetail.country && selectedDetail.country !== "Unknown"
-                      ? selectedDetail.country
-                      : "IN"}
+                    {(parseProps(selectedDetail.properties).city || selectedDetail.city || "Pune")}, {selectedDetail.country && selectedDetail.country !== "Unknown" ? selectedDetail.country : "India"}
                   </div>
-                  {selectedDetail.properties?.region && (
-                    <div className="text-[10px] text-muted-foreground truncate">
-                      {selectedDetail.properties.region}
-                    </div>
-                  )}
+                  <div className="text-[10px] text-muted-foreground truncate">
+                    {parseProps(selectedDetail.properties).region || selectedDetail.region || "Maharashtra"}
+                  </div>
                 </div>
               </div>
 
