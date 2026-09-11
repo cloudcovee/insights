@@ -2698,31 +2698,6 @@
     }
   },
   {
-    "id": "4e60bdef-5359-42d3-ba23-334d4036f455",
-    "timestamp": "2026-09-11T09:55:23.922Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_6",
-      "productName": "Lenovo ThinkPad X1 Carbon",
-      "price": 1549,
-      "category": "Business Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
     "id": "a86643df-2d22-4b09-a347-7ec245134054",
     "timestamp": "2026-09-11T09:55:23.892Z",
     "event": "page_view",
@@ -2981,31 +2956,6 @@
   {
     "id": "a068ddda-6bd1-4d3d-88c4-21a1ffbcd624",
     "timestamp": "2026-09-11T09:52:49.599Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_1",
-      "productName": "MacBook Pro 16\"",
-      "price": 3299,
-      "category": "Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "173fabc8-d498-4d66-8805-daa9ef3ec7c6",
-    "timestamp": "2026-09-11T09:52:49.598Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -3469,31 +3419,6 @@
     }
   },
   {
-    "id": "bcd79d67-02fd-4640-b36d-f44a9a9a3664",
-    "timestamp": "2026-09-11T09:08:40.180Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_12",
-      "productName": "Watch Winder Box",
-      "price": 99,
-      "category": "Accessories",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
     "id": "6f3f7ad4-6988-457e-b8e2-34bd51c10947",
     "timestamp": "2026-09-11T09:08:40.135Z",
     "event": "page_view",
@@ -3907,31 +3832,6 @@
     }
   },
   {
-    "id": "0668fbe4-7623-425a-a6dd-c3b13d73e87f",
-    "timestamp": "2026-09-11T08:04:34.448Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_1",
-      "productName": "MacBook Pro 16\"",
-      "price": 3299,
-      "category": "Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
     "id": "4544c3d5-aedf-40f1-b7b9-8267a24fde89",
     "timestamp": "2026-09-11T08:04:34.421Z",
     "event": "page_view",
@@ -4109,31 +4009,6 @@
   {
     "id": "292feb9e-1eec-45c3-9f4b-2b2b17bf84a0",
     "timestamp": "2026-09-11T07:51:54.455Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_12",
-      "productName": "Watch Winder Box",
-      "price": 99,
-      "category": "Accessories",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "c7b73beb-8d39-4a54-8468-72533f654fb3",
-    "timestamp": "2026-09-11T07:51:54.454Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -4353,31 +4228,6 @@
     }
   },
   {
-    "id": "0bf12395-2199-403a-a1cf-934de58c5eea",
-    "timestamp": "2026-09-11T07:50:14.154Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_3",
-      "productName": "Apple Watch Series 9",
-      "price": 349,
-      "category": "Smart Watches",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
     "id": "b9442320-4fd7-4b72-b74e-326166868f54",
     "timestamp": "2026-09-11T07:50:14.122Z",
     "event": "page_view",
@@ -4480,31 +4330,6 @@
   {
     "id": "bd1ee4e6-31cf-412b-916e-c73020aab735",
     "timestamp": "2026-09-11T07:50:10.258Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_11",
-      "productName": "Premium Laptop Sleeve",
-      "price": 49,
-      "category": "Accessories",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "52aff834-6a68-40a7-9149-82427e1b7c9f",
-    "timestamp": "2026-09-11T07:50:10.256Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -4651,31 +4476,6 @@
   {
     "id": "9bf03b87-6a4a-4e24-96df-ba839c76bfd8",
     "timestamp": "2026-09-11T06:24:28.077Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_11",
-      "productName": "Premium Laptop Sleeve",
-      "price": 49,
-      "category": "Accessories",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "c29df788-8ca3-4f0b-a6a2-24fbc3690777",
-    "timestamp": "2026-09-11T06:24:28.075Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -5090,31 +4890,6 @@
     }
   },
   {
-    "id": "00a836e2-c48f-4607-ae6b-2caa281d181f",
-    "timestamp": "2026-09-10T13:55:59.985Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_2",
-      "productName": "Dell XPS 15",
-      "price": 1849,
-      "category": "Business Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
     "id": "e6cb752c-1a26-4076-b74d-fa5d2b5eb01d",
     "timestamp": "2026-09-10T13:55:59.935Z",
     "event": "page_view",
@@ -5362,29 +5137,6 @@
     }
   },
   {
-    "id": "2c448d8f-da25-490e-a144-e447e0445678",
-    "timestamp": "2026-09-10T13:50:02.399Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "Unknown",
-    "properties": {
-      "productId": "prod_3",
-      "productName": "Apple Watch Series 9",
-      "price": 349,
-      "category": "Smart Watches"
-    }
-  },
-  {
     "id": "649edfb3-e693-4665-88fe-76f5b59c322e",
     "timestamp": "2026-09-10T13:50:02.370Z",
     "event": "page_view",
@@ -5607,31 +5359,6 @@
     }
   },
   {
-    "id": "306228ef-0970-4ed4-9dae-95ea71fcd7b8",
-    "timestamp": "2026-09-10T13:44:02.288Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_6",
-      "productName": "Lenovo ThinkPad X1 Carbon",
-      "price": 1549,
-      "category": "Business Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
     "id": "1ead6d01-e49d-41e1-b48c-476cf41dd64b",
     "timestamp": "2026-09-10T13:44:02.247Z",
     "event": "page_view",
@@ -5734,31 +5461,6 @@
   {
     "id": "ac0f078e-2270-49ce-ab9e-2c16656a3948",
     "timestamp": "2026-09-10T13:43:59.558Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_10",
-      "productName": "HP Spectre x360",
-      "price": 1299,
-      "category": "Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "a6b2b63e-7604-4ab0-83f8-d323dc1a76bb",
-    "timestamp": "2026-09-10T13:43:59.556Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -5929,31 +5631,6 @@
   },
   {
     "id": "70d40f68-6fcf-4723-8901-bca7fe9418e9",
-    "timestamp": "2026-09-10T13:37:12.752Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_10",
-      "productName": "HP Spectre x360",
-      "price": 1299,
-      "category": "Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "ff942892-4338-4b5c-bf1c-242794b149c6",
     "timestamp": "2026-09-10T13:37:12.752Z",
     "event": "Product Viewed",
     "url": "",
@@ -6204,31 +5881,6 @@
   {
     "id": "6568d46b-eea1-4b4f-adbd-abf212b72869",
     "timestamp": "2026-09-10T13:36:49.879Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_8",
-      "productName": "ASUS ROG Zephyrus G14",
-      "price": 1399,
-      "category": "Gaming Laptops",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "1a969574-7061-4ff6-9d05-db9efd964a3b",
-    "timestamp": "2026-09-10T13:36:49.878Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -6627,31 +6279,6 @@
   {
     "id": "10811cd1-2aa8-4e41-878e-35d67a575346",
     "timestamp": "2026-09-10T12:42:40.560Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "a1@gmail.com",
-    "projectId": "Go_Kart",
-    "country": "IN",
-    "properties": {
-      "productId": "prod_11",
-      "productName": "Premium Laptop Sleeve",
-      "price": 49,
-      "category": "Accessories",
-      "city": "Pune",
-      "region": "Maharashtra"
-    }
-  },
-  {
-    "id": "52b97f5a-9fc2-49ad-9ab9-5141dc0daec2",
-    "timestamp": "2026-09-10T12:42:40.559Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -7237,28 +6864,6 @@
     }
   },
   {
-    "id": "84bbe890-e555-4773-83e2-5a426a25aa55",
-    "timestamp": "2026-09-07T07:43:07.391Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "vermakajal0256@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_11",
-      "productName": "Premium Laptop Sleeve",
-      "price": 49,
-      "category": "Accessories"
-    }
-  },
-  {
     "id": "75547f83-c4d9-4e52-b978-ad62341320df",
     "timestamp": "2026-09-07T07:43:07.204Z",
     "event": "click",
@@ -7328,28 +6933,6 @@
   {
     "id": "d887c69d-0b90-4511-abed-e8ec0ffdd352",
     "timestamp": "2026-09-07T07:42:57.010Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": "vermakajal0256@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_11",
-      "productName": "Premium Laptop Sleeve",
-      "price": 49,
-      "category": "Accessories"
-    }
-  },
-  {
-    "id": "1f521b2a-a2be-4950-aa40-3c9d871b9fe9",
-    "timestamp": "2026-09-07T07:42:57.009Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -7791,28 +7374,6 @@
   {
     "id": "50d12cac-3057-4e1d-a770-29fdc33c8860",
     "timestamp": "2026-09-04T12:12:05.883Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "ab746609-c310-431f-97f9-3b4a27de0478",
-    "userId": "asdf@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_10",
-      "productName": "HP Spectre x360",
-      "price": 1299,
-      "category": "Laptops"
-    }
-  },
-  {
-    "id": "16f4e871-a430-46c0-98b6-e65dce963f81",
-    "timestamp": "2026-09-04T12:12:05.882Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -8414,28 +7975,6 @@
     }
   },
   {
-    "id": "41272e71-762b-4704-b7e2-d5ea3971101b",
-    "timestamp": "2026-09-04T10:30:38.940Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": null,
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_1",
-      "productName": "MacBook Pro 16\"",
-      "price": 3299,
-      "category": "Laptops"
-    }
-  },
-  {
     "id": "79d8a9ea-3782-4d1b-bac3-8138701c8967",
     "timestamp": "2026-09-04T10:30:38.778Z",
     "event": "performance_metric",
@@ -8479,28 +8018,6 @@
   },
   {
     "id": "7c126133-c503-412e-b79d-7bdea6054461",
-    "timestamp": "2026-09-04T10:30:28.492Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": null,
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_1",
-      "productName": "MacBook Pro 16\"",
-      "price": 3299,
-      "category": "Laptops"
-    }
-  },
-  {
-    "id": "327340d8-066f-446c-a7c4-0f7b5db5e628",
     "timestamp": "2026-09-04T10:30:28.492Z",
     "event": "Product Viewed",
     "url": "",
@@ -8696,28 +8213,6 @@
   {
     "id": "794e59f6-3eb9-4b11-9bf1-81e35ad4ba5b",
     "timestamp": "2026-09-04T10:27:12.931Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15816-32fd-42e3-8350-e43bf69583d8",
-    "userId": null,
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_5",
-      "productName": "Garmin Fenix 7 Pro",
-      "price": 749,
-      "category": "Smart Watches"
-    }
-  },
-  {
-    "id": "0a5fd3ea-f148-426d-94bb-340be4c41f4b",
-    "timestamp": "2026-09-04T10:27:12.930Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -8999,28 +8494,6 @@
   {
     "id": "6165f148-5900-4e77-9a48-1590a9c9599a",
     "timestamp": "2026-07-30T08:12:37.074Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_7",
-      "productName": "Classic Chronograph Watch",
-      "price": 199,
-      "category": "Analog Watches"
-    }
-  },
-  {
-    "id": "ac4d5254-63da-49a9-a8e1-e762a237fe56",
-    "timestamp": "2026-07-30T08:12:37.073Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -9533,28 +9006,6 @@
     }
   },
   {
-    "id": "ea466490-8e3a-42fc-87cf-233c12a8f1c1",
-    "timestamp": "2026-07-29T12:14:06.610Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "productId": "prod_2",
-      "productName": "Dell XPS 15",
-      "price": 1849,
-      "category": "Business Laptops"
-    }
-  },
-  {
     "id": "98987575-7417-4a25-bc79-3c7181361929",
     "timestamp": "2026-07-29T12:14:05.818Z",
     "event": "click",
@@ -9664,28 +9115,6 @@
   {
     "id": "6f60b494-e162-4b87-9218-314616a2f73b",
     "timestamp": "2026-07-24T12:06:09.651Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "gocart",
-    "properties": {
-      "productId": "prod_5",
-      "productName": "Garmin Fenix 7 Pro",
-      "price": 749,
-      "category": "Smart Watches"
-    }
-  },
-  {
-    "id": "f9516f77-b8c8-48f3-974b-43267abc378a",
-    "timestamp": "2026-07-24T12:06:09.650Z",
     "event": "Product Viewed",
     "url": "",
     "path": "",
@@ -9835,28 +9264,6 @@
     }
   },
   {
-    "id": "c28ac877-cfc6-4494-a5a0-3594e690282a",
-    "timestamp": "2026-07-24T12:06:05.050Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "gocart",
-    "properties": {
-      "productId": "prod_7",
-      "productName": "Classic Chronograph Watch",
-      "price": 199,
-      "category": "Analog Watches"
-    }
-  },
-  {
     "id": "827a718e-3927-4cf7-a6e7-9591742e70f0",
     "timestamp": "2026-07-24T12:06:05.049Z",
     "event": "page_view",
@@ -9901,28 +9308,6 @@
   },
   {
     "id": "9cc053fd-69ce-43e9-82dc-f8d2fd46cf0b",
-    "timestamp": "2026-07-24T12:03:17.912Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "gocart",
-    "properties": {
-      "productId": "prod_7",
-      "productName": "Classic Chronograph Watch",
-      "price": 199,
-      "category": "Analog Watches"
-    }
-  },
-  {
-    "id": "ec5fc85c-29c5-4aca-8cc0-f74d410d0ce1",
     "timestamp": "2026-07-24T12:03:17.912Z",
     "event": "Product Viewed",
     "url": "",
@@ -10353,28 +9738,6 @@
     }
   },
   {
-    "id": "05ecbf0e-690c-40a6-88e4-7467973d661c",
-    "timestamp": "2026-07-24T12:02:16.199Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharat@gmail.com",
-    "projectId": "gocart",
-    "properties": {
-      "productId": "prod_3",
-      "productName": "Apple Watch Series 9",
-      "price": 349,
-      "category": "Smart Watches"
-    }
-  },
-  {
     "id": "47fc9ccb-3bfc-46ae-891a-0067ee443e2a",
     "timestamp": "2026-07-24T12:02:15.436Z",
     "event": "click",
@@ -10526,28 +9889,6 @@
   },
   {
     "id": "7e895137-2901-4446-b80e-12008bfa997a",
-    "timestamp": "2026-07-24T07:52:15.684Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "userId": "bharat@gmail.com",
-    "projectId": "gocart",
-    "properties": {
-      "productId": "prod_2",
-      "productName": "Dell XPS 15",
-      "price": 1849,
-      "category": "Business Laptops"
-    }
-  },
-  {
-    "id": "1d981d41-13be-4184-83c9-466bc07bc832",
     "timestamp": "2026-07-24T07:52:15.684Z",
     "event": "Product Viewed",
     "url": "",
@@ -11363,27 +10704,6 @@
   },
   {
     "id": "e9a8101f-c0ca-4942-9060-b8e8001aa17b",
-    "timestamp": "2026-07-24T07:46:38.336Z",
-    "event": "Product Viewed",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
-    "projectId": "gocart",
-    "properties": {
-      "productId": "prod_2",
-      "productName": "Dell XPS 15",
-      "price": 1849,
-      "category": "Business Laptops"
-    }
-  },
-  {
-    "id": "168b7428-2628-4899-9006-a794100ccef7",
     "timestamp": "2026-07-24T07:46:38.336Z",
     "event": "Product Viewed",
     "url": "",
