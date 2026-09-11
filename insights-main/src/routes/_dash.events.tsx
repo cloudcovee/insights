@@ -214,8 +214,19 @@ function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
 
   for (const e of sessionEvents) {
     const ep = parseProps(e.properties);
+    const isEPurchased = isItemPurchasedEvent(e, ep);
     const isECart = isAddToCartEvent(e, ep);
     const eTime = new Date(e.timestamp).getTime();
+
+    // If a previous purchase/order event occurred before this event, reset sessionCart and cart counters
+    if (isEPurchased && e.id !== r.id && eTime < currentEventTime) {
+      for (const key of Object.keys(sessionCart)) {
+        delete sessionCart[key];
+      }
+      for (const key of Object.keys(cartAddCountUpToEvent)) {
+        delete cartAddCountUpToEvent[key];
+      }
+    }
 
     let pid = ep.productId;
     if (!pid && ep.url && ep.url.includes("/product/")) {
