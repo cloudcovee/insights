@@ -1,5 +1,570 @@
 [
   {
+    "id": "60f2c4ae-296f-4ecf-a76a-df2a5760e6e2",
+    "timestamp": "2026-09-11T13:15:50.793Z",
+    "event": "page_view",
+    "url": "http://localhost:3000/",
+    "path": "/",
+    "title": "GoCart. - Shop smarter",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/",
+      "path": "/"
+    }
+  },
+  {
+    "id": "cb48c102-45a4-4bfa-b136-5c0ade4ccd66",
+    "timestamp": "2026-09-11T13:15:50.744Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "a",
+      "id": "",
+      "className": "",
+      "text": "Home",
+      "href": "http://localhost:3000/"
+    }
+  },
+  {
+    "id": "1ca72e1a-57ad-4b51-9d73-38536572055e",
+    "timestamp": "2026-09-11T13:15:10.120Z",
+    "event": "page_view",
+    "url": "http://localhost:3000/orders",
+    "path": "/orders",
+    "title": "GoCart. - Shop smarter",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/orders",
+      "path": "/orders"
+    }
+  },
+  {
+    "id": "a8c7ca8c-d934-4c0c-a06c-a6bf62212bf5",
+    "timestamp": "2026-09-11T13:15:10.080Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
+      "text": "Place Order"
+    }
+  },
+  {
+    "id": "7291067b-4a7b-491e-bf8f-ce7140d6c3c4",
+    "timestamp": "2026-09-11T13:15:07.857Z",
+    "event": "page_view",
+    "url": "http://localhost:3000/cart",
+    "path": "/cart",
+    "title": "GoCart. - Shop smarter",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/cart",
+      "path": "/cart"
+    }
+  },
+  {
+    "id": "8abff5f8-d641-419f-9bbc-365c0a48b8aa",
+    "timestamp": "2026-09-11T13:15:07.812Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "View Cart"
+    }
+  },
+  {
+    "id": "15c2e413-6525-44ed-9ce8-76178ab95c59",
+    "timestamp": "2026-09-11T13:14:50.854Z",
+    "event": "Add to Cart",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "productName": "Apple Watch Series 9",
+      "productId": "prod_3",
+      "price": 349,
+      "quantity": 1,
+      "subtotal": 349
+    }
+  },
+  {
+    "id": "d8bd8081-d12b-4db4-baa9-1a0a9806d144",
+    "timestamp": "2026-09-11T13:14:50.854Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "Add to Cart"
+    }
+  },
+  {
+    "id": "201df8ee-550c-47b5-bd62-17571e1eaf47",
+    "timestamp": "2026-09-11T13:14:50.212Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "p-1 select-none",
+      "text": "-"
+    }
+  },
+  {
+    "id": "225f398c-0cc2-4a7b-ac18-1ea8467537ac",
+    "timestamp": "2026-09-11T13:14:39.914Z",
+    "event": "Add to Cart",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "productName": "Apple Watch Series 9",
+      "productId": "prod_3",
+      "price": 349,
+      "quantity": 1,
+      "subtotal": 349
+    }
+  },
+  {
+    "id": "81282a75-0f7b-4861-8a39-600249823d50",
+    "timestamp": "2026-09-11T13:14:39.913Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "Add to Cart"
+    }
+  },
+  {
+    "id": "fa0a74c7-0cab-49df-bfb2-5277e60bb969",
+    "timestamp": "2026-09-11T13:14:39.265Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "p-1 select-none",
+      "text": "-"
+    }
+  },
+  {
+    "id": "18f6aceb-af37-4df5-ae5e-bcd123897122",
+    "timestamp": "2026-09-11T12:48:41.817Z",
+    "event": "Add to Cart",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "productName": "Apple Watch Series 9",
+      "productId": "prod_3",
+      "price": 349,
+      "quantity": 1,
+      "subtotal": 349
+    }
+  },
+  {
+    "id": "2f50d825-5f02-447a-9467-bc01326132a8",
+    "timestamp": "2026-09-11T12:48:41.817Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "Add to Cart",
+      "quantity": 1
+    }
+  },
+  {
+    "id": "0d032a3c-c637-4d72-8965-66a74d9a4fed",
+    "timestamp": "2026-09-11T12:48:41.283Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "p-1 select-none",
+      "text": "-",
+      "quantity": 1
+    }
+  },
+  {
+    "id": "46d459ab-80cc-4a47-b18b-be7f05e202b1",
+    "timestamp": "2026-09-11T12:32:09.382Z",
+    "event": "Add to Cart",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "productName": "Apple Watch Series 9",
+      "productId": "prod_3",
+      "price": 349,
+      "quantity": 1,
+      "subtotal": 349
+    }
+  },
+  {
+    "id": "48551012-8639-4c44-b4f5-cb60ce8580b2",
+    "timestamp": "2026-09-11T12:32:09.382Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "Add to Cart",
+      "quantity": 1
+    }
+  },
+  {
+    "id": "acd39f78-f1fd-48b7-9a44-be4a849e7698",
+    "timestamp": "2026-09-11T12:32:08.559Z",
+    "event": "Product Viewed",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "productId": "prod_3",
+      "productName": "Apple Watch Series 9",
+      "price": 349,
+      "category": "Smart Watches",
+      "quantity": 1,
+      "subtotal": 349
+    }
+  },
+  {
+    "id": "3c8e0e88-84b0-473a-9ebe-d2d284fd8b92",
+    "timestamp": "2026-09-11T12:32:08.559Z",
+    "event": "Product Viewed",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "productId": "prod_3",
+      "productName": "Apple Watch Series 9",
+      "price": 349,
+      "category": "Smart Watches",
+      "quantity": 1,
+      "subtotal": 349
+    }
+  },
+  {
+    "id": "a3aef1db-e60d-4bb9-9b24-79f1a2a32bd9",
+    "timestamp": "2026-09-11T12:32:08.554Z",
+    "event": "page_view",
+    "url": "http://localhost:3000/product/prod_3",
+    "path": "/product/prod_3",
+    "title": "GoCart. - Shop smarter",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/product/prod_3",
+      "path": "/product/prod_3",
+      "quantity": 1
+    }
+  },
+  {
+    "id": "ddc69fd9-1326-4bff-a2f0-d25ef80ee0be",
+    "timestamp": "2026-09-11T12:32:08.508Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "a",
+      "id": "",
+      "className": " group max-xl:mx-auto",
+      "text": "Apple Watch Series 9\n\n$349",
+      "href": "http://localhost:3000/product/prod_3",
+      "quantity": 1
+    }
+  },
+  {
+    "id": "2c46b2f4-0b24-4759-8a72-e00f57031ced",
+    "timestamp": "2026-09-11T12:32:06.777Z",
+    "event": "page_view",
+    "url": "http://localhost:3000/",
+    "path": "/",
+    "title": "GoCart. - Shop smarter",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/",
+      "path": "/",
+      "quantity": 1
+    }
+  },
+  {
+    "id": "d7d25073-4f3b-4aab-a05d-0b294a1ec9b9",
+    "timestamp": "2026-09-11T12:32:06.720Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
+    "userId": "bharatpurohit095@gmail.com",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "a",
+      "id": "",
+      "className": "",
+      "text": "Home",
+      "href": "http://localhost:3000/",
+      "quantity": 1
+    }
+  },
+  {
     "id": "9ceb4d29-fa47-4aad-a9b1-a4a38b963c5a",
     "timestamp": "2026-09-11T12:25:09.028Z",
     "event": "page_view",
@@ -11,15 +576,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/orders",
-      "path": "/orders"
+      "path": "/orders",
+      "quantity": 1
     }
   },
   {
@@ -34,8 +600,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -43,7 +609,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
-      "text": "Place Order"
+      "text": "Place Order",
+      "quantity": 1
     }
   },
   {
@@ -58,15 +625,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/cart",
-      "path": "/cart"
+      "path": "/cart",
+      "quantity": 1
     }
   },
   {
@@ -81,8 +649,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -90,7 +658,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -105,8 +674,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -130,8 +699,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -139,7 +708,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -154,8 +724,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -163,7 +733,9 @@
       "productId": "prod_7",
       "productName": "Classic Chronograph Watch",
       "price": 199,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "quantity": 1,
+      "subtotal": 199
     }
   },
   {
@@ -178,8 +750,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -187,7 +759,9 @@
       "productId": "prod_7",
       "productName": "Classic Chronograph Watch",
       "price": 199,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "quantity": 1,
+      "subtotal": 199
     }
   },
   {
@@ -202,15 +776,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_7",
-      "path": "/product/prod_7"
+      "path": "/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -225,8 +800,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -235,7 +810,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Classic Chronograph Watch\n\n$199",
-      "href": "http://localhost:3000/product/prod_7"
+      "href": "http://localhost:3000/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -250,15 +826,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -273,8 +850,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -283,7 +860,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -298,8 +876,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -307,7 +885,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -322,8 +901,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -347,8 +926,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -356,7 +935,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -371,8 +951,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -380,7 +960,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -395,8 +976,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -421,8 +1002,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -430,7 +1011,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -445,8 +1027,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -454,7 +1036,9 @@
       "productId": "prod_2",
       "productName": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -469,8 +1053,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -478,7 +1062,9 @@
       "productId": "prod_2",
       "productName": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -493,15 +1079,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_2",
-      "path": "/product/prod_2"
+      "path": "/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -516,8 +1103,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -526,7 +1113,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Dell XPS 15\n\n$1849",
-      "href": "http://localhost:3000/product/prod_2"
+      "href": "http://localhost:3000/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -541,15 +1129,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -564,8 +1153,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -574,7 +1163,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -589,8 +1179,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -598,7 +1188,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -613,8 +1204,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -639,8 +1230,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -648,7 +1239,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -663,8 +1255,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -672,7 +1264,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -687,8 +1280,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -696,10 +1289,8 @@
       "productName": "Premium Laptop Sleeve",
       "productId": "prod_11",
       "price": 49,
-      "originalPrice": 3499,
       "quantity": 1,
       "subtotal": 49,
-      "discount": "Save 6% ($200 off)",
       "shipping": "Free shipping worldwide"
     }
   },
@@ -715,8 +1306,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -724,7 +1315,9 @@
       "productId": "prod_11",
       "productName": "Premium Laptop Sleeve",
       "price": 49,
-      "category": "Accessories"
+      "category": "Accessories",
+      "quantity": 1,
+      "subtotal": 49
     }
   },
   {
@@ -739,15 +1332,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_11",
-      "path": "/product/prod_11"
+      "path": "/product/prod_11",
+      "quantity": 1
     }
   },
   {
@@ -762,8 +1356,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -772,7 +1366,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Premium Laptop Sleeve\n\n$49",
-      "href": "http://localhost:3000/product/prod_11"
+      "href": "http://localhost:3000/product/prod_11",
+      "quantity": 1
     }
   },
   {
@@ -787,15 +1382,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/shop",
-      "path": "/shop"
+      "path": "/shop",
+      "quantity": 1
     }
   },
   {
@@ -810,8 +1406,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -820,7 +1416,8 @@
       "id": "",
       "className": "",
       "text": "Shop",
-      "href": "http://localhost:3000/shop"
+      "href": "http://localhost:3000/shop",
+      "quantity": 1
     }
   },
   {
@@ -835,8 +1432,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -845,7 +1442,8 @@
       "id": "",
       "className": "",
       "text": "Shop",
-      "href": "http://localhost:3000/shop"
+      "href": "http://localhost:3000/shop",
+      "quantity": 1
     }
   },
   {
@@ -860,15 +1458,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -883,8 +1482,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -893,7 +1492,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -908,8 +1508,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -917,7 +1517,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -932,8 +1533,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -941,10 +1542,8 @@
       "productName": "Watch Winder Box",
       "productId": "prod_12",
       "price": 99,
-      "originalPrice": 3499,
       "quantity": 1,
       "subtotal": 99,
-      "discount": "Save 6% ($200 off)",
       "shipping": "Free shipping worldwide"
     }
   },
@@ -960,8 +1559,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -969,7 +1568,9 @@
       "productId": "prod_12",
       "productName": "Watch Winder Box",
       "price": 99,
-      "category": "Accessories"
+      "category": "Accessories",
+      "quantity": 1,
+      "subtotal": 99
     }
   },
   {
@@ -984,15 +1585,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_12",
-      "path": "/product/prod_12"
+      "path": "/product/prod_12",
+      "quantity": 1
     }
   },
   {
@@ -1007,8 +1609,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1017,7 +1619,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Watch Winder Box\n\n$99",
-      "href": "http://localhost:3000/product/prod_12"
+      "href": "http://localhost:3000/product/prod_12",
+      "quantity": 1
     }
   },
   {
@@ -1032,15 +1635,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -1055,8 +1659,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1065,7 +1669,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -1080,8 +1685,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1089,7 +1694,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -1104,15 +1710,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/cart",
-      "path": "/cart"
+      "path": "/cart",
+      "quantity": 1
     }
   },
   {
@@ -1127,8 +1734,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1137,7 +1744,8 @@
       "id": "",
       "className": "relative flex items-center gap-2 text-slate-600",
       "text": "Cart\n1",
-      "href": "http://localhost:3000/cart"
+      "href": "http://localhost:3000/cart",
+      "quantity": 1
     }
   },
   {
@@ -1152,15 +1760,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -1175,8 +1784,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1185,7 +1794,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -1200,8 +1810,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1209,7 +1819,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "-"
+      "text": "-",
+      "quantity": 1
     }
   },
   {
@@ -1224,13 +1835,14 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -1245,15 +1857,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/cart",
-      "path": "/cart"
+      "path": "/cart",
+      "quantity": 1
     }
   },
   {
@@ -1268,8 +1881,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1278,7 +1891,8 @@
       "id": "",
       "className": "relative flex items-center gap-2 text-slate-600",
       "text": "Cart\n2",
-      "href": "http://localhost:3000/cart"
+      "href": "http://localhost:3000/cart",
+      "quantity": 1
     }
   },
   {
@@ -1293,8 +1907,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1302,10 +1916,8 @@
       "productName": "Apple Watch Series 9",
       "productId": "prod_3",
       "price": 349,
-      "originalPrice": 3499,
       "quantity": 1,
       "subtotal": 349,
-      "discount": "Save 6% ($200 off)",
       "shipping": "Free shipping worldwide"
     }
   },
@@ -1321,8 +1933,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1330,7 +1942,9 @@
       "productId": "prod_3",
       "productName": "Apple Watch Series 9",
       "price": 349,
-      "category": "Smart Watches"
+      "category": "Smart Watches",
+      "quantity": 1,
+      "subtotal": 349
     }
   },
   {
@@ -1345,15 +1959,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_3",
-      "path": "/product/prod_3"
+      "path": "/product/prod_3",
+      "quantity": 1
     }
   },
   {
@@ -1368,8 +1983,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1378,7 +1993,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Apple Watch Series 9\n\n$349",
-      "href": "http://localhost:3000/product/prod_3"
+      "href": "http://localhost:3000/product/prod_3",
+      "quantity": 1
     }
   },
   {
@@ -1393,15 +2009,16 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -1416,8 +2033,8 @@
     "os": "Windows",
     "device": "Desktop",
     "screenSize": "1920x1080",
-    "country": "Australia",
-    "countryCode": "AU",
+    "country": "India",
+    "countryCode": "IN",
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
@@ -1426,7 +2043,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -1450,7 +2068,9 @@
       "productName": "Dell XPS 15",
       "price": 1849,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -1475,7 +2095,9 @@
       "price": 1849,
       "category": "Business Laptops",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -1499,7 +2121,8 @@
       "url": "http://localhost:3000/product/prod_2",
       "path": "/product/prod_2",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1521,7 +2144,8 @@
     "properties": {
       "depth": 50,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1547,7 +2171,8 @@
       "text": "Dell XPS 15\n\n$1849",
       "href": "http://localhost:3000/product/prod_2",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1573,7 +2198,8 @@
       "text": "Dell XPS 15\n\n$1849",
       "href": "http://localhost:3000/product/prod_2",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1599,7 +2225,8 @@
       "text": "Dell XPS 15\n\n$1849",
       "href": "http://localhost:3000/product/prod_2",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1625,7 +2252,8 @@
       "text": "Dell XPS 15\n\n$1849",
       "href": "http://localhost:3000/product/prod_2",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1651,7 +2279,8 @@
       "text": "Dell XPS 15\n\n$1849",
       "href": "http://localhost:3000/product/prod_2",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1673,7 +2302,8 @@
     "properties": {
       "depth": 25,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1696,7 +2326,8 @@
       "name": "bharatpurohit095",
       "email": "bharatpurohit095@gmail.com",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1720,7 +2351,8 @@
       "domReadyTime": 187.60000002384186,
       "ttfb": 169,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1744,7 +2376,8 @@
       "url": "http://localhost:3000/",
       "path": "/",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1767,7 +2400,8 @@
       "name": "bharatpurohit095",
       "email": "bharatpurohit095@gmail.com",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1791,7 +2425,8 @@
       "domReadyTime": 3396.2000000178814,
       "ttfb": 3349.5,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1815,7 +2450,8 @@
       "url": "http://localhost:3000/",
       "path": "/",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1838,7 +2474,8 @@
       "name": "bharatpurohit095",
       "email": "bharatpurohit095@gmail.com",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1862,7 +2499,8 @@
       "domReadyTime": 3396.2000000178814,
       "ttfb": 3349.5,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1886,7 +2524,8 @@
       "url": "http://localhost:3000/",
       "path": "/",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1908,7 +2547,8 @@
     "properties": {
       "productId": "prod_1",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1933,7 +2573,8 @@
       "className": "p-1 select-none",
       "text": "+",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1957,7 +2598,8 @@
       "url": "http://localhost:3000/cart",
       "path": "/cart",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -1982,7 +2624,8 @@
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
       "text": "View Cart",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2004,7 +2647,8 @@
     "properties": {
       "productId": "prod_3",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2029,7 +2673,8 @@
       "className": "p-1 select-none",
       "text": "+",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2051,7 +2696,8 @@
     "properties": {
       "productId": "prod_3",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2076,7 +2722,8 @@
       "className": "p-1 select-none",
       "text": "+",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2100,7 +2747,9 @@
       "productName": "Apple Watch Series 9",
       "price": 349,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1,
+      "subtotal": 349
     }
   },
   {
@@ -2125,7 +2774,8 @@
       "className": "p-1 select-none",
       "text": "-",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2149,7 +2799,8 @@
       "url": "http://localhost:3000/orders",
       "path": "/orders",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2174,7 +2825,8 @@
       "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
       "text": "Place Order",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2199,7 +2851,8 @@
       "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
       "text": "Place Order",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2224,7 +2877,8 @@
       "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
       "text": "Place Order",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2249,7 +2903,8 @@
       "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
       "text": "Place Order",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2273,7 +2928,8 @@
       "url": "http://localhost:3000/cart",
       "path": "/cart",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2298,7 +2954,8 @@
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
       "text": "View Cart",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2323,7 +2980,8 @@
       "className": "p-1 select-none",
       "text": "+",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2348,7 +3006,8 @@
       "className": "p-1 select-none",
       "text": "+",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2373,7 +3032,8 @@
       "className": "p-1 select-none",
       "text": "+",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2398,7 +3058,8 @@
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
       "text": "Add to Cart",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2423,7 +3084,9 @@
       "price": 49,
       "category": "Accessories",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1,
+      "subtotal": 49
     }
   },
   {
@@ -2447,7 +3110,8 @@
       "url": "http://localhost:3000/product/prod_11",
       "path": "/product/prod_11",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2473,7 +3137,8 @@
       "text": "Premium Laptop Sleeve\n\n$49",
       "href": "http://localhost:3000/product/prod_11",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2497,7 +3162,8 @@
       "url": "http://localhost:3000/",
       "path": "/",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2523,7 +3189,8 @@
       "text": "Home",
       "href": "http://localhost:3000/",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2545,7 +3212,8 @@
     "properties": {
       "depth": 100,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2568,7 +3236,8 @@
       "name": "a1",
       "email": "a1@gmail.com",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2592,7 +3261,8 @@
       "domReadyTime": 1056.3999999985099,
       "ttfb": 960.5999999996275,
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2616,7 +3286,8 @@
       "url": "http://localhost:3000/cart",
       "path": "/cart",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2638,7 +3309,8 @@
     "properties": {
       "path": "/test",
       "city": "Pune",
-      "region": "Maharashtra"
+      "region": "Maharashtra",
+      "quantity": 1
     }
   },
   {
@@ -2659,7 +3331,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -2682,7 +3355,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -2704,7 +3378,8 @@
       "tagName": "button",
       "id": "",
       "className": "font-normal text-gray-800 bg-white px-7 py-2 rounded-full max-sm:hidden",
-      "text": "Claim Offer"
+      "text": "Claim Offer",
+      "quantity": 1
     }
   },
   {
@@ -2725,7 +3400,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/orders",
-      "path": "/orders"
+      "path": "/orders",
+      "quantity": 1
     }
   },
   {
@@ -2747,7 +3423,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
-      "text": "Place Order"
+      "text": "Place Order",
+      "quantity": 1
     }
   },
   {
@@ -2768,7 +3445,8 @@
     "properties": {
       "formId": "",
       "formClass": "flex justify-center gap-3 mt-3",
-      "action": "http://localhost:3000/cart"
+      "action": "http://localhost:3000/cart",
+      "quantity": 1
     }
   },
   {
@@ -2790,7 +3468,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-600 text-white px-3 rounded hover:bg-slate-800 active:scale-95 transition-all",
-      "text": "Apply"
+      "text": "Apply",
+      "quantity": 1
     }
   },
   {
@@ -2811,7 +3490,8 @@
     "properties": {
       "formId": "",
       "formClass": "flex justify-center gap-3 mt-3",
-      "action": "http://localhost:3000/cart"
+      "action": "http://localhost:3000/cart",
+      "quantity": 1
     }
   },
   {
@@ -2833,7 +3513,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-600 text-white px-3 rounded hover:bg-slate-800 active:scale-95 transition-all",
-      "text": "Apply"
+      "text": "Apply",
+      "quantity": 1
     }
   },
   {
@@ -2854,7 +3535,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/cart",
-      "path": "/cart"
+      "path": "/cart",
+      "quantity": 1
     }
   },
   {
@@ -2876,7 +3558,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -2898,7 +3581,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "+"
+      "text": "+",
+      "quantity": 1
     }
   },
   {
@@ -2920,7 +3604,8 @@
       "tagName": "button",
       "id": "",
       "className": "p-1 select-none",
-      "text": "+"
+      "text": "+",
+      "quantity": 1
     }
   },
   {
@@ -2942,7 +3627,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -2963,7 +3649,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_11",
-      "path": "/product/prod_11"
+      "path": "/product/prod_11",
+      "quantity": 1
     }
   },
   {
@@ -2985,7 +3672,9 @@
       "productId": "prod_11",
       "productName": "Premium Laptop Sleeve",
       "price": 49,
-      "category": "Accessories"
+      "category": "Accessories",
+      "quantity": 1,
+      "subtotal": 49
     }
   },
   {
@@ -3008,7 +3697,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Premium Laptop Sleeve\n\n$49",
-      "href": "http://localhost:3000/product/prod_11"
+      "href": "http://localhost:3000/product/prod_11",
+      "quantity": 1
     }
   },
   {
@@ -3029,7 +3719,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/shop/happyshop",
-      "path": "/shop/happyshop"
+      "path": "/shop/happyshop",
+      "quantity": 1
     }
   },
   {
@@ -3052,7 +3743,8 @@
       "id": "",
       "className": "flex items-center gap-1.5 text-green-500",
       "text": "view store",
-      "href": "http://localhost:3000/shop/happyshop"
+      "href": "http://localhost:3000/shop/happyshop",
+      "quantity": 1
     }
   },
   {
@@ -3074,7 +3766,9 @@
       "productId": "prod_11",
       "productName": "Premium Laptop Sleeve",
       "price": 49,
-      "category": "Accessories"
+      "category": "Accessories",
+      "quantity": 1,
+      "subtotal": 49
     }
   },
   {
@@ -3095,7 +3789,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_11",
-      "path": "/product/prod_11"
+      "path": "/product/prod_11",
+      "quantity": 1
     }
   },
   {
@@ -3118,7 +3813,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Premium Laptop Sleeve\n\n$49",
-      "href": "http://localhost:3000/product/prod_11"
+      "href": "http://localhost:3000/product/prod_11",
+      "quantity": 1
     }
   },
   {
@@ -3137,7 +3833,8 @@
     "userId": "vermakajal0256@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -3156,7 +3853,8 @@
     "userId": "vermakajal0256@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 75
+      "depth": 75,
+      "quantity": 1
     }
   },
   {
@@ -3175,7 +3873,8 @@
     "userId": "vermakajal0256@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 50
+      "depth": 50,
+      "quantity": 1
     }
   },
   {
@@ -3195,7 +3894,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "vermakajal0256",
-      "email": "vermakajal0256@gmail.com"
+      "email": "vermakajal0256@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -3216,7 +3916,8 @@
     "properties": {
       "loadTime": 668.0999999996275,
       "domReadyTime": 485.8999999994412,
-      "ttfb": 409.79999999981374
+      "ttfb": 409.79999999981374,
+      "quantity": 1
     }
   },
   {
@@ -3237,7 +3938,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -3258,7 +3960,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -3278,7 +3981,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "vermakajal0256",
-      "email": "vermakajal0256@gmail.com"
+      "email": "vermakajal0256@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -3299,7 +4003,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3321,7 +4026,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -3342,7 +4048,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -3365,7 +4072,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3388,7 +4096,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3407,7 +4116,8 @@
     "userId": null,
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -3428,7 +4138,8 @@
     "properties": {
       "loadTime": 7639.100000000559,
       "domReadyTime": 7448.700000000186,
-      "ttfb": 7178.0999999996275
+      "ttfb": 7178.0999999996275,
+      "quantity": 1
     }
   },
   {
@@ -3449,7 +4160,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -3470,7 +4182,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/cart",
-      "path": "/cart"
+      "path": "/cart",
+      "quantity": 1
     }
   },
   {
@@ -3493,7 +4206,8 @@
       "id": "",
       "className": "relative flex items-center gap-2 text-slate-600",
       "text": "Cart\n0",
-      "href": "http://localhost:3000/cart"
+      "href": "http://localhost:3000/cart",
+      "quantity": 1
     }
   },
   {
@@ -3515,7 +4229,9 @@
       "productId": "prod_10",
       "productName": "HP Spectre x360",
       "price": 1299,
-      "category": "Laptops"
+      "category": "Laptops",
+      "quantity": 1,
+      "subtotal": 1299
     }
   },
   {
@@ -3536,7 +4252,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_10",
-      "path": "/product/prod_10"
+      "path": "/product/prod_10",
+      "quantity": 1
     }
   },
   {
@@ -3559,7 +4276,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "HP Spectre x360\n\n$1299",
-      "href": "http://localhost:3000/product/prod_10"
+      "href": "http://localhost:3000/product/prod_10",
+      "quantity": 1
     }
   },
   {
@@ -3580,7 +4298,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/shop",
-      "path": "/shop"
+      "path": "/shop",
+      "quantity": 1
     }
   },
   {
@@ -3603,7 +4322,8 @@
       "id": "",
       "className": "",
       "text": "Shop",
-      "href": "http://localhost:3000/shop"
+      "href": "http://localhost:3000/shop",
+      "quantity": 1
     }
   },
   {
@@ -3626,7 +4346,8 @@
       "id": "",
       "className": "",
       "text": "About",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -3649,7 +4370,8 @@
       "id": "",
       "className": "",
       "text": "Contact",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -3668,7 +4390,8 @@
     "userId": "asdf@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -3687,7 +4410,8 @@
     "userId": "asdf@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 50
+      "depth": 50,
+      "quantity": 1
     }
   },
   {
@@ -3707,7 +4431,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "asdf",
-      "email": "asdf@gmail.com"
+      "email": "asdf@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -3728,7 +4453,8 @@
     "properties": {
       "loadTime": 683.6999999880791,
       "domReadyTime": 493.39999997615814,
-      "ttfb": 426.10000002384186
+      "ttfb": 426.10000002384186,
+      "quantity": 1
     }
   },
   {
@@ -3749,7 +4475,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -3770,7 +4497,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -3790,7 +4518,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "asdf",
-      "email": "asdf@gmail.com"
+      "email": "asdf@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -3811,7 +4540,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3833,7 +4563,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -3854,7 +4585,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -3877,7 +4609,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3899,7 +4632,8 @@
       "tagName": "button",
       "id": "",
       "className": "font-normal text-gray-800 py-2 rounded-full",
-      "text": ""
+      "text": "",
+      "quantity": 1
     }
   },
   {
@@ -3922,7 +4656,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3945,7 +4680,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3968,7 +4704,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -3991,7 +4728,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -4012,7 +4750,8 @@
     "properties": {
       "loadTime": 1815.5,
       "domReadyTime": 1319.699999988079,
-      "ttfb": 1003
+      "ttfb": 1003,
+      "quantity": 1
     }
   },
   {
@@ -4033,7 +4772,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -4052,7 +4792,8 @@
     "userId": null,
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 50
+      "depth": 50,
+      "quantity": 1
     }
   },
   {
@@ -4074,7 +4815,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -4096,7 +4838,9 @@
       "productId": "prod_1",
       "productName": "MacBook Pro 16\"",
       "price": 3299,
-      "category": "Laptops"
+      "category": "Laptops",
+      "quantity": 1,
+      "subtotal": 3299
     }
   },
   {
@@ -4117,7 +4861,8 @@
     "properties": {
       "loadTime": 581.8000000119209,
       "domReadyTime": 354.69999998807907,
-      "ttfb": 289.19999998807907
+      "ttfb": 289.19999998807907,
+      "quantity": 1
     }
   },
   {
@@ -4138,7 +4883,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_1",
-      "path": "/product/prod_1"
+      "path": "/product/prod_1",
+      "quantity": 1
     }
   },
   {
@@ -4160,7 +4906,9 @@
       "productId": "prod_1",
       "productName": "MacBook Pro 16\"",
       "price": 3299,
-      "category": "Laptops"
+      "category": "Laptops",
+      "quantity": 1,
+      "subtotal": 3299
     }
   },
   {
@@ -4181,7 +4929,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_1",
-      "path": "/product/prod_1"
+      "path": "/product/prod_1",
+      "quantity": 1
     }
   },
   {
@@ -4204,7 +4953,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "MacBook Pro 16\"\n\n$3299",
-      "href": "http://localhost:3000/product/prod_1"
+      "href": "http://localhost:3000/product/prod_1",
+      "quantity": 1
     }
   },
   {
@@ -4225,7 +4975,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -4248,7 +4999,8 @@
       "id": "",
       "className": "relative text-4xl font-semibold text-slate-700",
       "text": "gocart.\n\nplus",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -4269,7 +5021,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/cart",
-      "path": "/cart"
+      "path": "/cart",
+      "quantity": 1
     }
   },
   {
@@ -4291,7 +5044,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -4310,7 +5064,8 @@
     "userId": null,
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -4332,7 +5087,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -4354,7 +5110,9 @@
       "productId": "prod_5",
       "productName": "Garmin Fenix 7 Pro",
       "price": 749,
-      "category": "Smart Watches"
+      "category": "Smart Watches",
+      "quantity": 1,
+      "subtotal": 749
     }
   },
   {
@@ -4375,7 +5133,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_5",
-      "path": "/product/prod_5"
+      "path": "/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -4398,7 +5157,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Garmin Fenix 7 Pro\n\n$749",
-      "href": "http://localhost:3000/product/prod_5"
+      "href": "http://localhost:3000/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -4421,7 +5181,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Garmin Fenix 7 Pro\n\n$749",
-      "href": "http://localhost:3000/product/prod_5"
+      "href": "http://localhost:3000/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -4444,7 +5205,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Garmin Fenix 7 Pro\n\n$749",
-      "href": "http://localhost:3000/product/prod_5"
+      "href": "http://localhost:3000/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -4467,7 +5229,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Garmin Fenix 7 Pro\n\n$749",
-      "href": "http://localhost:3000/product/prod_5"
+      "href": "http://localhost:3000/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -4490,7 +5253,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Garmin Fenix 7 Pro\n\n$749",
-      "href": "http://localhost:3000/product/prod_5"
+      "href": "http://localhost:3000/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -4509,7 +5273,8 @@
     "userId": null,
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 75
+      "depth": 75,
+      "quantity": 1
     }
   },
   {
@@ -4528,7 +5293,8 @@
     "userId": null,
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 25
+      "depth": 25,
+      "quantity": 1
     }
   },
   {
@@ -4549,7 +5315,8 @@
     "properties": {
       "loadTime": 8632.5,
       "domReadyTime": 8442.600000023842,
-      "ttfb": 8209.100000023842
+      "ttfb": 8209.100000023842,
+      "quantity": 1
     }
   },
   {
@@ -4570,7 +5337,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -4592,7 +5360,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart"
+      "text": "Add to Cart",
+      "quantity": 1
     }
   },
   {
@@ -4613,7 +5382,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_7",
-      "path": "/product/prod_7"
+      "path": "/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -4635,7 +5405,9 @@
       "productId": "prod_7",
       "productName": "Classic Chronograph Watch",
       "price": 199,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "quantity": 1,
+      "subtotal": 199
     }
   },
   {
@@ -4658,7 +5430,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Classic Chronograph Watch\n\n$199",
-      "href": "http://localhost:3000/product/prod_7"
+      "href": "http://localhost:3000/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -4677,7 +5450,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 50
+      "depth": 50,
+      "quantity": 1
     }
   },
   {
@@ -4696,7 +5470,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 25
+      "depth": 25,
+      "quantity": 1
     }
   },
   {
@@ -4716,7 +5491,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "bharatpurohit095",
-      "email": "bharatpurohit095@gmail.com"
+      "email": "bharatpurohit095@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -4737,7 +5513,8 @@
     "properties": {
       "loadTime": 1755.3000001907349,
       "domReadyTime": 1701.1000001430511,
-      "ttfb": 1650.9000000953674
+      "ttfb": 1650.9000000953674,
+      "quantity": 1
     }
   },
   {
@@ -4758,7 +5535,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -4777,7 +5555,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 75
+      "depth": 75,
+      "quantity": 1
     }
   },
   {
@@ -4796,7 +5575,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 50
+      "depth": 50,
+      "quantity": 1
     }
   },
   {
@@ -4816,7 +5596,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "bharatpurohit095",
-      "email": "bharatpurohit095@gmail.com"
+      "email": "bharatpurohit095@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -4837,7 +5618,8 @@
     "properties": {
       "loadTime": 174.5,
       "domReadyTime": 137.90000009536743,
-      "ttfb": 119.20000004768372
+      "ttfb": 119.20000004768372,
+      "quantity": 1
     }
   },
   {
@@ -4858,7 +5640,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -4878,7 +5661,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "bharatpurohit095",
-      "email": "bharatpurohit095@gmail.com"
+      "email": "bharatpurohit095@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -4899,7 +5683,8 @@
     "properties": {
       "loadTime": 146.30000019073486,
       "domReadyTime": 127.5,
-      "ttfb": 86.40000009536743
+      "ttfb": 86.40000009536743,
+      "quantity": 1
     }
   },
   {
@@ -4920,7 +5705,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -4939,7 +5725,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -4958,7 +5745,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -4977,7 +5765,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 50
+      "depth": 50,
+      "quantity": 1
     }
   },
   {
@@ -4996,7 +5785,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "Go_Kart",
     "properties": {
-      "depth": 25
+      "depth": 25,
+      "quantity": 1
     }
   },
   {
@@ -5017,7 +5807,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5040,7 +5831,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -5062,7 +5854,8 @@
       "fileName": "Screenshot 2026-07-27 140444.png",
       "fileSize": 151080,
       "mimeType": "image/png",
-      "fileUrl": "/uploads/1785327365708-Screenshot2026-07-27140444.png"
+      "fileUrl": "/uploads/1785327365708-Screenshot2026-07-27140444.png",
+      "quantity": 1
     }
   },
   {
@@ -5084,7 +5877,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -5105,7 +5899,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_2",
-      "path": "/product/prod_2"
+      "path": "/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -5127,7 +5922,9 @@
       "productId": "prod_2",
       "productName": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -5150,7 +5947,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Dell XPS 15\n\n$1849",
-      "href": "http://localhost:3000/product/prod_2"
+      "href": "http://localhost:3000/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -5170,7 +5968,8 @@
     "projectId": "Go_Kart",
     "properties": {
       "name": "bharatpurohit095",
-      "email": "bharatpurohit095@gmail.com"
+      "email": "bharatpurohit095@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -5191,7 +5990,8 @@
     "properties": {
       "loadTime": 1887.2999999523163,
       "domReadyTime": 1794.5,
-      "ttfb": 1773.2999999523163
+      "ttfb": 1773.2999999523163,
+      "quantity": 1
     }
   },
   {
@@ -5212,7 +6012,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5234,7 +6035,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -5256,7 +6058,9 @@
       "productId": "prod_5",
       "productName": "Garmin Fenix 7 Pro",
       "price": 749,
-      "category": "Smart Watches"
+      "category": "Smart Watches",
+      "quantity": 1,
+      "subtotal": 749
     }
   },
   {
@@ -5277,7 +6081,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_5",
-      "path": "/product/prod_5"
+      "path": "/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -5300,7 +6105,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Garmin Fenix 7 Pro\n\n$749",
-      "href": "http://localhost:3000/product/prod_5"
+      "href": "http://localhost:3000/product/prod_5",
+      "quantity": 1
     }
   },
   {
@@ -5319,7 +6125,8 @@
     "userId": "bharatpurohit095@gmail.com",
     "projectId": "gocart",
     "properties": {
-      "depth": 25
+      "depth": 25,
+      "quantity": 1
     }
   },
   {
@@ -5340,7 +6147,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5363,7 +6171,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -5385,7 +6194,9 @@
       "productId": "prod_7",
       "productName": "Classic Chronograph Watch",
       "price": 199,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "quantity": 1,
+      "subtotal": 199
     }
   },
   {
@@ -5406,7 +6217,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_7",
-      "path": "/product/prod_7"
+      "path": "/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -5428,7 +6240,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -5450,7 +6263,9 @@
       "productId": "prod_7",
       "productName": "Classic Chronograph Watch",
       "price": 199,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "quantity": 1,
+      "subtotal": 199
     }
   },
   {
@@ -5471,7 +6286,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_7",
-      "path": "/product/prod_7"
+      "path": "/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -5494,7 +6310,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Classic Chronograph Watch\n\n$199",
-      "href": "http://localhost:3000/product/prod_7"
+      "href": "http://localhost:3000/product/prod_7",
+      "quantity": 1
     }
   },
   {
@@ -5515,7 +6332,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5536,7 +6354,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -5556,7 +6375,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "bharatpurohit095",
-      "email": "bharatpurohit095@gmail.com"
+      "email": "bharatpurohit095@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -5578,7 +6398,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -5599,7 +6420,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -5622,7 +6444,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -5643,7 +6466,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5664,7 +6488,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -5684,7 +6509,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "Bharat",
-      "email": "bharatpurohit095@gmail.com"
+      "email": "bharatpurohit095@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -5706,7 +6532,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign Up"
+      "text": "Sign Up",
+      "quantity": 1
     }
   },
   {
@@ -5728,7 +6555,8 @@
       "tagName": "button",
       "id": "",
       "className": "text-green-600 font-bold hover:text-green-700 transition-colors ml-1",
-      "text": "Log in"
+      "text": "Log in",
+      "quantity": 1
     }
   },
   {
@@ -5749,7 +6577,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -5772,7 +6601,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -5794,7 +6624,8 @@
       "tagName": "button",
       "id": "",
       "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
-      "text": "Logout"
+      "text": "Logout",
+      "quantity": 1
     }
   },
   {
@@ -5816,7 +6647,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -5837,7 +6669,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_3",
-      "path": "/product/prod_3"
+      "path": "/product/prod_3",
+      "quantity": 1
     }
   },
   {
@@ -5859,7 +6692,9 @@
       "productId": "prod_3",
       "productName": "Apple Watch Series 9",
       "price": 349,
-      "category": "Smart Watches"
+      "category": "Smart Watches",
+      "quantity": 1,
+      "subtotal": 349
     }
   },
   {
@@ -5882,7 +6717,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Apple Watch Series 9\n\n$349",
-      "href": "http://localhost:3000/product/prod_3"
+      "href": "http://localhost:3000/product/prod_3",
+      "quantity": 1
     }
   },
   {
@@ -5903,7 +6739,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5923,7 +6760,8 @@
     "projectId": "Unknown",
     "properties": {
       "productName": "Cool T-Shirt",
-      "price": ""
+      "price": "",
+      "quantity": 1
     }
   },
   {
@@ -5943,7 +6781,8 @@
     "projectId": "Unknown",
     "properties": {
       "productName": "Cool T-Shirt",
-      "price": ""
+      "price": "",
+      "quantity": 1
     }
   },
   {
@@ -5964,7 +6803,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -5987,7 +6827,8 @@
       "id": "",
       "className": "",
       "text": "Home",
-      "href": "http://localhost:3000/"
+      "href": "http://localhost:3000/",
+      "quantity": 1
     }
   },
   {
@@ -6009,7 +6850,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -6031,7 +6873,9 @@
       "productId": "prod_2",
       "productName": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -6052,7 +6896,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_2",
-      "path": "/product/prod_2"
+      "path": "/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -6075,7 +6920,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Dell XPS 15\n\n$1849",
-      "href": "http://localhost:3000/product/prod_2"
+      "href": "http://localhost:3000/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -6096,7 +6942,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6117,7 +6964,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6137,7 +6985,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "bharat",
-      "email": "bharat@gmail.com"
+      "email": "bharat@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -6159,7 +7008,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -6180,7 +7030,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -6203,7 +7054,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6224,7 +7076,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6245,7 +7098,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6265,7 +7119,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "Bharat",
-      "email": "bharat@gmail.com"
+      "email": "bharat@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -6287,7 +7142,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign Up"
+      "text": "Sign Up",
+      "quantity": 1
     }
   },
   {
@@ -6309,7 +7165,8 @@
       "tagName": "button",
       "id": "",
       "className": "text-green-600 font-bold hover:text-green-700 transition-colors ml-1",
-      "text": "Log in"
+      "text": "Log in",
+      "quantity": 1
     }
   },
   {
@@ -6330,7 +7187,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -6353,7 +7211,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6374,7 +7233,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6395,7 +7255,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6415,7 +7276,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "abhi2",
-      "email": "abhi2@gmail.com"
+      "email": "abhi2@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -6437,7 +7299,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -6458,7 +7321,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -6481,7 +7345,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6502,7 +7367,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6523,7 +7389,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6543,7 +7410,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "abhi",
-      "email": "abhi2@gmail.com"
+      "email": "abhi2@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -6565,7 +7433,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign Up"
+      "text": "Sign Up",
+      "quantity": 1
     }
   },
   {
@@ -6587,7 +7456,8 @@
       "tagName": "button",
       "id": "",
       "className": "text-green-600 font-bold hover:text-green-700 transition-colors ml-1",
-      "text": "Log in"
+      "text": "Log in",
+      "quantity": 1
     }
   },
   {
@@ -6608,7 +7478,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -6631,7 +7502,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6653,7 +7525,8 @@
       "tagName": "button",
       "id": "",
       "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
-      "text": "Logout"
+      "text": "Logout",
+      "quantity": 1
     }
   },
   {
@@ -6674,7 +7547,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6695,7 +7569,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6715,7 +7590,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "abhi1",
-      "email": "abhi1@gmail.com"
+      "email": "abhi1@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -6737,7 +7613,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -6758,7 +7635,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -6781,7 +7659,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6803,7 +7682,8 @@
       "tagName": "button",
       "id": "",
       "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
-      "text": "Logout"
+      "text": "Logout",
+      "quantity": 1
     }
   },
   {
@@ -6824,7 +7704,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "View Cart"
+      "text": "View Cart",
+      "quantity": 1
     }
   },
   {
@@ -6845,7 +7726,9 @@
       "productId": "prod_2",
       "productName": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -6865,7 +7748,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_2",
-      "path": "/product/prod_2"
+      "path": "/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -6887,7 +7771,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Dell XPS 15\n\n$1849",
-      "href": "http://localhost:3000/product/prod_2"
+      "href": "http://localhost:3000/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -6907,7 +7792,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6927,7 +7813,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -6947,7 +7834,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -6966,7 +7854,8 @@
     "projectId": "gocart",
     "properties": {
       "name": "abhi1",
-      "email": "abhi1@gmail.com"
+      "email": "abhi1@gmail.com",
+      "quantity": 1
     }
   },
   {
@@ -6987,7 +7876,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -7007,7 +7897,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -7029,7 +7920,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -7050,7 +7942,8 @@
       "tagName": "button",
       "id": "",
       "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
-      "text": "Logout"
+      "text": "Logout",
+      "quantity": 1
     }
   },
   {
@@ -7071,7 +7964,9 @@
       "productId": "prod_2",
       "productName": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "quantity": 1,
+      "subtotal": 1849
     }
   },
   {
@@ -7091,7 +7986,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/product/prod_2",
-      "path": "/product/prod_2"
+      "path": "/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -7113,7 +8009,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Dell XPS 15\n\n$1849",
-      "href": "http://localhost:3000/product/prod_2"
+      "href": "http://localhost:3000/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -7135,7 +8032,8 @@
       "id": "",
       "className": " group max-xl:mx-auto",
       "text": "Dell XPS 15\n\n$1849",
-      "href": "http://localhost:3000/product/prod_2"
+      "href": "http://localhost:3000/product/prod_2",
+      "quantity": 1
     }
   },
   {
@@ -7153,7 +8051,8 @@
     "anonId": "8e93c3ad-d797-47f0-a5a2-41cbe558c190",
     "projectId": "gocart",
     "properties": {
-      "depth": 25
+      "depth": 25,
+      "quantity": 1
     }
   },
   {
@@ -7173,7 +8072,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7193,7 +8093,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7213,7 +8114,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -7234,7 +8136,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In"
+      "text": "Sign In",
+      "quantity": 1
     }
   },
   {
@@ -7254,7 +8157,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -7276,7 +8180,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -7296,7 +8201,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7316,7 +8222,8 @@
     "properties": {
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -7337,7 +8244,8 @@
       "tagName": "button",
       "id": "",
       "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign Up"
+      "text": "Sign Up",
+      "quantity": 1
     }
   },
   {
@@ -7358,7 +8266,8 @@
       "tagName": "button",
       "id": "",
       "className": "text-green-600 font-bold hover:text-green-700 transition-colors ml-1",
-      "text": "Log in"
+      "text": "Log in",
+      "quantity": 1
     }
   },
   {
@@ -7378,7 +8287,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/login",
-      "path": "/login"
+      "path": "/login",
+      "quantity": 1
     }
   },
   {
@@ -7400,7 +8310,8 @@
       "id": "",
       "className": "px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full",
       "text": "Login",
-      "href": "http://localhost:3000/login"
+      "href": "http://localhost:3000/login",
+      "quantity": 1
     }
   },
   {
@@ -7421,7 +8332,8 @@
       "tagName": "button",
       "id": "",
       "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
-      "text": "Logout"
+      "text": "Logout",
+      "quantity": 1
     }
   },
   {
@@ -7441,7 +8353,8 @@
     "properties": {
       "title": "GoCart. - Shop smarter",
       "url": "http://localhost:3000/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7461,7 +8374,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/culture",
-      "path": "/culture"
+      "path": "/culture",
+      "quantity": 1
     }
   },
   {
@@ -7483,7 +8397,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "CULTURE",
-      "href": "http://localhost:8081/culture"
+      "href": "http://localhost:8081/culture",
+      "quantity": 1
     }
   },
   {
@@ -7503,7 +8418,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/blog",
-      "path": "/blog"
+      "path": "/blog",
+      "quantity": 1
     }
   },
   {
@@ -7525,7 +8441,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "BLOG",
-      "href": "http://localhost:8081/blog"
+      "href": "http://localhost:8081/blog",
+      "quantity": 1
     }
   },
   {
@@ -7545,7 +8462,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/projects",
-      "path": "/projects"
+      "path": "/projects",
+      "quantity": 1
     }
   },
   {
@@ -7567,7 +8485,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "PROJECTS",
-      "href": "http://localhost:8081/projects"
+      "href": "http://localhost:8081/projects",
+      "quantity": 1
     }
   },
   {
@@ -7587,7 +8506,8 @@
     "properties": {
       "loadTime": 297.69999998807907,
       "domReadyTime": 223.19999998807907,
-      "ttfb": 27.399999976158142
+      "ttfb": 27.399999976158142,
+      "quantity": 1
     }
   },
   {
@@ -7607,7 +8527,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7627,7 +8548,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7649,7 +8571,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "HOME",
-      "href": "http://localhost:8081/"
+      "href": "http://localhost:8081/",
+      "quantity": 1
     }
   },
   {
@@ -7670,7 +8593,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-[#0d6efd] hover:bg-[#0b5ed7] text-white font-medium px-10 py-3.5 rounded-full transition-all duration-300 shadow-md shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:-translate-y-0",
-      "text": "Send Message"
+      "text": "Send Message",
+      "quantity": 1
     }
   },
   {
@@ -7690,7 +8614,8 @@
     "properties": {
       "title": "Contact — CloudCove",
       "url": "http://localhost:8081/contact",
-      "path": "/contact"
+      "path": "/contact",
+      "quantity": 1
     }
   },
   {
@@ -7712,7 +8637,8 @@
       "id": "",
       "className": "group hidden sm:inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-2.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.22em] text-background transition-all duration-300 hover:bg-cove hover:shadow-[0_0_20px_rgba(13,110,253,0.3)] hover:-translate-y-0.5",
       "text": "BOOK DEMO",
-      "href": "http://localhost:8081/contact"
+      "href": "http://localhost:8081/contact",
+      "quantity": 1
     }
   },
   {
@@ -7732,7 +8658,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/projects/sfmc-banking-firm",
-      "path": "/projects/sfmc-banking-firm"
+      "path": "/projects/sfmc-banking-firm",
+      "quantity": 1
     }
   },
   {
@@ -7754,7 +8681,8 @@
       "id": "",
       "className": "group h-full flex flex-col overflow-hidden rounded-xl bg-background border border-rule hover:border-cove/30 transition-all duration-300 cursor-pointer",
       "text": "BANKING\nEnd-to-End SFMC for US Banking Firm",
-      "href": "http://localhost:8081/projects/sfmc-banking-firm"
+      "href": "http://localhost:8081/projects/sfmc-banking-firm",
+      "quantity": 1
     }
   },
   {
@@ -7774,7 +8702,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/projects",
-      "path": "/projects"
+      "path": "/projects",
+      "quantity": 1
     }
   },
   {
@@ -7796,7 +8725,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "PROJECTS",
-      "href": "http://localhost:8081/projects"
+      "href": "http://localhost:8081/projects",
+      "quantity": 1
     }
   },
   {
@@ -7816,7 +8746,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -7838,7 +8769,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "HOME",
-      "href": "http://localhost:8081/"
+      "href": "http://localhost:8081/",
+      "quantity": 1
     }
   },
   {
@@ -7858,7 +8790,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/contact",
-      "path": "/contact"
+      "path": "/contact",
+      "quantity": 1
     }
   },
   {
@@ -7880,7 +8813,8 @@
       "id": "",
       "className": "group hidden sm:inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-2.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.22em] text-background transition-all duration-300 hover:bg-cove hover:shadow-[0_0_20px_rgba(13,110,253,0.3)] hover:-translate-y-0.5",
       "text": "BOOK DEMO",
-      "href": "http://localhost:8081/contact"
+      "href": "http://localhost:8081/contact",
+      "quantity": 1
     }
   },
   {
@@ -7900,7 +8834,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/services/data-cloud",
-      "path": "/services/data-cloud"
+      "path": "/services/data-cloud",
+      "quantity": 1
     }
   },
   {
@@ -7922,7 +8857,8 @@
       "id": "",
       "className": "group relative h-full flex flex-col border-b border-rule p-10 transition-colors hover:bg-secondary md:min-h-[420px] lg:border-r ",
       "text": "02 / 06\nSalesforce Data Cloud\n\nUnified customer gr",
-      "href": "http://localhost:8081/services/data-cloud"
+      "href": "http://localhost:8081/services/data-cloud",
+      "quantity": 1
     }
   },
   {
@@ -7942,7 +8878,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     }
   },
   {
@@ -7964,7 +8901,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8081/services"
+      "href": "http://localhost:8081/services",
+      "quantity": 1
     }
   },
   {
@@ -7984,7 +8922,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8006,7 +8945,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "HOME",
-      "href": "http://localhost:8081/"
+      "href": "http://localhost:8081/",
+      "quantity": 1
     }
   },
   {
@@ -8024,7 +8964,8 @@
     "anonId": "da98103f-a6b3-4d75-9adf-3d42c470229a",
     "projectId": "Cloud_cove_web",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -8044,7 +8985,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     }
   },
   {
@@ -8066,7 +9008,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8081/services"
+      "href": "http://localhost:8081/services",
+      "quantity": 1
     }
   },
   {
@@ -8086,7 +9029,8 @@
     "properties": {
       "loadTime": 80.19999998807907,
       "domReadyTime": 67.39999997615814,
-      "ttfb": 24.19999998807907
+      "ttfb": 24.19999998807907,
+      "quantity": 1
     }
   },
   {
@@ -8106,7 +9050,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8126,7 +9071,8 @@
     "properties": {
       "loadTime": 382.19999998807907,
       "domReadyTime": 331.5999999642372,
-      "ttfb": 153.89999997615814
+      "ttfb": 153.89999997615814,
+      "quantity": 1
     }
   },
   {
@@ -8146,7 +9092,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8166,7 +9113,8 @@
     "properties": {
       "loadTime": 1147.5,
       "domReadyTime": 1106.6000000238419,
-      "ttfb": 866.1999999880791
+      "ttfb": 866.1999999880791,
+      "quantity": 1
     }
   },
   {
@@ -8186,7 +9134,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8206,7 +9155,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/services/data-cloud",
-      "path": "/services/data-cloud"
+      "path": "/services/data-cloud",
+      "quantity": 1
     }
   },
   {
@@ -8228,7 +9178,8 @@
       "id": "",
       "className": "group relative h-full flex flex-col border-b border-rule p-10 transition-colors hover:bg-secondary md:min-h-[420px] lg:border-r ",
       "text": "02 / 06\nSalesforce Data Cloud\n\nUnified customer gr",
-      "href": "http://localhost:8082/services/data-cloud"
+      "href": "http://localhost:8082/services/data-cloud",
+      "quantity": 1
     }
   },
   {
@@ -8250,7 +9201,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8082/services"
+      "href": "http://localhost:8082/services",
+      "quantity": 1
     }
   },
   {
@@ -8270,7 +9222,8 @@
     "properties": {
       "loadTime": 57.5,
       "domReadyTime": 44.19999998807907,
-      "ttfb": 15.299999952316284
+      "ttfb": 15.299999952316284,
+      "quantity": 1
     }
   },
   {
@@ -8290,7 +9243,8 @@
     "properties": {
       "title": "Culinary House — Mood-based Gourmet Recipe Platform",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8310,7 +9264,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     }
   },
   {
@@ -8332,7 +9287,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8082/services"
+      "href": "http://localhost:8082/services",
+      "quantity": 1
     }
   },
   {
@@ -8352,7 +9308,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8374,7 +9331,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "HOME",
-      "href": "http://localhost:8082/"
+      "href": "http://localhost:8082/",
+      "quantity": 1
     }
   },
   {
@@ -8394,7 +9352,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     }
   },
   {
@@ -8416,7 +9375,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8082/services"
+      "href": "http://localhost:8082/services",
+      "quantity": 1
     }
   },
   {
@@ -8434,7 +9394,8 @@
     "anonId": "90046984-db44-4666-9d1a-9121623b9c13",
     "projectId": "Cloud_cove_web",
     "properties": {
-      "depth": 25
+      "depth": 25,
+      "quantity": 1
     }
   },
   {
@@ -8452,7 +9413,8 @@
     "anonId": "da98103f-a6b3-4d75-9adf-3d42c470229a",
     "projectId": "pk_live_9zxQaR2mVpLcT8kNb3Yf",
     "properties": {
-      "depth": 100
+      "depth": 100,
+      "quantity": 1
     }
   },
   {
@@ -8473,7 +9435,8 @@
       "tagName": "button",
       "id": "",
       "className": "bg-primary hover:bg-primary/90 active:scale-95 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all shadow-md shadow-primary/10",
-      "text": "COOK TODAY"
+      "text": "COOK TODAY",
+      "quantity": 1
     }
   },
   {
@@ -8493,7 +9456,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/contact",
-      "path": "/contact"
+      "path": "/contact",
+      "quantity": 1
     }
   },
   {
@@ -8515,7 +9479,8 @@
       "id": "",
       "className": "group hidden sm:inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-2.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.22em] text-background transition-all duration-300 hover:bg-cove hover:shadow-[0_0_20px_rgba(13,110,253,0.3)] hover:-translate-y-0.5",
       "text": "BOOK DEMO",
-      "href": "http://localhost:8082/contact"
+      "href": "http://localhost:8082/contact",
+      "quantity": 1
     }
   },
   {
@@ -8535,7 +9500,8 @@
     "properties": {
       "loadTime": 292.10000002384186,
       "domReadyTime": 223.30000001192093,
-      "ttfb": 65.80000001192093
+      "ttfb": 65.80000001192093,
+      "quantity": 1
     }
   },
   {
@@ -8555,7 +9521,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     }
   },
   {
@@ -8575,7 +9542,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     }
   },
   {
@@ -8597,7 +9565,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8082/services"
+      "href": "http://localhost:8082/services",
+      "quantity": 1
     }
   },
   {
@@ -8617,7 +9586,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     }
   },
   {
@@ -8639,7 +9609,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "HOME",
-      "href": "http://localhost:8082/"
+      "href": "http://localhost:8082/",
+      "quantity": 1
     }
   },
   {
@@ -8658,7 +9629,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/services",
-      "path": "/services"
+      "path": "/services",
+      "quantity": 1
     },
     "projectId": "Cloud_cove_web"
   },
@@ -8680,7 +9652,8 @@
       "id": "",
       "className": "group relative font-mono text-[0.72rem] uppercase tracking-[0.22em] transition-colors hover:text-foreground text-muted-foreground",
       "text": "SERVICES",
-      "href": "http://localhost:8082/services"
+      "href": "http://localhost:8082/services",
+      "quantity": 1
     },
     "projectId": "Cloud_cove_web"
   },
@@ -8700,7 +9673,8 @@
     "properties": {
       "title": "Culinary House — Mood-based Gourmet Recipe Platform",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     },
     "projectId": "pk_live_9zxQaR2mVpLcT8kNb3Yf"
   },
@@ -8720,7 +9694,8 @@
     "properties": {
       "title": "CloudCove — Engineering Intelligent Growth",
       "url": "http://localhost:8082/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     },
     "projectId": "Cloud_cove_web"
   },
@@ -8740,7 +9715,8 @@
     "properties": {
       "title": "Culinary House — Mood-based Gourmet Recipe Platform",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     },
     "projectId": "pk_live_9zxQaR2mVpLcT8kNb3Yf"
   },
@@ -8760,7 +9736,8 @@
     "properties": {
       "title": "Culinary House — Mood-based Gourmet Recipe Platform",
       "url": "http://localhost:8081/",
-      "path": "/"
+      "path": "/",
+      "quantity": 1
     },
     "projectId": "pk_live_9zxQaR2mVpLcT8kNb3Yf"
   }

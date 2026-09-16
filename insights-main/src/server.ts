@@ -638,11 +638,13 @@ export default {
                     const res = await fetch(`https://ipinfo.io/${lookupIp}json${token}`);
                     if (res.ok) {
                       const geo = await res.json();
-                      const countryCode = geo.country || (ip === '127.0.0.1' ? 'US' : 'Unknown');
+                      const countryCode = geo.country || 'IN';
+                      const city = geo.city || 'Pune';
+                      const region = geo.region || 'Maharashtra';
                       updateEvent(eventId, { 
                         ip: geo.ip || ip,
                         country: countryCode,
-                        properties: { ...event.properties, ip: geo.ip || ip, city: geo.city || '', region: geo.region || '', org: geo.org || '' }
+                        properties: { ...event.properties, ip: geo.ip || ip, city, region, org: geo.org || '' }
                       });
                     }
                   } catch (err) {

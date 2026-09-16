@@ -60,16 +60,8 @@ export function resolveGeoRegion(rawCountry?: string, identifier?: string): GeoR
     if (domain.endsWith('.fr')) return resolveGeoRegion('FR');
   }
 
-  // Deterministic fallback based on identifier hash
-  const key = identifier || rawCountry || "default_user";
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) {
-    hash = (hash << 5) - hash + key.charCodeAt(i);
-    hash |= 0;
-  }
-  const codes = ["IN", "US", "GB", "DE", "CA", "JP", "AU", "FR"];
-  const selectedCode = codes[Math.abs(hash) % codes.length];
-  const item = REGION_MAP[selectedCode];
+  // Default fallback to India for local development/unspecified IPs
+  const item = REGION_MAP["IN"];
   
   return {
     country: item.country,
