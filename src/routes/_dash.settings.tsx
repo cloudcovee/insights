@@ -37,29 +37,29 @@ function SettingsPage() {
   const [crmKey, setCrmKey] = useState("");
 
   // Catalogs state
-  const [collections, setCollections] = useState<any[]>([]);
-  const [newColName, setNewColName] = useState("");
-  const [newColAttrs, setNewColAttrs] = useState<Attribute[]>([]);
+  const [catalogs, setCatalogs] = useState<any[]>([]);
+  const [newCatalogName, setNewCatalogName] = useState("");
+  const [newCatalogAttrs, setNewCatalogAttrs] = useState<Attribute[]>([]);
   const [pendingFieldName, setPendingFieldName] = useState("");
-  const [creatingCol, setCreatingCol] = useState(false);
+  const [creatingCatalog, setCreatingCatalog] = useState(false);
   const [isAuthed, setIsAuthed] = useState<boolean | null>(null); // null = not checked yet
 
-  async function fetchCollections() {
+  async function fetchCatalogs() {
     try {
-      const res = await fetch("/api/collections");
+      const res = await fetch("/api/catalogs");
       if (res.status === 401) {
         setIsAuthed(false);
         return;
       }
       setIsAuthed(true);
-      if (res.ok) setCollections(await res.json());
+      if (res.ok) setCatalogs(await res.json());
     } catch {}
   }
 
-  async function createCollection(e: React.FormEvent) {
+  async function createCatalog(e: React.FormEvent) {
     e.preventDefault();
 
-    const name = newColName.trim();
+    const name = newCatalogName.trim();
     if (!name) {
       toast.error("Please enter a catalog name.");
       return;
@@ -72,18 +72,18 @@ function SettingsPage() {
     }
 
     // Check if at least one field has been added to the catalog
-    if (newColAttrs.length === 0) {
+    if (newCatalogAttrs.length === 0) {
       toast.error("Please add at least one field to create a catalog.");
       return;
     }
 
-    setCreatingCol(true);
+    setCreatingCatalog(true);
     try {
-      const res = await fetch("/api/collections", {
+      const res = await fetch("/api/catalogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // No projectId — server derives it from the session cookie
-        body: JSON.stringify({ name: name, attributes: newColAttrs }),
+        body: JSON.stringify({ name: name, attributes: newCatalogAttrs }),
       });
       if (res.status === 401) {
         setIsAuthed(false);
@@ -91,27 +91,27 @@ function SettingsPage() {
       }
       if (!res.ok) throw new Error((await res.json()).error || "Failed");
       toast.success(`Catalog "${name}" created`);
-      setNewColName("");
-      setNewColAttrs([]);
+      setNewCatalogName("");
+      setNewCatalogAttrs([]);
       setPendingFieldName("");
-      fetchCollections();
+      fetchCatalogs();
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("catalog-updated"));
       }
     } catch (e: any) {
       toast.error(e.message);
     } finally {
-      setCreatingCol(false);
+      setCreatingCatalog(false);
     }
   }
 
-  async function deleteCollection(id: string, name: string) {
+  async function deleteCatalog(id: string, name: string) {
     if (!confirm(`Delete catalog "${name}" and all its data?`)) return;
     try {
-      const res = await fetch(`/api/collections/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/catalogs/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       toast.success(`Deleted "${name}"`);
-      fetchCollections();
+      fetchCatalogs();
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("catalog-updated"));
       }
@@ -129,7 +129,7 @@ function SettingsPage() {
         setCrmKey(parsed.key || "");
       } catch (e) {}
     }
-    fetchCollections();
+    fetchCatalogs();
   }, []);
 
   const saveCrmConfig = () => {
@@ -146,7 +146,7 @@ function SettingsPage() {
           <TabsTrigger value="workspace">Workspace</TabsTrigger>
           <TabsTrigger value="members">Members</TabsTrigger>
           <TabsTrigger value="billing">Billing</TabsTrigger>
-          <TabsTrigger value="collections">Catalog</TabsTrigger>
+          <TabsTrigger value="catalogs">Catalog</TabsTrigger>
           <TabsTrigger value="integrations">Integrations</TabsTrigger>
           <TabsTrigger value="api">API Keys</TabsTrigger>
           <TabsTrigger value="danger">Danger zone</TabsTrigger>
@@ -249,7 +249,7 @@ function SettingsPage() {
         </TabsContent>
 
         {/* Catalog tab */}
-        <TabsContent value="collections" className="mt-4 space-y-6">
+        <TabsContent value="catalogs" className="mt-4 space-y-6">
           {/* Auth gate — shown when there is no active session */}
           {isAuthed === false ? (
             <Card>
@@ -280,43 +280,43 @@ function SettingsPage() {
                     Define a schema. The catalog will appear in the sidebar under "Catalog Content".
                   </CardDescription>
                 </CardHeader>
-                <form onSubmit={createCollection}>
+                <form onSubmit={createCatalog}>
                   <CardContent className="space-y-4">
                     <div className="grid gap-2">
                       <Label>Catalog name</Label>
                       <Input
                         placeholder="e.g. Products"
-                        value={newColName}
-                        onChange={(e) => setNewColName(e.target.value)}
+                        value={newCatalogName}
+                        onChange={(e) => setNewCatalogName(e.target.value)}
                       />
                     </div>
                     <div className="grid gap-2">
                       <Label>Attributes</Label>
                       <SchemaAttributeBuilder
-                        value={newColAttrs}
-                        onChange={setNewColAttrs}
+                        value={newCatalogAttrs}
+                        onChange={setNewCatalogAttrs}
                         pendingName={pendingFieldName}
                         onPendingNameChange={setPendingFieldName}
                       />
                     </div>
                   </CardContent>
                   <CardFooter className="justify-end border-t pt-4">
-                    <Button type="submit" disabled={creatingCol}>
+                    <Button type="submit" disabled={creatingCatalog}>
                       <Plus className="mr-1 h-3.5 w-3.5" />
-                      {creatingCol ? "Creating…" : "Create catalog"}
+                      {creatingCatalog ? "Creating…" : "Create catalog"}
                     </Button>
                   </CardFooter>
                 </form>
               </Card>
               {/* Existing catalogs */}
-              {collections.length > 0 && (
+              {catalogs.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle>Existing Catalogs</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0">
                     <div className="divide-y">
-                      {collections.map((col: any) => (
+                      {catalogs.map((col: any) => (
                         <div key={col.id} className="flex items-center justify-between px-6 py-3">
                           <div className="space-y-0.5">
                             <div className="text-sm font-medium">{col.name}</div>
@@ -333,7 +333,7 @@ function SettingsPage() {
                             variant="ghost"
                             size="icon"
                             className="text-destructive hover:text-destructive"
-                            onClick={() => deleteCollection(col.id, col.name)}
+                            onClick={() => deleteCatalog(col.id, col.name)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

@@ -903,5 +903,98 @@
     },
     "createdAt": "2026-09-07T13:15:17.013Z",
     "updatedAt": "2026-09-07T13:15:17.013Z"
+  },
+  {
+    "id": "item_94f6b8436b36",
+    "collectionId": "col_7138b026df57",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1000",
+      "name": "Gaming Laptop",
+      "price": "45368"
+    },
+    "createdAt": "2026-09-16T07:33:45.288Z",
+    "updatedAt": "2026-09-16T07:33:45.288Z"
+  },
+  {
+    "id": "item_265c7e7d6415",
+    "collectionId": "col_7138b026df57",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1001",
+      "name": "Mouse",
+      "price": "450"
+    },
+    "createdAt": "2026-09-16T07:34:22.738Z",
+    "updatedAt": "2026-09-16T07:34:22.738Z"
+  },
+  {
+    "id": "item_92cfe8e397c7",
+    "collectionId": "col_7138b026df57",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1001",
+      "price": "450"
+    },
+    "createdAt": "2026-09-16T07:35:13.440Z",
+    "updatedAt": "2026-09-16T07:35:13.440Z"
+  },
+  {
+    "id": "item_ead3c199f838",
+    "collectionId": "col_7138b026df57",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1002",
+      "price": "450"
+    },
+    "createdAt": "2026-09-16T07:35:34.048Z",
+    "updatedAt": "2026-09-16T07:35:34.048Z"
+  },
+  {
+    "id": "item_63149c44e51b",
+    "collectionId": "col_7138b026df57",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "1002",
+      "price": "450"
+    },
+    "createdAt": "2026-09-16T08:32:47.201Z",
+    "updatedAt": "2026-09-16T08:32:47.201Z"
+  },
+  {
+    "id": "item_9443a94353b1",
+    "collectionId": "col_7138b026df57",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "id": "2qw4",
+      "name": "asdf",
+      "price": "asfd"
+    },
+    "createdAt": "2026-09-16T12:47:26.506Z",
+    "updatedAt": "2026-09-16T12:47:26.506Z"
   }
 ]

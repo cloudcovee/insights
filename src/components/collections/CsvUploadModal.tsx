@@ -35,7 +35,7 @@ export function CsvUploadModal({
     try {
       const form = new FormData();
       form.append("file", file);
-      const res = await fetch(`/api/collections/${collectionId}/import`, {
+      const res = await fetch(`/api/catalogs/${collectionId}/import`, {
         method: "POST",
         body: form,
       });

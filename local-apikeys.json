@@ -4,5 +4,17 @@
     "publicKey": "pk_live_7f9db7301c31",
     "hashedSecretKey": "70856c605b0fa602611d58f737b503f2b98765500e71878718fd0e4f1b30c641",
     "createdAt": "2026-09-09T06:47:43.739Z"
+  },
+  {
+    "projectId": "proj_default",
+    "publicKey": "pk_live_default",
+    "hashedSecretKey": "0e81fb1d1b02bb88ce5c0ee951fca74cbabc52be8dbc3e72a5b7da322c8fddf8",
+    "createdAt": "2026-09-16T07:31:34.947Z"
+  },
+  {
+    "projectId": "proj_default",
+    "publicKey": "pk_live_default",
+    "hashedSecretKey": "0b43678ce2ae6b0bc9600d47fa97f8464af9cc472077b7e32a44acf79238ff42",
+    "createdAt": "2026-09-16T07:33:45.286Z"
   }
 ]

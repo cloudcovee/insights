@@ -27,7 +27,9 @@ import { Route as DashFunnelsRouteImport } from './routes/_dash.funnels'
 import { Route as DashEventsRouteImport } from './routes/_dash.events'
 import { Route as DashDocumentationRouteImport } from './routes/_dash.documentation'
 import { Route as DashApiKeysRouteImport } from './routes/_dash.api-keys'
+import { Route as DashUsersUserIdRouteImport } from './routes/_dash.users_.$userId'
 import { Route as DashCollectionsCollectionIdRouteImport } from './routes/_dash.collections.$collectionId'
+import { Route as DashCatalogsCatalogIdRouteImport } from './routes/_dash.catalogs.$catalogId'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -118,12 +120,22 @@ const DashApiKeysRoute = DashApiKeysRouteImport.update({
   path: '/api-keys',
   getParentRoute: () => DashRoute,
 } as any)
+const DashUsersUserIdRoute = DashUsersUserIdRouteImport.update({
+  id: '/users_/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => DashRoute,
+} as any)
 const DashCollectionsCollectionIdRoute =
   DashCollectionsCollectionIdRouteImport.update({
     id: '/collections/$collectionId',
     path: '/collections/$collectionId',
     getParentRoute: () => DashRoute,
   } as any)
+const DashCatalogsCatalogIdRoute = DashCatalogsCatalogIdRouteImport.update({
+  id: '/catalogs/$catalogId',
+  path: '/catalogs/$catalogId',
+  getParentRoute: () => DashRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -143,7 +155,9 @@ export interface FileRoutesByFullPath {
   '/settings': typeof DashSettingsRoute
   '/sitemap': typeof DashSitemapRoute
   '/users': typeof DashUsersRoute
+  '/catalogs/$catalogId': typeof DashCatalogsCatalogIdRoute
   '/collections/$collectionId': typeof DashCollectionsCollectionIdRoute
+  '/users/$userId': typeof DashUsersUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -163,7 +177,9 @@ export interface FileRoutesByTo {
   '/settings': typeof DashSettingsRoute
   '/sitemap': typeof DashSitemapRoute
   '/users': typeof DashUsersRoute
+  '/catalogs/$catalogId': typeof DashCatalogsCatalogIdRoute
   '/collections/$collectionId': typeof DashCollectionsCollectionIdRoute
+  '/users/$userId': typeof DashUsersUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -185,7 +201,9 @@ export interface FileRoutesById {
   '/_dash/settings': typeof DashSettingsRoute
   '/_dash/sitemap': typeof DashSitemapRoute
   '/_dash/users': typeof DashUsersRoute
+  '/_dash/catalogs/$catalogId': typeof DashCatalogsCatalogIdRoute
   '/_dash/collections/$collectionId': typeof DashCollectionsCollectionIdRoute
+  '/_dash/users_/$userId': typeof DashUsersUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -207,7 +225,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sitemap'
     | '/users'
+    | '/catalogs/$catalogId'
     | '/collections/$collectionId'
+    | '/users/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,7 +247,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sitemap'
     | '/users'
+    | '/catalogs/$catalogId'
     | '/collections/$collectionId'
+    | '/users/$userId'
   id:
     | '__root__'
     | '/'
@@ -248,7 +270,9 @@ export interface FileRouteTypes {
     | '/_dash/settings'
     | '/_dash/sitemap'
     | '/_dash/users'
+    | '/_dash/catalogs/$catalogId'
     | '/_dash/collections/$collectionId'
+    | '/_dash/users_/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -388,11 +412,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashApiKeysRouteImport
       parentRoute: typeof DashRoute
     }
+    '/_dash/users_/$userId': {
+      id: '/_dash/users_/$userId'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof DashUsersUserIdRouteImport
+      parentRoute: typeof DashRoute
+    }
     '/_dash/collections/$collectionId': {
       id: '/_dash/collections/$collectionId'
       path: '/collections/$collectionId'
       fullPath: '/collections/$collectionId'
       preLoaderRoute: typeof DashCollectionsCollectionIdRouteImport
+      parentRoute: typeof DashRoute
+    }
+    '/_dash/catalogs/$catalogId': {
+      id: '/_dash/catalogs/$catalogId'
+      path: '/catalogs/$catalogId'
+      fullPath: '/catalogs/$catalogId'
+      preLoaderRoute: typeof DashCatalogsCatalogIdRouteImport
       parentRoute: typeof DashRoute
     }
   }
@@ -411,7 +449,9 @@ interface DashRouteChildren {
   DashSettingsRoute: typeof DashSettingsRoute
   DashSitemapRoute: typeof DashSitemapRoute
   DashUsersRoute: typeof DashUsersRoute
+  DashCatalogsCatalogIdRoute: typeof DashCatalogsCatalogIdRoute
   DashCollectionsCollectionIdRoute: typeof DashCollectionsCollectionIdRoute
+  DashUsersUserIdRoute: typeof DashUsersUserIdRoute
 }
 
 const DashRouteChildren: DashRouteChildren = {
@@ -427,7 +467,9 @@ const DashRouteChildren: DashRouteChildren = {
   DashSettingsRoute: DashSettingsRoute,
   DashSitemapRoute: DashSitemapRoute,
   DashUsersRoute: DashUsersRoute,
+  DashCatalogsCatalogIdRoute: DashCatalogsCatalogIdRoute,
   DashCollectionsCollectionIdRoute: DashCollectionsCollectionIdRoute,
+  DashUsersUserIdRoute: DashUsersUserIdRoute,
 }
 
 const DashRouteWithChildren = DashRoute._addFileChildren(DashRouteChildren)

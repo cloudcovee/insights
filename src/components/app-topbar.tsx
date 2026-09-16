@@ -51,6 +51,8 @@ const labelMap: Record<string, string> = {
   "api-keys": "API Keys",
   documentation: "Documentation",
   settings: "Settings",
+  catalogs: "Catalogs",
+  collections: "Catalogs",
 };
 
 const commandItems = Object.entries(labelMap).map(([slug, label]) => ({

@@ -58,7 +58,11 @@ import { triggerAutomations } from "./lib/automations";
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-const JSON_HEADERS = { 'Content-Type': 'application/json' };
+const JSON_HEADERS = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, Cookie',
+};
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), { status, headers: JSON_HEADERS });
@@ -268,8 +272,8 @@ export default {
               os: item.context?.browser?.os || item.context?.os || 'Unknown',
               device: item.context?.device?.type || item.context?.device || 'Desktop',
               screenSize: item.context?.device?.screenWidth ? `${item.context.device.screenWidth}x${item.context.device.screenHeight}` : item.context?.screenSize || '',
-              anonId: item.anonymousId || 'unknown',
-              userId: item.userId || null,
+              anonId: item.anonymousId || item.anonId || 'unknown',
+              userId: item.userId || item.user_id || null,
               projectId: item.projectId || item.project || item.apiKey || 'Unknown',
               ip: ip !== '127.0.0.1' && ip !== '::1' ? ip : (item.properties?.ip || '127.0.0.1'),
               country: 'Unknown',
@@ -289,7 +293,7 @@ export default {
                   updateEvent(eventId, { 
                     ip: geo.ip || ip,
                     country: countryCode,
-                    properties: { ...event.properties, ip: geo.ip || ip, city: geo.city || '', region: geo.region || '', org: geo.org || '' }
+                    properties: { ...event.properties, ip: geo.ip || ip, city: geo.city || '', region: geo.region || '', isp: geo.org || '', org: geo.org || '' }
                   });
                 }
               } catch (err) {
@@ -348,9 +352,22 @@ export default {
       }
 
       // -----------------------------------------------------------------------
-      // Collections: /api/collections
+      // Catalogs / Collections: /api/catalogs or /api/collections
       // -----------------------------------------------------------------------
-      if (url.pathname === '/api/collections') {
+      if (url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)/)) {
+        if (request.method === 'OPTIONS') {
+          return new Response(null, {
+            status: 204,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization, Cookie',
+            }
+          });
+        }
+      }
+
+      if (url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)$/)) {
         try {
           const ctx = getSessionContext(request);
           if (request.method === 'GET') {
@@ -374,15 +391,15 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id
-      const collMatch = url.pathname.match(/^\/api\/collections\/([^/]+)$/);
+      // /api/catalogs/:id or /api/collections/:id
+      const collMatch = url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)\/([^/]+)$/);
       if (collMatch) {
         try {
           const ctx = getSessionContext(request);
           const collId = collMatch[1];
           const cols = readCollections();
           const idx = cols.findIndex(c => c.id === collId);
-          if (idx === -1) return json({ error: 'Collection not found' }, 404);
+          if (idx === -1) return json({ error: 'Catalog not found' }, 404);
           assertCollectionOwnership(cols[idx], ctx);
 
           if (request.method === 'GET') return json(cols[idx]);
@@ -398,7 +415,7 @@ export default {
           if (request.method === 'DELETE') {
             cols.splice(idx, 1);
             writeCollections(cols);
-            // Also delete all items for this collection
+            // Also delete all items for this catalog
             const items = readCollectionData().filter(i => i.collectionId !== collId);
             writeCollectionData(items);
             return json({ success: true });
@@ -406,15 +423,15 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/items
-      const itemsMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/items$/);
+      // /api/catalogs/:id/items or /api/collections/:id/items
+      const itemsMatch = url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)\/([^/]+)\/items$/);
       if (itemsMatch) {
         try {
           const ctx = getSessionContext(request);
           const collId = itemsMatch[1];
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
-          if (!col) return json({ error: 'Collection not found' }, 404);
+          if (!col) return json({ error: 'Catalog not found' }, 404);
           assertCollectionOwnership(col, ctx);
 
           if (request.method === 'GET') {
@@ -428,15 +445,15 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/items/:itemId
-      const itemMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/items\/([^/]+)$/);
+      // /api/catalogs/:id/items/:itemId or /api/collections/:id/items/:itemId
+      const itemMatch = url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)\/([^/]+)\/items\/([^/]+)$/);
       if (itemMatch) {
         try {
           const ctx = getSessionContext(request);
           const [, collId, itemId] = itemMatch;
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
-          if (!col) return json({ error: 'Collection not found' }, 404);
+          if (!col) return json({ error: 'Catalog not found' }, 404);
           assertCollectionOwnership(col, ctx);
 
           const allItems = readCollectionData();
@@ -461,15 +478,15 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/import
-      const importMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/import$/);
+      // /api/catalogs/:id/import or /api/collections/:id/import
+      const importMatch = url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)\/([^/]+)\/import$/);
       if (importMatch && request.method === 'POST') {
         try {
           const ctx = getSessionContext(request);
           const collId = importMatch[1];
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
-          if (!col) return json({ error: 'Collection not found' }, 404);
+          if (!col) return json({ error: 'Catalog not found' }, 404);
           assertCollectionOwnership(col, ctx);
 
           const contentType = request.headers.get('content-type') ?? '';
@@ -508,22 +525,40 @@ export default {
               });
             }
           } else {
-            // Manual item import
-            const body = await request.json() as { data?: Record<string, unknown> };
-            if (!body.data) return json({ error: 'data is required' }, 400);
-            const errs = validateItemData(body.data, col.attributes);
-            newItems.push({
-              id: generateId('item_'),
-              collectionId: collId,
-              projectId: ctx.projectId,
-              batchId: null,
-              status: 'staging',
-              validationStatus: errs.length === 0 ? 'valid' : 'invalid',
-              validationErrors: errs,
-              data: body.data,
-              createdAt: now,
-              updatedAt: now,
-            });
+            // Manual / API item import
+            const body = await request.json() as any;
+            if (!body) return json({ error: 'Payload is required' }, 400);
+
+            const rawItems: Record<string, unknown>[] = [];
+            if (Array.isArray(body)) {
+              rawItems.push(...body);
+            } else if (body.data && typeof body.data === 'object' && !Array.isArray(body.data)) {
+              rawItems.push(body.data);
+            } else if (Array.isArray(body.data)) {
+              rawItems.push(...body.data);
+            } else if (typeof body === 'object') {
+              rawItems.push(body);
+            }
+
+            if (rawItems.length === 0) {
+              return json({ error: 'No item data provided' }, 400);
+            }
+
+            for (const itemData of rawItems) {
+              const errs = validateItemData(itemData, col.attributes);
+              newItems.push({
+                id: generateId('item_'),
+                collectionId: collId,
+                projectId: ctx.projectId,
+                batchId: null,
+                status: 'staging',
+                validationStatus: errs.length === 0 ? 'valid' : 'invalid',
+                validationErrors: errs,
+                data: itemData,
+                createdAt: now,
+                updatedAt: now,
+              });
+            }
           }
 
           const existing = readCollectionData();
@@ -533,15 +568,15 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/validate
-      const validateMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/validate$/);
+      // /api/catalogs/:id/validate or /api/collections/:id/validate
+      const validateMatch = url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)\/([^/]+)\/validate$/);
       if (validateMatch && request.method === 'POST') {
         try {
           const ctx = getSessionContext(request);
           const collId = validateMatch[1];
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
-          if (!col) return json({ error: 'Collection not found' }, 404);
+          if (!col) return json({ error: 'Catalog not found' }, 404);
           assertCollectionOwnership(col, ctx);
 
           const body = await request.json() as { itemIds: string[] };
@@ -565,15 +600,15 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/publish
-      const publishMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/publish$/);
+      // /api/catalogs/:id/publish or /api/collections/:id/publish
+      const publishMatch = url.pathname.match(/^\/api(?:\/v1)?\/(?:catalogs|collections)\/([^/]+)\/publish$/);
       if (publishMatch && request.method === 'POST') {
         try {
           const ctx = getSessionContext(request);
           const collId = publishMatch[1];
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
-          if (!col) return json({ error: 'Collection not found' }, 404);
+          if (!col) return json({ error: 'Catalog not found' }, 404);
           assertCollectionOwnership(col, ctx);
 
           const body = await request.json() as { itemIds: string[] };

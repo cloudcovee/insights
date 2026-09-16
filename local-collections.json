@@ -69,5 +69,46 @@
       }
     ],
     "createdAt": "2026-09-07T11:34:46.101Z"
+  },
+  {
+    "id": "col_7138b026df57",
+    "name": "products",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "price",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "createdAt": "2026-09-16T06:50:42.625Z"
+  },
+  {
+    "id": "col_9df987f4fe09",
+    "name": "asdf",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "1",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "str",
+        "type": "string",
+        "required": true
+      }
+    ],
+    "createdAt": "2026-09-16T12:48:12.612Z"
   }
 ]
