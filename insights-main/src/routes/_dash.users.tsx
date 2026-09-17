@@ -259,8 +259,8 @@ function UsersPage() {
                           </div>
                           <div>
                             <Link
-                              to="/users/$userId"
-                              params={{ userId: u.id }}
+                              to={"/users/$userId" as any}
+                              params={{ userId: u.id } as any}
                               onClick={(e) => e.stopPropagation()}
                               className="text-sm font-medium font-mono hover:text-primary hover:underline inline-flex items-center gap-1 text-foreground"
                               title={`View profile for ${u.id}`}
@@ -322,8 +322,8 @@ function UsersPage() {
                       {/* Actions */}
                       <TableCell className="text-right whitespace-nowrap">
                         <Link
-                          to="/users/$userId"
-                          params={{ userId: u.id }}
+                          to={"/users/$userId" as any}
+                          params={{ userId: u.id } as any}
                           onClick={(e) => e.stopPropagation()}
                           className="text-xs font-medium text-blue-600 hover:underline inline-flex items-center gap-0.5"
                         >
@@ -333,7 +333,7 @@ function UsersPage() {
                     </TableRow>
                   );
                 })}
-              TableBody>
+              </TableBody>
             </Table>
           </div>
         </CardContent>
@@ -413,8 +413,8 @@ function UsersPage() {
                   </ol>
                   <div className="mt-4">
                     <Link
-                      to="/users/$userId"
-                      params={{ userId: selected.id }}
+                      to={"/users/$userId" as any}
+                      params={{ userId: selected.id } as any}
                       className="w-full inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold border border-input bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 transition-colors"
                     >
                       Open Full Customer Profile →

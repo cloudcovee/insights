@@ -259,8 +259,8 @@ function UsersPage() {
                           </div>
                           <div>
                             <Link
-                              to="/users/$userId"
-                              params={{ userId: u.id }}
+                              to={"/users/$userId" as any}
+                              params={{ userId: u.id } as any}
                               onClick={(e) => e.stopPropagation()}
                               className="text-sm font-medium font-mono hover:text-primary hover:underline inline-flex items-center gap-1 text-foreground"
                               title={`View profile for ${u.id}`}
@@ -322,8 +322,8 @@ function UsersPage() {
                       {/* Actions */}
                       <TableCell className="text-right whitespace-nowrap">
                         <Link
-                          to="/users/$userId"
-                          params={{ userId: u.id }}
+                          to={"/users/$userId" as any}
+                          params={{ userId: u.id } as any}
                           onClick={(e) => e.stopPropagation()}
                           className="text-xs font-medium text-blue-600 hover:underline inline-flex items-center gap-0.5"
                         >
