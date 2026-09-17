@@ -1,9 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
 import {
   Calendar as CalendarIcon,
   Download,
   Search,
+  Info,
+  ExternalLink,
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -44,7 +46,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { cn } from "@/lib/utils";
+import { cn, formatUserId } from "@/lib/utils";
 import { useProject } from "@/lib/project-context";
 
 export const Route = createFileRoute("/_dash/events")({ component: EventsPage });
@@ -680,21 +682,25 @@ function EventsPage() {
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="w-1/3 font-semibold text-left">Time</TableHead>
-                <TableHead className="w-1/3 font-semibold text-center">Event</TableHead>
-                <TableHead className="w-1/3 font-semibold text-right">User Interaction ID</TableHead>
+                <TableHead className="w-1/4 font-semibold text-left">Time</TableHead>
+                <TableHead className="w-1/4 font-semibold text-center">Event</TableHead>
+                <TableHead className="w-1/4 font-semibold text-center">Visitor Auth Status</TableHead>
+                <TableHead className="w-1/4 font-semibold text-right">User Identifier</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {paged.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} className="py-16 text-center text-sm text-muted-foreground">
+                  <TableCell colSpan={4} className="py-16 text-center text-sm text-muted-foreground">
                     No events match your filters.
                   </TableCell>
                 </TableRow>
               ) : (
                 paged.map((r) => {
                   const displayEvent = getDisplayEventName(r);
+                  const rawId = r.anonId || r.userId || r.id;
+                  const formattedId = formatUserId(rawId);
+                  const isLoggedIn = Boolean(r.userId);
 
                   return (
                     <TableRow
@@ -702,21 +708,36 @@ function EventsPage() {
                       className="cursor-pointer hover:bg-muted/40 transition-colors"
                       onClick={() => setSelectedDetail(r)}
                     >
-                      <TableCell className="w-1/3 whitespace-nowrap text-xs text-muted-foreground font-mono text-left">
-                        {new Date(r.timestamp).toLocaleTimeString()}
+                      <TableCell className="w-1/4 whitespace-nowrap text-xs text-muted-foreground font-mono text-left">
+                        {new Date(r.timestamp).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true })}
                       </TableCell>
-                      <TableCell className="w-1/3 text-center">
+                      <TableCell className="w-1/4 text-center">
                         <Badge variant="secondary" className="font-mono text-[11px] whitespace-nowrap font-normal">
                           {displayEvent}
                         </Badge>
                       </TableCell>
-                      <TableCell className="w-1/3 text-right py-2.5">
-                        <span
-                          className="font-mono text-xs text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md border font-normal truncate max-w-[220px] inline-block align-middle"
-                          title={r.anonId || r.userId || "N/A"}
+                      <TableCell className="w-1/4 text-center">
+                        {isLoggedIn ? (
+                          <Badge variant="secondary" className="text-xs font-normal gap-1 rounded-full px-2.5 py-0.5 text-muted-foreground bg-muted/60 border-0 inline-flex items-center">
+                            <Info className="h-3 w-3 text-muted-foreground" /> Logged in
+                          </Badge>
+                        ) : (
+                          <Badge variant="secondary" className="text-xs font-normal gap-1 rounded-full px-2.5 py-0.5 text-muted-foreground bg-muted/60 border-0 inline-flex items-center">
+                            <Info className="h-3 w-3 text-muted-foreground" /> Anonymous
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell className="w-1/4 text-right py-2.5">
+                        <Link
+                          to={"/users/$userId" as any}
+                          params={{ userId: formattedId } as any}
+                          onClick={(e) => e.stopPropagation()}
+                          className="font-mono text-xs text-foreground hover:text-primary hover:underline bg-muted/50 px-2.5 py-1 rounded-md border font-normal inline-flex items-center gap-1"
+                          title={`View profile for ${formattedId}`}
                         >
-                          {r.anonId || r.userId || "N/A"}
-                        </span>
+                          <span>{formattedId}</span>
+                          <ExternalLink className="h-3 w-3 text-muted-foreground opacity-60" />
+                        </Link>
                       </TableCell>
                     </TableRow>
                   );
