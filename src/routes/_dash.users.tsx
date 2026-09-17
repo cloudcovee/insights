@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Search, ExternalLink, ShieldCheck, ShieldAlert, User } from "lucide-react";
+import { Search, ExternalLink, Info, User } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,7 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { useProject } from "@/lib/project-context";
 import { formatUserId } from "@/lib/utils";
 
@@ -43,6 +42,24 @@ export interface RealUserRow {
 }
 
 export const Route = createFileRoute("/_dash/users")({ component: UsersPage });
+
+function formatDate(dateStr: string): string {
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleString("en-US", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+  } catch {
+    return dateStr;
+  }
+}
 
 function UsersPage() {
   const { activeProjectId } = useProject();
@@ -80,10 +97,10 @@ function UsersPage() {
               email: e.userId || uId,
               firstSeen: e.timestamp,
               lastSeen: e.timestamp,
-              sessions: 1, // simplified
+              sessions: 1,
               events: 0,
               country: e.country || 'Unknown',
-              browser: e.browser?.name || 'Unknown',
+              browser: typeof e.browser === 'object' ? e.browser?.name || 'Unknown' : e.browser || 'Unknown',
               timeline: []
             });
           }
@@ -98,6 +115,9 @@ function UsersPage() {
           if (e.anonId && !user.anonId) {
             user.anonId = e.anonId;
           }
+          if (e.country && user.country === 'Unknown') {
+            user.country = e.country;
+          }
 
           user.events += 1;
           
@@ -108,7 +128,6 @@ function UsersPage() {
           if (eventTime < firstTime) user.firstSeen = e.timestamp;
           if (eventTime > lastTime) user.lastSeen = e.timestamp;
           
-          // Add to timeline
           let title = e.event;
           if (e.event === 'page_view') title = `Viewed ${e.path || '/'}`;
           else if (e.event === 'question_asked') title = `Asked: ${e.properties?.question || 'a question'}`;
@@ -123,12 +142,11 @@ function UsersPage() {
         
         const sortedUsers = Array.from(userMap.values()).sort((a, b) => new Date(b.lastSeen).getTime() - new Date(a.lastSeen).getTime());
         
-        // Sort individual timelines
         sortedUsers.forEach(u => {
           u.timeline.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
         });
 
-        // CRM Sync Unification
+        // CRM Sync
         try {
           const crmConfigRaw = localStorage.getItem("crm_config");
           if (crmConfigRaw) {
@@ -179,7 +197,7 @@ function UsersPage() {
   }, [activeProjectId]);
 
   const filtered = useMemo(
-    () => users.filter((u) => `${u.name} ${u.email} ${u.country}`.toLowerCase().includes(q.toLowerCase())),
+    () => users.filter((u) => `${u.id} ${u.email || ""} ${u.userId || ""} ${u.country}`.toLowerCase().includes(q.toLowerCase())),
     [q, users],
   );
 
@@ -191,7 +209,12 @@ function UsersPage() {
         <CardHeader>
           <div className="relative max-w-sm">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search users…" className="pl-9" value={q} onChange={(e) => setQ(e.target.value)} />
+            <Input 
+              placeholder="Search users..." 
+              className="pl-9" 
+              value={q} 
+              onChange={(e) => setQ(e.target.value)} 
+            />
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -199,35 +222,39 @@ function UsersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>User Identifier</TableHead>
-                  <TableHead>Visitor Auth Status</TableHead>
-                  <TableHead>First seen</TableHead>
-                  <TableHead>Last seen</TableHead>
-                  <TableHead className="text-right">Sessions</TableHead>
-                  <TableHead className="text-right">Lifetime events</TableHead>
-                  <TableHead>Country</TableHead>
-                  <TableHead>CRM Status</TableHead>
-                  <TableHead>Browser</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="font-semibold text-foreground">User Identifier</TableHead>
+                  <TableHead className="font-semibold text-foreground">Visitor Auth Status</TableHead>
+                  <TableHead className="font-semibold text-foreground">First seen</TableHead>
+                  <TableHead className="font-semibold text-foreground">Last seen</TableHead>
+                  <TableHead className="text-right font-semibold text-foreground">Sessions</TableHead>
+                  <TableHead className="text-right font-semibold text-foreground">Lifetime events</TableHead>
+                  <TableHead className="font-semibold text-foreground">Country</TableHead>
+                  <TableHead className="font-semibold text-foreground">CRM Status</TableHead>
+                  <TableHead className="font-semibold text-foreground">Browser</TableHead>
+                  <TableHead className="text-right font-semibold text-foreground">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={10} className="text-center text-muted-foreground py-4">No users tracked yet</TableCell>
+                    <TableCell colSpan={10} className="text-center text-muted-foreground py-8">
+                      No users tracked yet
+                    </TableCell>
                   </TableRow>
                 )}
                 {filtered.map((u) => {
-                  const targetId = u.userId || u.email || u.id;
+                  const showEmail = u.email && u.email.includes("@") && u.email !== u.id;
+
                   return (
                     <TableRow
                       key={u.id}
-                      className="cursor-pointer"
+                      className="cursor-pointer hover:bg-muted/30 transition-colors"
                       onClick={() => setSelected(u)}
                     >
+                      {/* User Identifier Column */}
                       <TableCell>
-                        <div className="flex items-center gap-2.5">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted text-[11px] font-semibold text-muted-foreground">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground">
                             <User className="h-3.5 w-3.5" />
                           </div>
                           <div>
@@ -239,48 +266,66 @@ function UsersPage() {
                               title={`View profile for ${u.id}`}
                             >
                               <span className="truncate max-w-[200px]">{u.id}</span>
-                              <ExternalLink className="h-3 w-3 opacity-60" />
+                              <ExternalLink className="h-3 w-3 text-muted-foreground opacity-60" />
                             </Link>
-                            {u.userId && (
+                            {showEmail && (
                               <div className="text-xs text-muted-foreground font-mono truncate max-w-[220px]">
-                                {u.userId}
+                                {u.email}
                               </div>
                             )}
                           </div>
                         </div>
                       </TableCell>
+
+                      {/* Visitor Auth Status Column */}
                       <TableCell>
                         {u.isLoggedIn ? (
-                          <Badge variant="secondary" className="text-[11px] font-normal gap-1">
-                            <ShieldCheck className="h-3 w-3" /> Logged in
+                          <Badge variant="secondary" className="text-xs font-normal gap-1 rounded-full px-2.5 py-0.5 text-muted-foreground bg-muted/60 border-0">
+                            <Info className="h-3.5 w-3.5 text-muted-foreground" /> Logged in
                           </Badge>
                         ) : (
-                          <Badge variant="secondary" className="text-[11px] text-muted-foreground font-normal gap-1">
-                            <ShieldAlert className="h-3 w-3" /> Anonymous
+                          <Badge variant="secondary" className="text-xs font-normal gap-1 rounded-full px-2.5 py-0.5 text-muted-foreground bg-muted/60 border-0">
+                            <Info className="h-3.5 w-3.5 text-muted-foreground" /> Anonymous
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{new Date(u.firstSeen).toLocaleString()}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{new Date(u.lastSeen).toLocaleString()}</TableCell>
-                      <TableCell className="text-right tabular-nums">{u.sessions}</TableCell>
-                      <TableCell className="text-right tabular-nums">{u.events.toLocaleString()}</TableCell>
-                      <TableCell><Badge variant="secondary">{u.country}</Badge></TableCell>
+
+                      {/* First seen & Last seen */}
+                      <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                        {formatDate(u.firstSeen)}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                        {formatDate(u.lastSeen)}
+                      </TableCell>
+
+                      {/* Sessions */}
+                      <TableCell className="text-right tabular-nums text-xs font-mono">{u.sessions}</TableCell>
+
+                      {/* Lifetime events */}
+                      <TableCell className="text-right tabular-nums text-xs font-mono font-bold">{u.events.toLocaleString()}</TableCell>
+
+                      {/* Country */}
                       <TableCell>
-                        {u.crmData?.status ? (
-                          <Badge variant="outline" className="border-primary/50 text-primary">
-                            {u.crmData.status}
-                          </Badge>
-                        ) : (
-                          <span className="text-xs text-muted-foreground">-</span>
-                        )}
+                        <Badge variant="secondary" className="font-bold text-xs px-2 py-0.5 rounded text-foreground bg-muted/70 border-0">
+                          {u.country}
+                        </Badge>
                       </TableCell>
-                      <TableCell className="text-xs">{u.browser}</TableCell>
-                      <TableCell className="text-right">
+
+                      {/* CRM Status */}
+                      <TableCell className="text-xs text-muted-foreground">
+                        {u.crmData?.status || "—"}
+                      </TableCell>
+
+                      {/* Browser */}
+                      <TableCell className="text-xs text-muted-foreground">{u.browser}</TableCell>
+
+                      {/* Actions */}
+                      <TableCell className="text-right whitespace-nowrap">
                         <Link
                           to="/users/$userId"
                           params={{ userId: u.id }}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium"
+                          className="text-xs font-medium text-blue-600 hover:underline inline-flex items-center gap-0.5"
                         >
                           Profile →
                         </Link>
@@ -294,6 +339,7 @@ function UsersPage() {
         </CardContent>
       </Card>
 
+      {/* Side Sheet Drawer for User Quick Inspect */}
       <Sheet open={!!selected} onOpenChange={(v) => !v && setSelected(null)}>
         <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
           {selected && (
@@ -301,26 +347,26 @@ function UsersPage() {
               <SheetHeader>
                 <div className="flex items-center justify-between gap-2 pr-6">
                   <div>
-                    <SheetTitle className="font-mono">{selected.id}</SheetTitle>
+                    <SheetTitle className="font-mono text-lg">{selected.id}</SheetTitle>
                     <p className="text-sm text-muted-foreground font-mono">
                       {selected.userId ? `Contact: ${selected.userId}` : "Unidentified device session"}
                     </p>
                   </div>
                   {selected.isLoggedIn ? (
                     <Badge variant="secondary" className="text-xs font-normal gap-1 shrink-0">
-                      <ShieldCheck className="h-3.5 w-3.5" /> Logged in
+                      <Info className="h-3.5 w-3.5" /> Logged in
                     </Badge>
                   ) : (
                     <Badge variant="secondary" className="text-xs text-muted-foreground font-normal gap-1 shrink-0">
-                      <ShieldAlert className="h-3.5 w-3.5" /> Anonymous
+                      <Info className="h-3.5 w-3.5" /> Anonymous
                     </Badge>
                   )}
                 </div>
               </SheetHeader>
               <div className="mt-6 space-y-6">
                 <div className="grid grid-cols-2 gap-3">
-                  <Stat label="First seen" value={new Date(selected.firstSeen).toLocaleString()} />
-                  <Stat label="Last seen" value={new Date(selected.lastSeen).toLocaleString()} />
+                  <Stat label="First seen" value={formatDate(selected.firstSeen)} />
+                  <Stat label="Last seen" value={formatDate(selected.lastSeen)} />
                   <Stat label="Sessions" value={String(selected.sessions)} />
                   <Stat label="Lifetime events" value={selected.events.toLocaleString()} />
                   <Stat label="Country" value={selected.country} />
@@ -344,7 +390,7 @@ function UsersPage() {
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-sm font-semibold">Timeline</h4>
+                    <h4 className="text-sm font-semibold">Activity Timeline</h4>
                     {selected.timeline.length > 0 && (
                       <span className="text-xs text-muted-foreground font-mono">
                         Showing {Math.min(selected.timeline.length, 15)} of {selected.timeline.length}
@@ -358,20 +404,20 @@ function UsersPage() {
                         <div className="flex flex-col items-start gap-1">
                           <div className="flex items-center gap-2">
                             <Badge variant="outline" className="font-mono text-[9px] h-4 px-1">{t.projectId}</Badge>
-                            <span className="text-xs text-muted-foreground">{new Date(t.time).toLocaleString()}</span>
+                            <span className="text-xs text-muted-foreground">{formatDate(t.time)}</span>
                           </div>
                           <div className="text-sm font-medium break-words max-w-full whitespace-pre-wrap">{t.title}</div>
                         </div>
                       </li>
                     ))}
                   </ol>
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <Link
                       to="/users/$userId"
-                      params={{ userId: selected.userId || selected.email || selected.id }}
-                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-medium border border-input bg-muted/40 hover:bg-accent hover:text-accent-foreground h-8 px-3 transition-colors"
+                      params={{ userId: selected.id }}
+                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold border border-input bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 transition-colors"
                     >
-                      View more events →
+                      Open Full Customer Profile →
                     </Link>
                   </div>
                 </div>
@@ -386,9 +432,11 @@ function UsersPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border p-3">
-      <div className="text-[11px] uppercase tracking-wide text-muted-foreground">{label}</div>
+    <div className="rounded-md border p-3 bg-card">
+      <div className="text-[11px] uppercase tracking-wide text-muted-foreground font-semibold">{label}</div>
       <div className="mt-1 text-sm font-medium">{value}</div>
     </div>
   );
 }
+
+
