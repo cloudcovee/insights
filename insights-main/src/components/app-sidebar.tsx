@@ -55,15 +55,15 @@ export function AppSidebar() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const isActive = (p: string) => pathname === p || pathname.startsWith(p + "/");
 
-  const [collections, setCollections] = useState<{ id: string; name: string }[]>([]);
+  const [catalogs, setCatalogs] = useState<{ id: string; name: string }[]>([]);
 
   useEffect(() => {
     let mounted = true;
     const loadCatalogs = () => {
-      fetch('/api/collections')
+      fetch('/api/catalogs')
         .then(r => (r.ok ? r.json() : []))
         .then(data => {
-          if (mounted && Array.isArray(data)) setCollections(data);
+          if (mounted && Array.isArray(data)) setCatalogs(data);
         })
         .catch(() => {});
     };
@@ -120,30 +120,30 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {collections.length === 0 ? (
+              {catalogs.length === 0 ? (
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link to="/settings" className="flex items-center gap-2 text-muted-foreground">
                       <Layers className="h-4 w-4" />
-                      <span>Add collection…</span>
+                      <span>Add catalog…</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ) : (
-                collections.map((col) => (
-                  <SidebarMenuItem key={col.id}>
+                catalogs.map((cat) => (
+                  <SidebarMenuItem key={cat.id}>
                     <SidebarMenuButton
                       asChild
-                      isActive={isActive(`/collections/${col.id}`)}
-                      tooltip={col.name}
+                      isActive={isActive(`/catalogs/${cat.id}`) || isActive(`/collections/${cat.id}`)}
+                      tooltip={cat.name}
                     >
                       <Link
-                        to="/collections/$collectionId"
-                        params={{ collectionId: col.id }}
+                        to="/catalogs/$catalogId"
+                        params={{ catalogId: cat.id }}
                         className="flex items-center gap-2"
                       >
                         <Layers className="h-4 w-4" />
-                        <span>{col.name}</span>
+                        <span>{cat.name}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
