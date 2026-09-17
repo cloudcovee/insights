@@ -4,7 +4,6 @@ import { Bell, Search, LogOut, User, Settings as SettingsIcon } from "lucide-rea
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -190,10 +189,4 @@ export function AppTopbar() {
       </CommandDialog>
     </header>
   );
-}
-
-// Global cmd+k listener helper (kept simple by focusing search button click). See page for hook.
-export function useSearchInputStub() {
-  // Placeholder for parity with the codebase pattern.
-  Input; // ensures import kept
 }

@@ -63,7 +63,7 @@ function OverviewPage() {
   const { activeProjectId } = useProject();
   const [topEvents, setTopEvents] = useState<{name: string, count: number}[]>([]);
   const [topPages, setTopPages] = useState<{path: string, views: number}[]>([]);
-  const [recentActivity, setRecentActivity] = useState<{id: string, timestamp: string, event: string, user: string, projectId: string, properties: any}[]>([]);
+  const [recentActivity, setRecentActivity] = useState<{id: string, timestamp: string, event: string, user: string, userId?: string, projectId: string, properties: any}[]>([]);
   const [browserStats, setBrowserStats] = useState<{name: string, value: number}[]>([]);
   const [deviceStats, setDeviceStats] = useState<{name: string, value: number}[]>([]);
   const [osStats, setOsStats] = useState<{name: string, value: number}[]>([]);

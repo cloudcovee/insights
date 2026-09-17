@@ -21,7 +21,7 @@ if (process.env.GMAIL_USER && process.env.GMAIL_PASS) {
   // Fallback to Ethereal Testing Email
   console.log('No Gmail credentials found. Falling back to Ethereal testing mode.');
   let testAccountPromise = nodemailer.createTestAccount();
-  transporterPromise = testAccountPromise.then(account => {
+  transporterPromise = testAccountPromise.then((account: any) => {
     console.log('Test email account generated:', account.user);
     return nodemailer.createTransport({
       host: 'smtp.ethereal.email',

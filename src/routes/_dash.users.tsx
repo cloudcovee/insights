@@ -343,9 +343,16 @@ function UsersPage() {
                 )}
 
                 <div>
-                  <h4 className="mb-2 text-sm font-semibold">Timeline</h4>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-sm font-semibold">Timeline</h4>
+                    {selected.timeline.length > 0 && (
+                      <span className="text-xs text-muted-foreground font-mono">
+                        Showing {Math.min(selected.timeline.length, 15)} of {selected.timeline.length}
+                      </span>
+                    )}
+                  </div>
                   <ol className="space-y-3 border-l pl-4">
-                    {selected.timeline.map((t, i) => (
+                    {selected.timeline.slice(0, 15).map((t, i) => (
                       <li key={i} className="relative">
                         <span className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full bg-primary" />
                         <div className="flex flex-col items-start gap-1">
@@ -358,16 +365,15 @@ function UsersPage() {
                       </li>
                     ))}
                   </ol>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Link
-                    to="/users/$userId"
-                    params={{ userId: selected.userId || selected.email || selected.id }}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 transition-colors shadow"
-                  >
-                    <User className="h-4 w-4" /> Open Customer Profile
-                  </Link>
-                  <Button variant="outline" onClick={() => window.location.href = '/sessions'}>View sessions</Button>
+                  <div className="mt-3">
+                    <Link
+                      to="/users/$userId"
+                      params={{ userId: selected.userId || selected.email || selected.id }}
+                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-medium border border-input bg-muted/40 hover:bg-accent hover:text-accent-foreground h-8 px-3 transition-colors"
+                    >
+                      View more events →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </>
