@@ -75,7 +75,7 @@ export function ManualAddModal({
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/catalogs/${collectionId}/import`, {
+      const res = await fetch(`/api/collections/${collectionId}/import`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ data }),

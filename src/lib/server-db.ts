@@ -10,7 +10,6 @@ const SITEMAP_DB_PATH   = path.join(process.cwd(), 'local-sitemaps.json');
 const COLLECTIONS_PATH  = path.join(process.cwd(), 'local-collections.json');
 const COLL_DATA_PATH    = path.join(process.cwd(), 'local-collection-data.json');
 const SESSIONS_PATH     = path.join(process.cwd(), 'local-sessions.json');
-const APIKEYS_PATH      = path.join(process.cwd(), 'local-apikeys.json');
 
 // ---------------------------------------------------------------------------
 // Existing types (unchanged)
@@ -142,80 +141,15 @@ export function deleteSession(token: string): void {
   writeSessions(sessions);
 }
 
-export interface ApiKeyRecord {
-  projectId: string;
-  publicKey: string;
-  hashedSecretKey: string;
-  createdAt: string;
-}
-
-export function readApiKeys(): ApiKeyRecord[] {
-  try {
-    if (fs.existsSync(APIKEYS_PATH)) {
-      return JSON.parse(fs.readFileSync(APIKEYS_PATH, 'utf-8'));
-    }
-  } catch (e) { console.error('Error reading api keys', e); }
-  return [];
-}
-
 /**
- * Resolves authentication from:
- * 1) Authorization: Bearer <secret_key | session_token>
- * 2) Cookie: lumen_session=<session_token>
- * Throws a Response(401) if missing, invalid, or expired.
+ * Resolves the lumen_session cookie from the request to a SessionContext.
+ * Throws a Response(401) if the session is missing or expired.
+ * This is the ONLY source of projectId for authorization.
  */
 export function getSessionContext(request: Request): SessionContext {
-  const authHeader = request.headers.get('authorization') ?? '';
-  const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
-
-  if (bearerMatch) {
-    const token = bearerMatch[1].trim();
-
-    // Check if it's an API key (e.g. sk_live_..., sk_..., etc.)
-    if (token.startsWith('sk_') || token.startsWith('sk-') || token.startsWith('pk_')) {
-      const hash = crypto.createHash('sha256').update(token).digest('hex');
-      const apiKeys = readApiKeys();
-      const match = apiKeys.find(k => k.hashedSecretKey === hash);
-      if (match) {
-        return { userId: 'api_key', projectId: match.projectId || 'proj_default', email: 'api@system' };
-      }
-
-      // If key is a valid sk_live_* secret key generated from settings/dashboard
-      if (token.startsWith('sk_live_')) {
-        const newRecord: ApiKeyRecord = {
-          projectId: 'proj_default',
-          publicKey: 'pk_live_default',
-          hashedSecretKey: hash,
-          createdAt: new Date().toISOString(),
-        };
-        try {
-          fs.writeFileSync(APIKEYS_PATH, JSON.stringify([...apiKeys, newRecord], null, 2), 'utf-8');
-        } catch {}
-        return { userId: 'api_key', projectId: 'proj_default', email: 'api@system' };
-      }
-    }
-
-    // Check if Bearer token is a session token directly (e.g. sess_...)
-    const sessions = readSessions();
-    const session = sessions.find(s => s.token === token);
-    if (session) {
-      if (new Date(session.expiresAt) <= new Date()) {
-        deleteSession(token);
-        throw new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
-      }
-      return { userId: session.userId, projectId: session.projectId, email: session.email };
-    }
-  }
-
-  // Fallback to Cookie header
   const cookieHeader = request.headers.get('cookie') ?? '';
   const match = cookieHeader.match(/(?:^|;\s*)lumen_session=([^;]+)/);
-  if (!match) {
-    throw new Response(
-      JSON.stringify({ error: 'Unauthorized: Provide Authorization: Bearer <secret_key> or session cookie' }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
+  if (!match) throw new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
 
   const token = match[1];
   const sessions = readSessions();
@@ -234,7 +168,7 @@ export function getSessionContext(request: Request): SessionContext {
  * Throws a Response(403) if the collection does not belong to the session's project.
  */
 export function assertCollectionOwnership(collection: Collection, ctx: SessionContext): void {
-  if (collection.projectId && ctx.projectId && collection.projectId !== ctx.projectId) {
+  if (collection.projectId !== ctx.projectId) {
     throw new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
   }
 }
@@ -318,15 +252,6 @@ export function addEvent(event: ServerEvent) {
   events.unshift(event);
   if (events.length > 1000) events.length = 1000;
   fs.writeFileSync(DB_PATH, JSON.stringify(events, null, 2), 'utf-8');
-}
-
-export function updateEvent(eventId: string, updates: Partial<ServerEvent>) {
-  const events = getEvents();
-  const idx = events.findIndex(e => e.id === eventId);
-  if (idx !== -1) {
-    events[idx] = { ...events[idx], ...updates };
-    fs.writeFileSync(DB_PATH, JSON.stringify(events, null, 2), 'utf-8');
-  }
 }
 
 export function getSitemaps(): SitemapEntry[] {

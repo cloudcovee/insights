@@ -1,9 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Image as ImageIcon, FileText, File, Video, Search, Download, Upload } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
-import { formatUserId } from "@/lib/utils";
 
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
@@ -206,18 +205,7 @@ function MediaDashboard() {
                   <span>{formatDistanceToNow(new Date(e.timestamp), { addSuffix: true })}</span>
                 </div>
                 <div className="text-[10px] text-muted-foreground mt-2 truncate">
-                  User ID:{" "}
-                  {e.userId || e.anonId ? (
-                    <Link
-                      to="/users/$userId"
-                      params={{ userId: formatUserId(e.anonId || e.id || e.userId) }}
-                      className="text-primary hover:underline font-mono"
-                    >
-                      {formatUserId(e.anonId || e.id || e.userId)}
-                    </Link>
-                  ) : (
-                    "Unknown"
-                  )}
+                  User: {e.userId || e.anonId || 'Unknown'}
                 </div>
               </CardContent>
             </Card>
