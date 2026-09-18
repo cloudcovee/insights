@@ -683,10 +683,10 @@ function EventsPage() {
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="w-[180px] font-semibold text-left">Time</TableHead>
-                <TableHead className="font-semibold text-center">Event</TableHead>
-                <TableHead className="w-[180px] font-semibold text-center">Visitor Auth Status</TableHead>
-                <TableHead className="font-semibold text-right">User Identifier</TableHead>
+                <TableHead className="w-[180px] font-semibold text-center pl-6 pr-4">Time</TableHead>
+                <TableHead className="font-semibold text-center px-4">Event</TableHead>
+                <TableHead className="w-[180px] font-semibold text-center px-4">Visitor Auth Status</TableHead>
+                <TableHead className="font-semibold text-center pl-4 pr-6">User Identifier</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -709,15 +709,15 @@ function EventsPage() {
                       className="cursor-pointer hover:bg-muted/40 transition-colors"
                       onClick={() => setSelectedDetail(r)}
                     >
-                      <TableCell className="w-[180px] whitespace-nowrap text-xs text-muted-foreground font-mono text-left">
+                      <TableCell className="w-[180px] whitespace-nowrap text-xs text-muted-foreground font-mono text-center pl-6 pr-4">
                         {new Date(r.timestamp).toLocaleTimeString()}
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-4">
                         <Badge variant="secondary" className="font-mono text-[11px] whitespace-nowrap font-normal">
                           {displayEvent}
                         </Badge>
                       </TableCell>
-                      <TableCell className="w-[180px] text-center">
+                      <TableCell className="w-[180px] text-center px-4">
                         {isAuth ? (
                           <Badge variant="secondary" className="text-[11px] font-normal gap-1">
                             <ShieldCheck className="h-3 w-3" /> Logged in
@@ -728,7 +728,7 @@ function EventsPage() {
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-right py-2.5">
+                      <TableCell className="text-center py-2.5 pl-4 pr-6">
                         <Link
                           to="/users/$userId"
                           params={{ userId: identifier }}
