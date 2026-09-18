@@ -4,9 +4,8 @@ import {
   Calendar as CalendarIcon,
   Download,
   Search,
+  Info,
   ExternalLink,
-  ShieldCheck,
-  ShieldAlert,
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -620,7 +619,7 @@ function EventsPage() {
           <div className="relative min-w-[240px] flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search events, users, products, user identifiers…"
+              placeholder="Search events, users, products, interaction IDs…"
               className="pl-9"
               value={q}
               onChange={(e) => {
@@ -683,10 +682,10 @@ function EventsPage() {
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="w-[180px] font-semibold text-center pl-6 pr-4">Time</TableHead>
-                <TableHead className="font-semibold text-center px-4">Event</TableHead>
-                <TableHead className="w-[180px] font-semibold text-center px-4">Visitor Auth Status</TableHead>
-                <TableHead className="font-semibold text-center pl-4 pr-6">User Identifier</TableHead>
+                <TableHead className="w-1/4 font-semibold text-center pl-6 pr-4">Time</TableHead>
+                <TableHead className="w-1/4 font-semibold text-center px-4">Event</TableHead>
+                <TableHead className="w-1/4 font-semibold text-center px-4">Visitor Auth Status</TableHead>
+                <TableHead className="w-1/4 font-semibold text-center pl-4 pr-6">User Identifier</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -699,9 +698,9 @@ function EventsPage() {
               ) : (
                 paged.map((r) => {
                   const displayEvent = getDisplayEventName(r);
-                  const isAuth = Boolean(r.userId);
-                  const rawId = r.anonId || r.id || r.userId || "N/A";
-                  const identifier = formatUserId(rawId);
+                  const rawId = r.anonId || r.userId || r.id;
+                  const formattedId = formatUserId(rawId);
+                  const isLoggedIn = Boolean(r.userId);
 
                   return (
                     <TableRow
@@ -709,35 +708,35 @@ function EventsPage() {
                       className="cursor-pointer hover:bg-muted/40 transition-colors"
                       onClick={() => setSelectedDetail(r)}
                     >
-                      <TableCell className="w-[180px] whitespace-nowrap text-xs text-muted-foreground font-mono text-center pl-6 pr-4">
-                        {new Date(r.timestamp).toLocaleTimeString()}
+                      <TableCell className="w-1/4 whitespace-nowrap text-xs text-muted-foreground font-mono text-center pl-6 pr-4">
+                        {new Date(r.timestamp).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true })}
                       </TableCell>
-                      <TableCell className="text-center px-4">
+                      <TableCell className="w-1/4 text-center px-4">
                         <Badge variant="secondary" className="font-mono text-[11px] whitespace-nowrap font-normal">
                           {displayEvent}
                         </Badge>
                       </TableCell>
-                      <TableCell className="w-[180px] text-center px-4">
-                        {isAuth ? (
-                          <Badge variant="secondary" className="text-[11px] font-normal gap-1">
-                            <ShieldCheck className="h-3 w-3" /> Logged in
+                      <TableCell className="w-1/4 text-center px-4">
+                        {isLoggedIn ? (
+                          <Badge variant="secondary" className="text-xs font-normal gap-1 rounded-full px-2.5 py-0.5 text-muted-foreground bg-muted/60 border-0 inline-flex items-center">
+                            <Info className="h-3 w-3 text-muted-foreground" /> Logged in
                           </Badge>
                         ) : (
-                          <Badge variant="secondary" className="text-[11px] text-muted-foreground font-normal gap-1">
-                            <ShieldAlert className="h-3 w-3" /> Anonymous
+                          <Badge variant="secondary" className="text-xs font-normal gap-1 rounded-full px-2.5 py-0.5 text-muted-foreground bg-muted/60 border-0 inline-flex items-center">
+                            <Info className="h-3 w-3 text-muted-foreground" /> Anonymous
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-center py-2.5 pl-4 pr-6">
+                      <TableCell className="w-1/4 text-center py-2.5 pl-4 pr-6">
                         <Link
-                          to="/users/$userId"
-                          params={{ userId: identifier }}
+                          to={"/users/$userId" as any}
+                          params={{ userId: formattedId } as any}
                           onClick={(e) => e.stopPropagation()}
-                          className="font-mono text-xs text-foreground hover:text-primary hover:underline bg-muted/60 hover:bg-muted px-2.5 py-1 rounded-md border font-normal truncate max-w-[240px] inline-flex items-center gap-1.5 align-middle transition-colors"
-                          title={`View profile for ${identifier}`}
+                          className="font-mono text-xs text-foreground hover:text-primary hover:underline bg-muted/50 px-2.5 py-1 rounded-md border font-normal inline-flex items-center gap-1"
+                          title={`View profile for ${formattedId}`}
                         >
-                          <span className="truncate">{identifier}</span>
-                          <ExternalLink className="h-3 w-3 shrink-0 opacity-60" />
+                          <span>{formattedId}</span>
+                          <ExternalLink className="h-3 w-3 text-muted-foreground opacity-60" />
                         </Link>
                       </TableCell>
                     </TableRow>
@@ -939,54 +938,30 @@ function EventsPage() {
 
               {/* Event metadata details cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                <div className="rounded-lg border bg-card p-3 space-y-1.5 min-w-0 overflow-hidden">
-                  <div className="flex items-center justify-between gap-1">
-                    <span className="text-[10px] text-muted-foreground uppercase font-semibold block tracking-wider">
-                      Project & User
-                    </span>
-                    {selectedDetail.userId ? (
-                      <Badge variant="secondary" className="text-[10px] py-0 px-1.5 h-4 font-normal">
-                        Logged in
-                      </Badge>
-                    ) : (
-                      <Badge variant="secondary" className="text-[10px] py-0 px-1.5 h-4 font-normal text-muted-foreground">
-                        Anonymous
-                      </Badge>
-                    )}
+                <div className="rounded-lg border bg-card p-3 space-y-1 min-w-0 overflow-hidden">
+                  <span className="text-[10px] text-muted-foreground uppercase font-semibold block tracking-wider">
+                    Project & User
+                  </span>
+                  <div className="font-semibold text-foreground truncate" title={selectedDetail.userId || "Anonymous Visitor"}>
+                    {selectedDetail.userId || "Anonymous Visitor"}
                   </div>
-                  {(() => {
-                    const formattedUserId = formatUserId(selectedDetail.anonId || selectedDetail.id || selectedDetail.userId);
-                    return (
-                      <>
-                        <div className="font-semibold text-foreground font-mono text-sm truncate" title={formattedUserId}>
-                          {formattedUserId}
-                        </div>
-                        {selectedDetail.userId && (
-                          <div className="text-[10px] text-muted-foreground font-mono truncate" title={selectedDetail.userId}>
-                            Contact: <span className="text-foreground">{selectedDetail.userId}</span>
-                          </div>
-                        )}
-                        <div className="text-[10px] text-muted-foreground font-mono">
-                          Project: {selectedDetail.projectId || selectedDetail.project || "Go_Kart"}
-                        </div>
-                        <div
-                          className="text-[10px] font-mono text-muted-foreground truncate"
-                          title={selectedDetail.ip || selectedDetail.properties?.ip || "127.0.0.1"}
-                        >
-                          IP: {selectedDetail.ip || selectedDetail.properties?.ip || "127.0.0.1"}
-                        </div>
-                        <div className="pt-1">
-                          <Link
-                            to="/users/$userId"
-                            params={{ userId: formattedUserId }}
-                            className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline font-medium"
-                          >
-                            View Customer Profile →
-                          </Link>
-                        </div>
-                      </>
-                    );
-                  })()}
+                  <div className="text-[10px] text-muted-foreground font-mono">
+                    Project: {selectedDetail.projectId || selectedDetail.project || "Go_Kart"}
+                  </div>
+                  <div
+                    className="text-[10px] font-mono text-muted-foreground truncate"
+                    title={selectedDetail.ip || selectedDetail.properties?.ip || "127.0.0.1"}
+                  >
+                    IP: {selectedDetail.ip || selectedDetail.properties?.ip || "127.0.0.1"}
+                  </div>
+                  {selectedDetail.anonId && (
+                    <div
+                      className="text-[10px] font-mono text-muted-foreground truncate"
+                      title={selectedDetail.anonId}
+                    >
+                      Anon ID: {selectedDetail.anonId}
+                    </div>
+                  )}
                 </div>
 
                 <div className="rounded-lg border bg-card p-3 space-y-1 min-w-0 overflow-hidden">
@@ -1032,10 +1007,7 @@ function EventsPage() {
                 </span>
                 <div className="rounded-lg border bg-card/60 divide-y divide-border/60 overflow-hidden text-xs">
                   {(() => {
-                    const p = { ...parseProps(selectedDetail.properties) };
-                    if (p.isp && p.org) {
-                      delete p.org;
-                    }
+                    const p = parseProps(selectedDetail.properties);
                     const entries = Object.entries(p).filter(([_, val]) => val !== undefined && val !== null && val !== "");
 
                     if (entries.length === 0) {
@@ -1048,14 +1020,13 @@ function EventsPage() {
 
                     return entries.map(([key, val]) => {
                       const displayVal = typeof val === "object" ? JSON.stringify(val) : String(val);
-                      const displayKey = key.toLowerCase() === "org" || key.toLowerCase() === "isp" ? "ISP" : key;
                       return (
                         <div
                           key={key}
                           className="flex items-start justify-between gap-4 px-3.5 py-2.5 hover:bg-muted/30 transition-colors"
                         >
                           <span className="font-mono text-muted-foreground text-[11px] font-medium shrink-0 min-w-[110px]">
-                            {displayKey}
+                            {key}
                           </span>
                           <span className="font-medium text-foreground text-right break-all text-xs">
                             {displayVal}

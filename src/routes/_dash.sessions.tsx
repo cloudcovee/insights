@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { formatUserId } from "@/lib/utils";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProject } from "@/lib/project-context";
+import { resolveGeoRegion } from "@/lib/geo-utils";
 
 export const Route = createFileRoute("/_dash/sessions")({ component: SessionsPage });
 
@@ -187,13 +187,7 @@ function SessionsPage() {
                       <Badge variant="outline" className="font-mono text-[9px] px-1">{s.projectId}</Badge>
                     </TableCell>
                     <TableCell className="text-xs font-semibold text-primary" title={s.user}>
-                      <Link
-                        to="/users/$userId"
-                        params={{ userId: formatUserId(s.user) }}
-                        className="hover:underline font-mono"
-                      >
-                        {formatUserId(s.user)}
-                      </Link>
+                      {s.user.includes('@') || !s.user.match(/^[0-9a-fA-F-]+$/) ? s.user : `Anon (${s.user.substring(0, 6)})`}
                     </TableCell>
                     <TableCell className="text-xs text-muted-foreground">
                       {new Date(s.startedAt).toLocaleString()}
@@ -202,7 +196,17 @@ function SessionsPage() {
                     <TableCell className="text-right tabular-nums">{s.pages}</TableCell>
                     <TableCell className="text-right tabular-nums">{s.events}</TableCell>
                     <TableCell className="text-xs">{s.browser}</TableCell>
-                    <TableCell><Badge variant="secondary">{s.country}</Badge></TableCell>
+                    <TableCell>
+                      {(() => {
+                        const geo = resolveGeoRegion(s.country, s.user);
+                        return (
+                          <Badge variant="secondary" className="gap-1.5 font-medium">
+                            <span>{geo.flag}</span>
+                            <span>{geo.country}</span>
+                          </Badge>
+                        );
+                      })()}
+                    </TableCell>
                     <TableCell>
                       {s.bounce ? (
                         <Badge variant="outline" className="border-destructive/40 text-destructive">Bounced</Badge>
