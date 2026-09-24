@@ -97,6 +97,7 @@ function SettingsPage() {
       fetchCollections();
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("catalog-updated"));
+        localStorage.setItem("catalog-updated-at", Date.now().toString());
       }
     } catch (e: any) {
       toast.error(e.message);
@@ -114,6 +115,7 @@ function SettingsPage() {
       fetchCollections();
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("catalog-updated"));
+        localStorage.setItem("catalog-updated-at", Date.now().toString());
       }
     } catch (e: any) {
       toast.error(e.message);

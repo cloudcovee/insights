@@ -20,6 +20,9 @@ import { formatUserId } from "@/lib/utils";
 
 export interface RealUserRow {
   id: string;
+  profileId?: string;
+  subscriberKey?: string;
+  anonymousIds?: string[];
   userId?: string;
   anonId?: string;
   isLoggedIn: boolean;
@@ -63,8 +66,8 @@ function formatDate(dateStr: string): string {
 
 function UsersPage() {
   const { activeProjectId } = useProject();
-  const [q, setQ] = useState("");
   const [users, setUsers] = useState<RealUserRow[]>([]);
+  const [q, setQ] = useState("");
   const [selected, setSelected] = useState<RealUserRow | null>(null);
 
   useEffect(() => {
@@ -84,17 +87,24 @@ function UsersPage() {
         const userMap = new Map<string, RealUserRow>();
 
         events.forEach((e: any) => {
-          const rawDeviceId = e.anonId || e.id || e.userId;
-          const uId = formatUserId(rawDeviceId);
+          const profileId = e.profileId;
+          const subscriberKey = e.subscriberKey || e.userId;
+          const eventEmail = e.properties?.email || (e.subscriberKey && e.subscriberKey.includes("@") ? e.subscriberKey : undefined);
+          const rawDeviceId = e.anonId || e.id || subscriberKey;
+          const mapKey = profileId || subscriberKey || formatUserId(rawDeviceId);
+          const displayName = subscriberKey || formatUserId(rawDeviceId);
           
-          if (!userMap.has(uId)) {
-            userMap.set(uId, {
-              id: uId,
-              userId: e.userId || undefined,
+          if (!userMap.has(mapKey)) {
+            userMap.set(mapKey, {
+              id: subscriberKey || profileId || mapKey,
+              profileId: profileId || undefined,
+              subscriberKey: subscriberKey || undefined,
+              anonymousIds: e.anonId ? [e.anonId] : [],
+              userId: subscriberKey || undefined,
               anonId: e.anonId || undefined,
-              isLoggedIn: Boolean(e.userId),
-              name: uId,
-              email: e.userId || uId,
+              isLoggedIn: Boolean(subscriberKey),
+              name: displayName,
+              email: eventEmail || displayName,
               firstSeen: e.timestamp,
               lastSeen: e.timestamp,
               sessions: 1,
@@ -105,15 +115,25 @@ function UsersPage() {
             });
           }
           
-          const user = userMap.get(uId)!;
+          const user = userMap.get(mapKey)!;
           
-          if (e.userId) {
-            user.userId = e.userId;
+          if (subscriberKey) {
+            user.userId = subscriberKey;
+            user.subscriberKey = subscriberKey;
             user.isLoggedIn = true;
-            user.email = e.userId;
+            user.name = subscriberKey;
+            user.id = subscriberKey;
           }
-          if (e.anonId && !user.anonId) {
-            user.anonId = e.anonId;
+          if (eventEmail) {
+            user.email = eventEmail;
+          }
+          if (profileId && !user.profileId) {
+            user.profileId = profileId;
+          }
+          if (e.anonId) {
+            if (!user.anonId) user.anonId = e.anonId;
+            if (!user.anonymousIds) user.anonymousIds = [];
+            if (!user.anonymousIds.includes(e.anonId)) user.anonymousIds.push(e.anonId);
           }
           if (e.country && user.country === 'Unknown') {
             user.country = e.country;
@@ -349,12 +369,14 @@ function UsersPage() {
                   <div>
                     <SheetTitle className="font-mono text-lg">{selected.id}</SheetTitle>
                     <p className="text-sm text-muted-foreground font-mono">
-                      {selected.userId ? `Contact: ${selected.userId}` : "Unidentified device session"}
+                      {selected.subscriberKey || selected.userId
+                        ? `Subscriber Key: ${selected.subscriberKey || selected.userId}`
+                        : "Anonymous Device Session"}
                     </p>
                   </div>
                   {selected.isLoggedIn ? (
                     <Badge variant="secondary" className="text-xs font-normal gap-1 shrink-0">
-                      <Info className="h-3.5 w-3.5" /> Logged in
+                      <Info className="h-3.5 w-3.5 text-emerald-500" /> Logged in
                     </Badge>
                   ) : (
                     <Badge variant="secondary" className="text-xs text-muted-foreground font-normal gap-1 shrink-0">
@@ -371,6 +393,9 @@ function UsersPage() {
                   <Stat label="Lifetime events" value={selected.events.toLocaleString()} />
                   <Stat label="Country" value={selected.country} />
                   <Stat label="Browser" value={selected.browser} />
+                  {selected.anonymousIds && selected.anonymousIds.length > 1 && (
+                    <Stat label="Linked Devices" value={`${selected.anonymousIds.length} devices`} />
+                  )}
                 </div>
                 
                 {selected.crmData && (

@@ -15,6 +15,7 @@ export interface AnalyticsConfig {
     forms?: boolean;
     spa?: boolean;
     uploads?: boolean; // Automatically track file inputs and drag-drop
+    autoLogout?: boolean; // Automatically detect logout button clicks and logout routes
   };
 }
 
@@ -71,6 +72,7 @@ export interface EventPayload {
   sdkVersion: string;
   anonymousId: string;
   userId?: string;
+  subscriberKey?: string;
   sessionId: string;
   eventName: string;
   properties: Record<string, any>;

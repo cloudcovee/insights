@@ -96,4 +96,89 @@ export function initAutoTrackers(config: any) {
       }, 0);
     });
   }
+
+  // Auto-detect logout actions (clicks on logout buttons/links and logout routes)
+  if (autoTrack.autoLogout !== false && typeof document !== 'undefined') {
+    const isLogoutTarget = (el: HTMLElement | null): boolean => {
+      if (!el) return false;
+      const text = (el.innerText || el.textContent || '').toLowerCase().trim();
+      const href = ((el as HTMLAnchorElement).href || '').toLowerCase();
+      const id = (el.id || '').toLowerCase();
+      const className = (typeof el.className === 'string' ? el.className : '').toLowerCase();
+      const ariaLabel = (el.getAttribute('aria-label') || '').toLowerCase();
+      const testId = (el.getAttribute('data-testid') || '').toLowerCase();
+      const title = (el.getAttribute('title') || '').toLowerCase();
+
+      const logoutPatterns = [
+        'log out', 'logout', 'log-out',
+        'sign out', 'signout', 'sign-out'
+      ];
+
+      const matchesKeyword = (val: string) => logoutPatterns.some(pattern => val.includes(pattern));
+
+      return (
+        matchesKeyword(text) ||
+        matchesKeyword(id) ||
+        matchesKeyword(className) ||
+        matchesKeyword(ariaLabel) ||
+        matchesKeyword(testId) ||
+        matchesKeyword(title) ||
+        href.includes('/logout') ||
+        href.includes('/signout') ||
+        href.includes('action=logout') ||
+        href.includes('action=signout')
+      );
+    };
+
+    // Use capture phase so we catch the click before the site navigates or destroys auth state
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const actionable = target?.closest ? target.closest('a, button, [role="button"], input[type="submit"]') : null;
+      if (actionable && isLogoutTarget(actionable as HTMLElement)) {
+        if (tracker.getUserId()) {
+          tracker.track('user_logged_out', {
+            previousUserId: tracker.getUserId(),
+            autoDetected: true,
+            trigger: 'click'
+          });
+          tracker.reset();
+        }
+      }
+    }, true);
+
+    // Also check current route on SPA transitions and initial load
+    const checkLogoutRoute = () => {
+      if (typeof window === 'undefined') return;
+      const path = (window.location.pathname || '').toLowerCase();
+      const search = (window.location.search || '').toLowerCase();
+      if (
+        path.includes('/logout') ||
+        path.includes('/signout') ||
+        search.includes('action=logout') ||
+        search.includes('logout=true')
+      ) {
+        if (tracker.getUserId()) {
+          tracker.track('user_logged_out', {
+            previousUserId: tracker.getUserId(),
+            autoDetected: true,
+            trigger: 'route'
+          });
+          tracker.reset();
+        }
+      }
+    };
+
+    checkLogoutRoute();
+    if (autoTrack.spa !== false && typeof window !== 'undefined') {
+      window.addEventListener('popstate', () => setTimeout(checkLogoutRoute, 0));
+      const origPushState = window.history.pushState;
+      if (origPushState) {
+        window.history.pushState = function(...args) {
+          origPushState.apply(this, args);
+          setTimeout(checkLogoutRoute, 0);
+        };
+      }
+    }
+  }
 }
+

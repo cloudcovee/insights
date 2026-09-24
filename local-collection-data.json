@@ -951,5 +951,46 @@
     },
     "createdAt": "2026-09-16T12:47:26.506Z",
     "updatedAt": "2026-09-17T12:18:03.226Z"
+  },
+  {
+    "id": "item_937fa8ea58bf",
+    "collectionId": "col_4afaa689eac4",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "name": "AI",
+      "author": "james",
+      "date": "2026-07-15"
+    },
+    "createdAt": "2026-09-22T07:11:26.366Z",
+    "updatedAt": "2026-09-22T07:11:26.366Z"
+  },
+  {
+    "id": "item_21891fc03e4b",
+    "collectionId": "col_4afaa689eac4",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "invalid",
+    "validationErrors": [
+      {
+        "field": "author",
+        "message": "\"author\" is required"
+      },
+      {
+        "field": "date",
+        "message": "\"date\" is required"
+      }
+    ],
+    "data": {
+      "name": "MERN",
+      "author": "",
+      "date": ""
+    },
+    "createdAt": "2026-09-22T07:11:38.806Z",
+    "updatedAt": "2026-09-22T07:11:38.806Z"
   }
 ]

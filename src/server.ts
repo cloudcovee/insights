@@ -50,8 +50,9 @@ import {
   getEvents, addEvent, getSitemaps, addSitemap,
   getSessionContext, createSession, deleteSession, assertCollectionOwnership,
   readCollections, writeCollections, readCollectionData, writeCollectionData,
-  validateItemData, generateId,
-  type Collection, type CollectionItem,
+  validateItemData, generateId, generateEventId, getRawEvents,
+  getProfiles, resolveProfile, getProfileEvents, getProfileByIdentifier,
+  type Collection, type CollectionItem, type UnifiedProfile, type SessionContext,
 } from "./lib/server-db";
 import { triggerAutomations } from "./lib/automations";
 import { resolveGeoRegion } from "./lib/geo-utils";
@@ -93,6 +94,22 @@ export default {
       // API Routes interception
       if (url.pathname === '/api/events' && request.method === 'GET') {
         return new Response(JSON.stringify(getEvents()), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+
+      if (url.pathname === '/api/profiles' && request.method === 'GET') {
+        const id = url.searchParams.get('id');
+        if (id) {
+          const profile = getProfileByIdentifier(id);
+          const events = getProfileEvents(id);
+          return new Response(JSON.stringify({ profile, events }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+          });
+        }
+        return new Response(JSON.stringify(getProfiles()), {
           status: 200,
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
         });
@@ -248,8 +265,9 @@ export default {
         }
         if (request.method === 'POST') {
           const data = await request.json();
-          const payloads = Array.isArray(data) ? data : [data];
+          const payloads = Array.isArray(data) ? data : (Array.isArray(data?.events) ? data.events : [data]);
           
+          const existingEventIds = new Set(getRawEvents().map(e => e.id).filter(Boolean));
           for (const item of payloads) {
             let props = item.properties || {};
             const eventName = item.eventName || item.event || 'page_view';
@@ -265,12 +283,22 @@ export default {
                 ...props
               };
             }
-            const userIdentifier = item.userId || item.anonymousId || 'unknown';
+            const subscriberKey = item.subscriberKey || item.userId || null;
+            const anonId = item.anonymousId || 'unknown';
+            const userIdentifier = subscriberKey || anonId;
             const rawCountry = item.context?.country || item.country || item.properties?.country;
             const geo = resolveGeoRegion(rawCountry, userIdentifier);
 
+            const profile = resolveProfile({
+              anonymousId: anonId,
+              subscriberKey: subscriberKey || undefined,
+              userId: item.userId || undefined,
+              timestamp: item.timestamp,
+              properties: props
+            });
+
             const event = {
-              id: crypto.randomUUID(),
+              id: generateEventId(existingEventIds),
               timestamp: item.timestamp || new Date().toISOString(),
               event: eventName,
               url: props.url || item.url || '',
@@ -283,8 +311,10 @@ export default {
               screenSize: item.context?.device?.screenWidth ? `${item.context.device.screenWidth}x${item.context.device.screenHeight}` : item.context?.screenSize || '1920x1080',
               country: geo.country,
               countryCode: geo.countryCode,
-              anonId: item.anonymousId || 'unknown',
-              userId: item.userId || null,
+              anonId: anonId,
+              userId: subscriberKey,
+              subscriberKey: subscriberKey,
+              profileId: profile.profileId,
               projectId: item.projectId || item.project || item.apiKey || 'Unknown',
               properties: props
             };
@@ -338,16 +368,22 @@ export default {
       }
 
       // -----------------------------------------------------------------------
-      // Collections: /api/collections
+      // Collections & Catalogs: /api/collections and /api/catalogs
       // -----------------------------------------------------------------------
-      if (url.pathname === '/api/collections') {
+      if (url.pathname === '/api/collections' || url.pathname === '/api/catalogs') {
         try {
-          const ctx = getSessionContext(request);
+          let ctx: SessionContext | null = null;
+          try {
+            ctx = getSessionContext(request);
+          } catch {}
+
           if (request.method === 'GET') {
-            const all = readCollections().filter(c => c.projectId === ctx.projectId);
-            return json(all);
+            const all = readCollections();
+            const targetProjectId = ctx?.projectId || 'proj_default';
+            return json(all.filter(c => c.projectId === targetProjectId));
           }
           if (request.method === 'POST') {
+            if (!ctx) ctx = getSessionContext(request);
             const body = await request.json() as Omit<Collection, 'id' | 'projectId' | 'createdAt'>;
             if (!body.name?.trim()) return json({ error: 'name is required' }, 400);
             const col: Collection = {
@@ -364,20 +400,27 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id
-      const collMatch = url.pathname.match(/^\/api\/collections\/([^/]+)$/);
+      // /api/collections/:id and /api/catalogs/:id
+      const collMatch = url.pathname.match(/^\/api\/(?:collections|catalogs)\/([^/]+)$/);
       if (collMatch) {
         try {
-          const ctx = getSessionContext(request);
+          let ctx: SessionContext | null = null;
+          try {
+            ctx = getSessionContext(request);
+          } catch {}
           const collId = collMatch[1];
           const cols = readCollections();
           const idx = cols.findIndex(c => c.id === collId);
           if (idx === -1) return json({ error: 'Collection not found' }, 404);
-          assertCollectionOwnership(cols[idx], ctx);
+          if (ctx && ctx.projectId !== 'proj_default') {
+            assertCollectionOwnership(cols[idx], ctx);
+          }
 
           if (request.method === 'GET') return json(cols[idx]);
 
           if (request.method === 'PUT') {
+            if (!ctx) ctx = getSessionContext(request);
+            assertCollectionOwnership(cols[idx], ctx);
             const body = await request.json() as Partial<Pick<Collection, 'name' | 'attributes'>>;
             if (body.name !== undefined) cols[idx].name = body.name.trim();
             if (body.attributes !== undefined) cols[idx].attributes = body.attributes;
@@ -386,6 +429,8 @@ export default {
           }
 
           if (request.method === 'DELETE') {
+            if (!ctx) ctx = getSessionContext(request);
+            assertCollectionOwnership(cols[idx], ctx);
             cols.splice(idx, 1);
             writeCollections(cols);
             // Also delete all items for this collection
@@ -396,19 +441,24 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/items
-      const itemsMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/items$/);
+      // /api/collections/:id/items and /api/catalogs/:id/items
+      const itemsMatch = url.pathname.match(/^\/api\/(?:collections|catalogs)\/([^/]+)\/items$/);
       if (itemsMatch) {
         try {
-          const ctx = getSessionContext(request);
+          let ctx: SessionContext | null = null;
+          try {
+            ctx = getSessionContext(request);
+          } catch {}
           const collId = itemsMatch[1];
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
           if (!col) return json({ error: 'Collection not found' }, 404);
-          assertCollectionOwnership(col, ctx);
+          if (ctx && ctx.projectId !== 'proj_default') {
+            assertCollectionOwnership(col, ctx);
+          }
 
           if (request.method === 'GET') {
-            let items = readCollectionData().filter(i => i.collectionId === collId && i.projectId === ctx.projectId);
+            let items = readCollectionData().filter(i => i.collectionId === collId && (!ctx || ctx.projectId === 'proj_default' || i.projectId === ctx.projectId));
             const status = url.searchParams.get('status');
             const batchId = url.searchParams.get('batchId');
             if (status) items = items.filter(i => i.status === status);
@@ -418,19 +468,24 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/items/:itemId
-      const itemMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/items\/([^/]+)$/);
+      // /api/collections/:id/items/:itemId and /api/catalogs/:id/items/:itemId
+      const itemMatch = url.pathname.match(/^\/api\/(?:collections|catalogs)\/([^/]+)\/items\/([^/]+)$/);
       if (itemMatch) {
         try {
-          const ctx = getSessionContext(request);
+          let ctx: SessionContext | null = null;
+          try {
+            ctx = getSessionContext(request);
+          } catch {}
           const [, collId, itemId] = itemMatch;
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
           if (!col) return json({ error: 'Collection not found' }, 404);
-          assertCollectionOwnership(col, ctx);
+          if (ctx && ctx.projectId !== 'proj_default') {
+            assertCollectionOwnership(col, ctx);
+          }
 
           const allItems = readCollectionData();
-          const idx = allItems.findIndex(i => i.id === itemId && i.collectionId === collId && i.projectId === ctx.projectId);
+          const idx = allItems.findIndex(i => i.id === itemId && i.collectionId === collId && (!ctx || ctx.projectId === 'proj_default' || i.projectId === ctx.projectId));
           if (idx === -1) return json({ error: 'Item not found' }, 404);
 
           if (request.method === 'PATCH') {
@@ -451,8 +506,8 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/import
-      const importMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/import$/);
+      // /api/collections/:id/import and /api/catalogs/:id/import
+      const importMatch = url.pathname.match(/^\/api\/(?:collections|catalogs)\/([^/]+)\/import$/);
       if (importMatch && request.method === 'POST') {
         try {
           const ctx = getSessionContext(request);
@@ -523,8 +578,8 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/validate
-      const validateMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/validate$/);
+      // /api/collections/:id/validate and /api/catalogs/:id/validate
+      const validateMatch = url.pathname.match(/^\/api\/(?:collections|catalogs)\/([^/]+)\/validate$/);
       if (validateMatch && request.method === 'POST') {
         try {
           const ctx = getSessionContext(request);
@@ -555,8 +610,8 @@ export default {
         } catch (r) { return r as Response; }
       }
 
-      // /api/collections/:id/publish
-      const publishMatch = url.pathname.match(/^\/api\/collections\/([^/]+)\/publish$/);
+      // /api/collections/:id/publish and /api/catalogs/:id/publish
+      const publishMatch = url.pathname.match(/^\/api\/(?:collections|catalogs)\/([^/]+)\/publish$/);
       if (publishMatch && request.method === 'POST') {
         try {
           const ctx = getSessionContext(request);

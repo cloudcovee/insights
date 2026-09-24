@@ -8,6 +8,7 @@ import { logger, generateUUID } from '../utils';
 import { configManager } from '../core/config';
 
 const ANONYMOUS_ID_KEY = 'insight_anonymous_id';
+const SUBSCRIBER_KEY = 'insight_subscriber_key';
 const USER_ID_KEY = 'insight_user_id';
 const TRAITS_KEY = 'insight_user_traits';
 const SDK_VERSION = '1.0.0';
@@ -24,7 +25,11 @@ export class Tracker {
   }
 
   getUserId(): string | undefined {
-    return storage.getItem(USER_ID_KEY) || undefined;
+    return this.getSubscriberKey();
+  }
+
+  getSubscriberKey(): string | undefined {
+    return storage.getItem(SUBSCRIBER_KEY) || storage.getItem(USER_ID_KEY) || undefined;
   }
 
   track(eventName: string, properties: Record<string, any> = {}) {
@@ -34,11 +39,14 @@ export class Tracker {
       return;
     }
 
+    const subscriberKey = this.getSubscriberKey();
+
     const payload: EventPayload = {
       apiKey: config.apiKey,
       sdkVersion: SDK_VERSION,
       anonymousId: this.getAnonymousId(),
-      userId: this.getUserId(),
+      userId: subscriberKey,
+      subscriberKey: subscriberKey,
       sessionId: sessionManager.getSessionId(),
       eventName,
       properties,
@@ -65,13 +73,15 @@ export class Tracker {
     });
   }
 
-  identify(userId: string, traits: Record<string, any> = {}) {
-    storage.setItem(USER_ID_KEY, userId);
+  identify(subscriberKey: string, traits: Record<string, any> = {}) {
+    storage.setItem(SUBSCRIBER_KEY, subscriberKey);
+    storage.setItem(USER_ID_KEY, subscriberKey);
     storage.setItem(TRAITS_KEY, JSON.stringify(traits));
-    this.track('user_identified', traits);
+    this.track('user_identified', { subscriberKey, ...traits });
   }
 
   reset() {
+    storage.removeItem(SUBSCRIBER_KEY);
     storage.removeItem(USER_ID_KEY);
     storage.removeItem(TRAITS_KEY);
     sessionManager.reset();

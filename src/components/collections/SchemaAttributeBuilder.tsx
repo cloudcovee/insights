@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { GripVertical, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,6 +41,10 @@ export function SchemaAttributeBuilder({
   const [newType, setNewType] = useState<Attribute["type"]>("string");
   const [newRequired, setNewRequired] = useState(false);
 
+  // drag-and-drop state
+  const dragIndex = useRef<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
+
   function add() {
     const name = newName.trim();
     if (!name) {
@@ -61,6 +65,35 @@ export function SchemaAttributeBuilder({
     onChange(value.filter((_, i) => i !== idx));
   }
 
+  function handleDragStart(i: number) {
+    dragIndex.current = i;
+  }
+
+  function handleDragOver(e: React.DragEvent, i: number) {
+    e.preventDefault();
+    setOverIndex(i);
+  }
+
+  function handleDrop(i: number) {
+    const from = dragIndex.current;
+    if (from === null || from === i) {
+      dragIndex.current = null;
+      setOverIndex(null);
+      return;
+    }
+    const reordered = [...value];
+    const [moved] = reordered.splice(from, 1);
+    reordered.splice(i, 0, moved);
+    onChange(reordered);
+    dragIndex.current = null;
+    setOverIndex(null);
+  }
+
+  function handleDragEnd() {
+    dragIndex.current = null;
+    setOverIndex(null);
+  }
+
   return (
     <div className="space-y-3">
       {value.length > 0 && (
@@ -68,9 +101,22 @@ export function SchemaAttributeBuilder({
           {value.map((attr, i) => (
             <div
               key={attr.name}
-              className="flex items-center justify-between px-3 py-2 text-sm"
+              draggable
+              onDragStart={() => handleDragStart(i)}
+              onDragOver={(e) => handleDragOver(e, i)}
+              onDrop={() => handleDrop(i)}
+              onDragEnd={handleDragEnd}
+              className={`flex items-center justify-between px-3 py-2 text-sm transition-colors ${
+                overIndex === i && dragIndex.current !== i
+                  ? "bg-muted/60 border-t-2 border-primary"
+                  : ""
+              }`}
             >
-              <div className="flex items-center gap-3 min-w-0">
+              {/* drag handle */}
+              <GripVertical
+                className="h-4 w-4 shrink-0 text-muted-foreground cursor-grab active:cursor-grabbing mr-1"
+              />
+              <div className="flex items-center gap-3 min-w-0 flex-1">
                 <span className="font-medium truncate">{attr.name}</span>
                 <span className="text-xs text-muted-foreground rounded-sm bg-muted px-1.5 py-0.5">
                   {attr.type}

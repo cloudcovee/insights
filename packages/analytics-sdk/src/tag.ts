@@ -27,6 +27,9 @@ function processCommand(args: any[]) {
       case 'identify':
         tracker.identify(args[1], args[2]);
         break;
+      case 'reset':
+        tracker.reset();
+        break;
       default:
         console.warn(`[Insight Analytics] Unknown command: ${command}`);
     }
@@ -50,6 +53,20 @@ if (typeof window !== 'undefined') {
     processCommand(Array.prototype.slice.call(queue[i]));
   }
   
+  // Attach direct helper methods
+  (insight as any).identify = function(subscriberKey: string, traits?: Record<string, any>) {
+    processCommand(['identify', subscriberKey, traits]);
+  };
+  (insight as any).track = function(eventName: string, properties?: Record<string, any>) {
+    processCommand(['track', eventName, properties]);
+  };
+  (insight as any).page = function(properties?: Record<string, any>) {
+    processCommand(['page', properties]);
+  };
+  (insight as any).reset = function() {
+    processCommand(['reset']);
+  };
+
   // Attach to window so developers can call it
   window.insight = insight;
   
@@ -80,7 +97,8 @@ if (typeof window !== 'undefined') {
         endpoint,
         autoTrack: {
           pageViews: true,
-          clicks: true
+          clicks: true,
+          autoLogout: true
         }
       });
     }

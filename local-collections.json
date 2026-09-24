@@ -94,21 +94,39 @@
     "createdAt": "2026-09-16T06:50:42.625Z"
   },
   {
-    "id": "col_9df987f4fe09",
-    "name": "asdf",
+    "id": "col_bbe8fbf01c32",
+    "name": "demo",
     "projectId": "proj_default",
     "attributes": [
       {
-        "name": "1",
-        "type": "number",
+        "name": "sdf",
+        "type": "string",
         "required": false
+      }
+    ],
+    "createdAt": "2026-09-21T09:50:25.879Z"
+  },
+  {
+    "id": "col_4afaa689eac4",
+    "name": "articles",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "name",
+        "type": "string",
+        "required": true
       },
       {
-        "name": "str",
+        "name": "author",
         "type": "string",
+        "required": true
+      },
+      {
+        "name": "date",
+        "type": "date",
         "required": true
       }
     ],
-    "createdAt": "2026-09-16T12:48:12.612Z"
+    "createdAt": "2026-09-22T07:11:00.973Z"
   }
 ]

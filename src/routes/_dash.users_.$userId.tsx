@@ -17,6 +17,8 @@ import {
   ChevronRight,
   Copy,
   Check,
+  Code,
+  Info,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -27,20 +29,17 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProject } from "@/lib/project-context";
 import { formatUserId } from "@/lib/utils";
+import {
+  parseProps,
+  getDisplayEventName,
+  getEventTitle,
+  resolveProductDetails,
+  deduplicateEvents
+} from "@/lib/event-utils";
 
 export const Route = createFileRoute("/_dash/users_/$userId")({
   component: UserProfilePage,
 });
-
-function parseProps(raw: unknown): Record<string, any> {
-  if (!raw) return {};
-  if (typeof raw === "object") return raw as Record<string, any>;
-  try {
-    return JSON.parse(String(raw));
-  } catch {
-    return {};
-  }
-}
 
 function UserProfilePage() {
   const { userId } = Route.useParams();
@@ -48,7 +47,17 @@ function UserProfilePage() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [copiedEventId, setCopiedEventId] = useState<string | null>(null);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
+
+  const handleCopyPayload = (payload: any, eventId: string) => {
+    navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+    setCopiedEventId(eventId);
+    toast.success("Event payload copied to clipboard");
+    setTimeout(() => {
+      setCopiedEventId(null);
+    }, 2000);
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -62,20 +71,51 @@ function UserProfilePage() {
         // Decode URL-encoded userId if needed
         const decodedUserId = decodeURIComponent(userId);
         const formattedParam = formatUserId(decodedUserId);
+        const idLower = decodedUserId.toLowerCase();
 
-        // Filter events belonging to this user
-        const matched = allEvents.filter((e: any) => {
+        // 1. Identify target subscriberKey or profileId across all events
+        let targetKey: string | undefined;
+        for (const e of allEvents) {
           const eFormattedAnon = e.anonId ? formatUserId(e.anonId) : null;
           const eFormattedUser = e.userId ? formatUserId(e.userId) : null;
+          const eSub = e.subscriberKey?.toLowerCase();
 
-          const matchUser =
-            e.userId === decodedUserId ||
-            e.anonId === decodedUserId ||
-            e.id === decodedUserId ||
-            e.properties?.userId === decodedUserId ||
-            e.properties?.email === decodedUserId ||
-            (eFormattedAnon && (eFormattedAnon === decodedUserId || eFormattedAnon === formattedParam)) ||
-            (eFormattedUser && (eFormattedUser === decodedUserId || eFormattedUser === formattedParam));
+          if (
+            (eSub && eSub === idLower) ||
+            (e.profileId && e.profileId.toLowerCase() === idLower) ||
+            (e.userId && e.userId.toLowerCase() === idLower) ||
+            (e.anonId && (e.anonId.toLowerCase() === idLower || eFormattedAnon === decodedUserId || eFormattedAnon === formattedParam)) ||
+            (eFormattedUser && (eFormattedUser === decodedUserId || eFormattedUser === formattedParam))
+          ) {
+            targetKey = e.subscriberKey || e.profileId;
+            if (targetKey) break;
+          }
+        }
+
+        // 2. Filter events belonging to this profile
+        const targetKeyLower = targetKey?.toLowerCase();
+        const matched = allEvents.filter((e: any) => {
+          let matchUser = false;
+          if (targetKeyLower && (
+            (e.subscriberKey && e.subscriberKey.toLowerCase() === targetKeyLower) ||
+            (e.profileId && e.profileId.toLowerCase() === targetKeyLower)
+          )) {
+            matchUser = true;
+          } else {
+            const eFormattedAnon = e.anonId ? formatUserId(e.anonId) : null;
+            const eFormattedUser = e.userId ? formatUserId(e.userId) : null;
+
+            matchUser =
+              (e.subscriberKey && e.subscriberKey.toLowerCase() === idLower) ||
+              (e.profileId && e.profileId.toLowerCase() === idLower) ||
+              e.userId === decodedUserId ||
+              e.anonId === decodedUserId ||
+              (eFormattedAnon && (eFormattedAnon === decodedUserId || eFormattedAnon === formattedParam)) ||
+              (eFormattedUser && (eFormattedUser === decodedUserId || eFormattedUser === formattedParam)) ||
+              e.id === decodedUserId ||
+              e.properties?.userId === decodedUserId ||
+              e.properties?.email === decodedUserId;
+          }
 
           if (activeProjectId === "all") return matchUser;
           return matchUser && (e.projectId === activeProjectId || e.project === activeProjectId);
@@ -86,7 +126,9 @@ function UserProfilePage() {
             new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         );
 
-        setEvents(matched);
+        // Deduplicate consecutive events within 2s and auto-tracked clicks
+        const deduped = deduplicateEvents(matched);
+        setEvents(deduped);
       } catch (err) {
         console.error("Error fetching user events:", err);
       } finally {
@@ -113,6 +155,10 @@ function UserProfilePage() {
         rawId: decodedUserId,
         formattedUserId: formatted,
         userEmail: isEmail ? decodedUserId : null,
+        subscriberKey: isEmail ? decodedUserId : null,
+        profileId: decodedUserId.startsWith("prof_") ? decodedUserId : null,
+        connectedDevicesCount: 0,
+        connectedAnonIds: [],
         isLoggedIn: isEmail,
         firstSeen: null,
         lastSeen: null,
@@ -134,14 +180,24 @@ function UserProfilePage() {
     const firstSeen = events[events.length - 1]?.timestamp;
     const lastSeen = events[0]?.timestamp;
 
-    // Determine auth status and contact email
-    const loggedInEvent = events.find((e) => Boolean(e.userId));
-    const isAuth = Boolean(loggedInEvent);
-    const userEmail = loggedInEvent?.userId || (decodedUserId.includes("@") ? decodedUserId : null);
+    // Determine auth status and subscriberKey
+    const firstSubEvent = events.find((e) => Boolean(e.subscriberKey && !e.subscriberKey.startsWith("anon_")));
+    const isAuth = Boolean(firstSubEvent);
+    const subscriberKey = firstSubEvent?.subscriberKey || firstSubEvent?.userId || (!decodedUserId.includes("@") && decodedUserId.startsWith("003") ? decodedUserId : null);
+    const firstAnonEvent = events.find((e) => Boolean(e.anonId));
+    const rawAnonId = firstAnonEvent?.anonId || (decodedUserId.startsWith("anon_") ? decodedUserId.replace("anon_", "") : decodedUserId);
+    const formattedAnonId = formatUserId(rawAnonId);
 
-    // Primary User ID: ALWAYS the 15-char formatted identifier (e.g. "98f15-8163-2fd3")
-    const rawDeviceOrId = events.find((e) => Boolean(e.anonId))?.anonId || events[0]?.anonId || events[0]?.id || decodedUserId;
-    const formattedId = formatUserId(rawDeviceOrId);
+    // Connected anonymous devices for this profile
+    const connectedAnonIds = Array.from(new Set(events.map((e) => e.anonId ? formatUserId(e.anonId) : null).filter(Boolean)));
+
+    const profileId = subscriberKey || `anon_${formattedAnonId}`;
+    const emailProp = events.find((e) => Boolean(e.properties?.email || parseProps(e.properties).email));
+    const userEmail = emailProp ? (emailProp.properties?.email || parseProps(emailProp.properties).email) : (decodedUserId.includes("@") ? decodedUserId : null);
+
+    // Primary User ID: SubscriberKey if identified, otherwise 15-char formatted identifier
+    const formattedId = isAuth && subscriberKey ? subscriberKey : formattedAnonId;
+    const rawDeviceOrId = isAuth && subscriberKey ? subscriberKey : formattedAnonId;
 
     // Tech and Geolocation from the latest event with info
     const latestWithGeo = events.find((e) => e.properties?.city || e.country || e.ip);
@@ -165,17 +221,21 @@ function UserProfilePage() {
 
     // Calculate Category & Product Affinities
     const categoryCount: Record<string, number> = {};
-    const productCount: Record<string, { count: number; name: string; price?: string }> = {};
+    const productCount: Record<string, { count: number; name: string; price?: string | number }> = {};
 
     events.forEach((e) => {
       const p = parseProps(e.properties);
-      if (p.category) {
-        categoryCount[p.category] = (categoryCount[p.category] || 0) + 1;
+      const prodInfo = resolveProductDetails(e, events);
+      const cat = p.category || prodInfo?.category;
+      if (cat) {
+        categoryCount[cat] = (categoryCount[cat] || 0) + 1;
       }
-      if (p.productName || p.productId) {
-        const key = p.productName || p.productId;
+      const prodName = p.productName || prodInfo?.productName;
+      const prodId = p.productId || prodInfo?.productId;
+      if (prodName || prodId) {
+        const key = prodName || prodId;
         if (!productCount[key]) {
-          productCount[key] = { count: 0, name: p.productName || p.productId, price: p.price };
+          productCount[key] = { count: 0, name: prodName || prodId, price: p.price || prodInfo?.price };
         }
         productCount[key].count += 1;
       }
@@ -196,6 +256,10 @@ function UserProfilePage() {
       rawId: rawDeviceOrId,
       formattedUserId: formattedId,
       userEmail: userEmail,
+      subscriberKey,
+      profileId,
+      connectedDevicesCount: connectedAnonIds.length,
+      connectedAnonIds,
       isLoggedIn: isAuth,
       firstSeen,
       lastSeen,
@@ -254,16 +318,36 @@ function UserProfilePage() {
                 </h1>
                 {profile.isLoggedIn ? (
                   <Badge variant="secondary" className="gap-1 text-xs font-normal">
-                    <ShieldCheck className="h-3.5 w-3.5" /> Logged In
+                    <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> Logged In
                   </Badge>
                 ) : (
                   <Badge variant="secondary" className="gap-1 text-xs text-muted-foreground font-normal">
                     <ShieldAlert className="h-3.5 w-3.5" /> Anonymous
                   </Badge>
                 )}
+                {profile.connectedDevicesCount > 1 && (
+                  <Badge variant="outline" className="gap-1 text-xs text-muted-foreground">
+                    <Monitor className="h-3.5 w-3.5" /> {profile.connectedDevicesCount} Linked Devices
+                  </Badge>
+                )}
               </div>
               <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-                {profile.userEmail && (
+                {profile.isLoggedIn && profile.subscriberKey ? (
+                  <>
+                    <span>
+                      Subscriber Key: <strong className="text-foreground font-mono">{profile.subscriberKey}</strong>
+                    </span>
+                    <span>·</span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      Anonymous ID: <strong className="text-foreground font-mono">{profile.formattedUserId}</strong>
+                    </span>
+                    <span>·</span>
+                  </>
+                )}
+                {profile.userEmail && profile.userEmail !== profile.subscriberKey && (
                   <>
                     <span>
                       Contact Email: <strong className="text-foreground font-mono">{profile.userEmail}</strong>
@@ -279,7 +363,7 @@ function UserProfilePage() {
           <div className="flex items-center gap-2 self-start md:self-auto">
             <Button variant="outline" size="sm" onClick={copyId}>
               {copied ? <Check className="h-4 w-4 text-emerald-600 mr-1.5" /> : <Copy className="h-4 w-4 mr-1.5" />}
-              Copy User ID
+              {profile.isLoggedIn ? "Copy Subscriber Key" : "Copy Anonymous ID"}
             </Button>
           </div>
         </div>
@@ -395,37 +479,57 @@ function UserProfilePage() {
                   {events.map((e) => {
                     const props = parseProps(e.properties);
                     const isExpanded = expandedEventId === e.id;
-                    const eventTitle =
-                      e.event === "page_view"
-                        ? `Viewed ${props.path || props.url || "/"}`
-                        : props.productName
-                        ? `${e.event}: ${props.productName}`
-                        : e.event;
+                    const displayEventName = getDisplayEventName(e);
+                    const eventTitle = getEventTitle(e, events);
+                    const productDetails = resolveProductDetails(e, events);
+
+                    const accuratePayload = {
+                      id: e.id,
+                      event: e.event,
+                      displayEvent: displayEventName,
+                      timestamp: e.timestamp,
+                      projectId: e.projectId || e.project || "default",
+                      ...(e.subscriberKey ? { subscriberKey: e.subscriberKey } : {}),
+                      ...(e.userId ? { userId: e.userId } : {}),
+                      ...(e.anonId ? { anonId: e.anonId } : {}),
+                      ...(e.profileId ? { profileId: e.profileId } : {}),
+                      ...(e.path || props.path ? { path: e.path || props.path } : {}),
+                      ...(e.url || props.url ? { url: e.url || props.url } : {}),
+                      device: typeof e.device === "object" ? e.device?.type || "Desktop" : e.device || props.device || "Desktop",
+                      browser: typeof e.browser === "object" ? e.browser?.name || "Chrome" : e.browser || props.browser || "Chrome",
+                      os: e.os || props.os || "Windows",
+                      ip: e.ip || props.ip || "127.0.0.1",
+                      country: e.country || props.country || "Unknown",
+                      ...(props.city || e.city ? { city: props.city || e.city } : {}),
+                      ...(props.region || e.region ? { region: props.region || e.region } : {}),
+                      properties: props,
+                      ...(productDetails ? { productDetails } : {})
+                    };
 
                     return (
                       <div key={e.id} className="p-4 hover:bg-muted/20 transition-colors">
                         <div className="flex items-start justify-between gap-4">
-                          <div className="flex items-start gap-3">
+                          <div className="flex items-start gap-3 min-w-0">
                             <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold">
                               <Activity className="h-3.5 w-3.5" />
                             </div>
-                            <div className="space-y-1">
+                            <div className="space-y-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <Badge variant="secondary" className="font-mono text-[11px]">
-                                  {e.event}
+                                <Badge variant="secondary" className="font-mono text-[11px] font-medium">
+                                  {displayEventName}
                                 </Badge>
-                                <span className="text-sm font-medium text-foreground">
+                                <span className="text-sm font-medium text-foreground truncate">
                                   {eventTitle}
                                 </span>
                               </div>
-                              <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono flex-wrap">
                                 <span>{new Date(e.timestamp).toLocaleString()}</span>
                                 <span>·</span>
-                                <span>Project: {e.projectId || "default"}</span>
-                                {props.ip && (
+                                <span>Project: {e.projectId || e.project || "default"}</span>
+                                {accuratePayload.ip && (
                                   <>
                                     <span>·</span>
-                                    <span>IP: {props.ip}</span>
+                                    <span>IP: {accuratePayload.ip}</span>
                                   </>
                                 )}
                               </div>
@@ -435,7 +539,7 @@ function UserProfilePage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-xs h-8 text-muted-foreground"
+                            className="text-xs h-8 text-muted-foreground shrink-0"
                             onClick={() =>
                               setExpandedEventId(isExpanded ? null : e.id)
                             }
@@ -452,12 +556,208 @@ function UserProfilePage() {
                           </Button>
                         </div>
 
-                        {/* Expandable JSON Properties */}
+                        {/* Expandable Accurate Payload Section */}
                         {isExpanded && (
-                          <div className="mt-3 rounded-md border bg-muted/40 p-3 text-xs font-mono overflow-x-auto">
-                            <pre className="text-[11px] text-muted-foreground whitespace-pre-wrap">
-                              {JSON.stringify(props, null, 2)}
-                            </pre>
+                          <div className="mt-4 rounded-lg border bg-card p-4 space-y-4 text-xs shadow-sm">
+                            <div className="flex items-center justify-between border-b pb-3">
+                              <div className="flex items-center gap-2">
+                                <Code className="h-4 w-4 text-primary" />
+                                <span className="font-semibold text-foreground text-xs uppercase tracking-wider">
+                                  Event Payload
+                                </span>
+                              </div>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-7 text-xs gap-1.5"
+                                onClick={() => handleCopyPayload(accuratePayload, e.id)}
+                              >
+                                {copiedEventId === e.id ? (
+                                  <>
+                                    <Check className="h-3 w-3 text-emerald-500" /> Copied
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="h-3 w-3" /> Copy JSON
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+
+                            {/* Product / Purchase / Cart Breakdown Card if available */}
+                            {productDetails && (
+                              <div className="rounded-lg border bg-muted/30 p-3 space-y-2.5">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                                    {productDetails.type === "purchase"
+                                      ? "PURCHASE & ORDER BREAKDOWN"
+                                      : productDetails.type === "cart"
+                                      ? "CART & PRODUCT DETAILS"
+                                      : "PRODUCT INFORMATION"}
+                                  </span>
+                                  <Badge variant="secondary" className="text-[10px] font-mono">
+                                    {productDetails.status}
+                                  </Badge>
+                                </div>
+
+                                {productDetails.type === "purchase" && Array.isArray(productDetails.items) ? (
+                                  <div className="space-y-2.5">
+                                    <div className="rounded border bg-background divide-y divide-border/60 overflow-hidden">
+                                      {productDetails.items.map((item: any, idx: number) => (
+                                        <div key={idx} className="flex items-center justify-between p-2.5 gap-2">
+                                          <div className="min-w-0">
+                                            <div className="font-medium text-xs text-foreground truncate">
+                                              {item.productName}
+                                            </div>
+                                            <div className="text-[10px] text-muted-foreground font-mono">
+                                              {item.category} · ID: {item.productId}
+                                            </div>
+                                          </div>
+                                          <div className="text-right shrink-0">
+                                            <div className="font-bold text-xs font-mono text-foreground">
+                                              ${item.subtotal.toLocaleString()}
+                                            </div>
+                                            <div className="text-[10px] text-muted-foreground font-mono">
+                                              ${item.price.toLocaleString()} × {item.quantity}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                      <div className="rounded bg-background p-2 border">
+                                        <span className="text-muted-foreground block text-[10px]">Total Items</span>
+                                        <span className="font-medium text-xs text-foreground block">
+                                          {productDetails.totalUnits} units ({productDetails.itemCount} items)
+                                        </span>
+                                      </div>
+                                      <div className="rounded bg-background p-2 border">
+                                        <span className="text-muted-foreground block text-[10px]">Grand Total</span>
+                                        <span className="font-bold text-xs text-foreground block font-mono">
+                                          ${productDetails.grandTotal.toLocaleString()}
+                                        </span>
+                                      </div>
+                                      <div className="rounded bg-background p-2 border">
+                                        <span className="text-muted-foreground block text-[10px]">Discount</span>
+                                        <span className="font-medium text-xs text-foreground truncate block">
+                                          {productDetails.discount}
+                                        </span>
+                                      </div>
+                                      <div className="rounded bg-background p-2 border">
+                                        <span className="text-muted-foreground block text-[10px]">Shipping</span>
+                                        <span className="font-medium text-xs text-foreground truncate block">
+                                          {productDetails.shipping}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="space-y-2">
+                                    <div className="flex flex-wrap items-center justify-between gap-2">
+                                      <div>
+                                        <div className="font-semibold text-xs text-foreground">
+                                          {productDetails.productName}
+                                        </div>
+                                        <div className="text-[11px] text-muted-foreground">
+                                          Category: {productDetails.category} · ID: {productDetails.productId}
+                                        </div>
+                                      </div>
+                                      <div className="text-right">
+                                        <div className="font-bold text-xs text-foreground font-mono">
+                                          ${productDetails.subtotal?.toLocaleString() || productDetails.price?.toLocaleString()}
+                                        </div>
+                                        {productDetails.quantity && (
+                                          <div className="text-[10px] text-muted-foreground font-mono">
+                                            ${productDetails.price?.toLocaleString()} × {productDetails.quantity}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Identity, Context & Tech Grid */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                              <div className="rounded border bg-muted/20 p-2.5 space-y-1">
+                                <span className="text-[10px] text-muted-foreground uppercase font-semibold block tracking-wider">
+                                  Identity & Session
+                                </span>
+                                <div className="text-[11px] font-mono text-foreground truncate" title={e.subscriberKey || "None"}>
+                                  SubKey: {e.subscriberKey || "—"}
+                                </div>
+                                <div className="text-[11px] font-mono text-muted-foreground truncate" title={e.anonId ? formatUserId(e.anonId) : "—"}>
+                                  Anon ID: {e.anonId ? formatUserId(e.anonId) : "—"}
+                                </div>
+                                <div className="text-[11px] font-mono text-muted-foreground truncate" title={e.userId || "—"}>
+                                  User ID: {e.userId || "—"}
+                                </div>
+                              </div>
+
+                              <div className="rounded border bg-muted/20 p-2.5 space-y-1">
+                                <span className="text-[10px] text-muted-foreground uppercase font-semibold block tracking-wider">
+                                  Device & Client
+                                </span>
+                                <div className="text-[11px] text-foreground truncate">
+                                  {accuratePayload.browser} on {accuratePayload.os}
+                                </div>
+                                <div className="text-[11px] text-muted-foreground">
+                                  Device: {accuratePayload.device}
+                                </div>
+                                <div className="text-[11px] font-mono text-muted-foreground truncate">
+                                  IP: {accuratePayload.ip}
+                                </div>
+                              </div>
+
+                              <div className="rounded border bg-muted/20 p-2.5 space-y-1">
+                                <span className="text-[10px] text-muted-foreground uppercase font-semibold block tracking-wider">
+                                  Location & Route
+                                </span>
+                                <div className="text-[11px] text-foreground truncate">
+                                  {[accuratePayload.city, accuratePayload.region, accuratePayload.country !== "Unknown" ? accuratePayload.country : null].filter(Boolean).join(", ") || "Unknown"}
+                                </div>
+                                <div className="text-[11px] font-mono text-muted-foreground truncate" title={accuratePayload.path || accuratePayload.url || "/"}>
+                                  Path: {accuratePayload.path || accuratePayload.url || "/"}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Properties Table */}
+                            {Object.keys(props).length > 0 && (
+                              <div className="space-y-1">
+                                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                                  Event Properties ({Object.keys(props).length})
+                                </span>
+                                <div className="rounded border bg-card/60 divide-y divide-border/60 max-h-48 overflow-y-auto">
+                                  {Object.entries(props)
+                                    .filter(([_, val]) => val !== undefined && val !== null && val !== "")
+                                    .map(([k, val]) => (
+                                      <div key={k} className="flex items-start justify-between gap-2 px-3 py-1.5 text-[11px]">
+                                        <span className="font-mono text-muted-foreground font-medium shrink-0">
+                                          {k}
+                                        </span>
+                                        <span className="font-mono text-foreground text-right break-all">
+                                          {typeof val === "object" ? JSON.stringify(val) : String(val)}
+                                        </span>
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* JSON Payload */}
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                                JSON Payload
+                              </span>
+                              <div className="rounded-md border bg-muted/40 p-3 font-mono overflow-x-auto">
+                                <pre className="text-[11px] text-muted-foreground whitespace-pre-wrap">
+                                  {JSON.stringify(accuratePayload, null, 2)}
+                                </pre>
+                              </div>
+                            </div>
                           </div>
                         )}
                       </div>

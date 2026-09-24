@@ -17,6 +17,7 @@ import {
   Image,
   Library,
   Layers,
+  Plus,
 } from "lucide-react";
 
 import {
@@ -59,22 +60,36 @@ export function AppSidebar() {
 
   useEffect(() => {
     let mounted = true;
-    const loadCatalogs = () => {
-      fetch('/api/catalogs')
-        .then(r => (r.ok ? r.json() : []))
-        .then(data => {
-          if (mounted && Array.isArray(data)) setCatalogs(data);
-        })
-        .catch(() => {});
+    const loadCatalogs = async () => {
+      try {
+        let res = await fetch('/api/catalogs');
+        if (!res.ok) res = await fetch('/api/collections');
+        if (res.ok) {
+          const data = await res.json();
+          if (mounted && Array.isArray(data)) {
+            setCatalogs(data);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading catalogs:', err);
+      }
     };
 
     loadCatalogs();
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'catalog-updated-at') {
+        loadCatalogs();
+      }
+    };
+
     window.addEventListener('catalog-updated', loadCatalogs);
-    const interval = setInterval(loadCatalogs, 3000);
+    window.addEventListener('storage', handleStorage);
+    const interval = setInterval(loadCatalogs, 2000);
 
     return () => {
       mounted = false;
       window.removeEventListener('catalog-updated', loadCatalogs);
+      window.removeEventListener('storage', handleStorage);
       clearInterval(interval);
     };
   }, []);
@@ -115,8 +130,11 @@ export function AppSidebar() {
 
         {/* Catalog Content — dynamic, session-scoped */}
         <SidebarGroup>
-          <SidebarGroupLabel className="flex items-center gap-1.5">
-            <Library className="h-3.5 w-3.5" /> Catalog Content
+          <SidebarGroupLabel className="flex items-center justify-between gap-1.5 pr-2">
+            <span className="flex items-center gap-1.5">
+              <Library className="h-3.5 w-3.5" /> Catalog
+            </span>
+
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -130,24 +148,34 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ) : (
-                catalogs.map((cat) => (
-                  <SidebarMenuItem key={cat.id}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActive(`/catalogs/${cat.id}`) || isActive(`/collections/${cat.id}`)}
-                      tooltip={cat.name}
-                    >
-                      <Link
-                        to="/catalogs/$catalogId"
-                        params={{ catalogId: cat.id }}
-                        className="flex items-center gap-2"
+                <>
+                  {catalogs.map((cat) => (
+                    <SidebarMenuItem key={cat.id}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={isActive(`/catalogs/${cat.id}`) || isActive(`/collections/${cat.id}`)}
+                        tooltip={cat.name}
                       >
-                        <Layers className="h-4 w-4" />
-                        <span>{cat.name}</span>
+                        <Link
+                          to="/catalogs/$catalogId"
+                          params={{ catalogId: cat.id }}
+                          className="flex items-center gap-2"
+                        >
+                          <Layers className="h-4 w-4" />
+                          <span className="truncate">{cat.name}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/settings" className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-xs py-1">
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>Add catalog…</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                ))
+                </>
               )}
             </SidebarMenu>
           </SidebarGroupContent>

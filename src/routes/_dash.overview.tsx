@@ -23,6 +23,7 @@ import { ActiveUsersByCountryCard } from "@/components/active-users-country-card
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { formatUserId } from "@/lib/utils";
 import {
   Table,
   TableBody,
@@ -120,7 +121,7 @@ function OverviewPage() {
           id: e.id,
           timestamp: e.timestamp,
           event: e.event,
-          user: e.anonId ? `Anon (${e.anonId.substring(0, 6)})` : 'Unknown',
+          user: e.userId ? (e.userId.includes('@') ? e.userId : `User (${formatUserId(e.userId)})`) : (e.anonId ? `Anon (${formatUserId(e.anonId)})` : 'Unknown'),
           projectId: e.projectId || e.project || 'Unknown',
           properties: e.properties || {}
         }));
