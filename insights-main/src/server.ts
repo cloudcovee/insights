@@ -271,17 +271,63 @@ export default {
           for (const item of payloads) {
             let props = item.properties || {};
             const eventName = item.eventName || item.event || 'page_view';
-            if (eventName === 'Add to Cart' || props.productName === 'MacBook Pro 16"' || props.productId === 'prod_1') {
-              const itemPrice = Number(props.price) > 0 ? Number(props.price) : 49;
-              const itemQty = Number(props.quantity) > 0 ? Number(props.quantity) : 1;
-              props = {
-                productName: props.productName || 'Product Item',
-                productId: props.productId || 'prod_1',
-                price: itemPrice,
-                quantity: itemQty,
-                subtotal: props.subtotal || (itemPrice * itemQty),
-                ...props
-              };
+            // Capture/normalize product image url from incoming event properties (SFMC Personalization style)
+            const incomingImg = props.imageUrl || props.image || props.productImage || props.img;
+            if (incomingImg) {
+              props.imageUrl = incomingImg;
+            }
+
+            // Extract potential product identifier from properties or URL
+            let targetPid = props.productId || props.id;
+            const targetUrl = props.url || item.url || '';
+            if (!targetPid && targetUrl.includes('/product/')) {
+              targetPid = targetUrl.split('/product/')[1]?.split('?')[0]?.split('/')[0];
+            }
+
+            // Dynamic Catalog Lookup & Enrichment
+            const isProductAction =
+              eventName === 'Product Viewed' ||
+              eventName === 'Add to Cart' ||
+              eventName === 'Item Purchased' ||
+              eventName === 'view_item' ||
+              Boolean(targetPid || props.productName);
+
+            if (isProductAction) {
+              const allCatalogItems = readCollectionData().filter(i => i.status === 'published');
+              const found = allCatalogItems.find(i => {
+                const d = i.data || {};
+                const dPid = String(d.productId || d.id || '').toLowerCase();
+                const dName = String(d.name || d.productName || '').toLowerCase();
+                if (targetPid && dPid === String(targetPid).toLowerCase()) return true;
+                if (props.productName && dName === String(props.productName).toLowerCase()) return true;
+                return false;
+              });
+
+              if (found) {
+                const fd = found.data;
+                props.productId = props.productId || fd.productId || fd.id || targetPid;
+                props.productName = props.productName || fd.name || fd.productName;
+                props.category = props.category || fd.category;
+                if ((props.price === undefined || props.price === null || Number(props.price) <= 0) && fd.price !== undefined && fd.price !== null) {
+                  props.price = Number(fd.price);
+                }
+                if (!props.imageUrl && fd.imageUrl) {
+                  props.imageUrl = fd.imageUrl;
+                }
+                if (!props.url && fd.url) {
+                  props.url = fd.url;
+                }
+              } else if (targetPid) {
+                props.productId = targetPid;
+              }
+
+              if (eventName === 'Add to Cart' || eventName === 'Item Purchased') {
+                const itemPrice = Number(props.price) > 0 ? Number(props.price) : 0;
+                const itemQty = Number(props.quantity) > 0 ? Number(props.quantity) : 1;
+                props.price = itemPrice;
+                props.quantity = itemQty;
+                props.subtotal = props.subtotal || (itemPrice * itemQty);
+              }
             }
             const subscriberKey = item.subscriberKey || item.userId || null;
             const anonId = item.anonymousId || 'unknown';
@@ -365,6 +411,28 @@ export default {
             'Set-Cookie': 'lumen_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0',
           },
         });
+      }
+
+      // Fast / public product catalog endpoint: /api/catalog/products
+      if (url.pathname === '/api/catalog/products' || url.pathname === '/api/catalogs/products') {
+        const allItems = readCollectionData().filter(i => i.status === 'published');
+        const cols = readCollections();
+        const prodCols = cols.filter(c => c.name.toLowerCase().includes('product'));
+        const prodColIds = new Set(prodCols.map(c => c.id));
+        const matchedItems = prodColIds.size > 0
+          ? allItems.filter(i => prodColIds.has(i.collectionId))
+          : allItems;
+        return json(matchedItems.map(item => ({
+          id: item.id,
+          collectionId: item.collectionId,
+          productId: String(item.data.productId || item.data.id || item.id),
+          productName: String(item.data.name || item.data.productName || item.data.title || ''),
+          price: Number(item.data.price) || 0,
+          category: String(item.data.category || ''),
+          imageUrl: String(item.data.imageUrl || item.data.image || item.data.productImage || ''),
+          url: String(item.data.url || ''),
+          ...item.data
+        })));
       }
 
       // -----------------------------------------------------------------------

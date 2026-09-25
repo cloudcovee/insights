@@ -750,6 +750,17 @@ export function getEvents(): ServerEvent[] {
     }
   }
 
+  // Index published catalog products for dynamic lookups (SFMC Personalization style)
+  const catalogItems = readCollectionData().filter(i => i.status === 'published');
+  const catalogProductMap = new Map<string, any>();
+  for (const item of catalogItems) {
+    const d = item.data || {};
+    const pid = String(d.productId || d.id || item.id || '').toLowerCase();
+    const name = String(d.name || d.productName || '').toLowerCase();
+    if (pid) catalogProductMap.set(pid, d);
+    if (name) catalogProductMap.set(name, d);
+  }
+
   return events.map(e => {
     let rawSubKey = cleanIdentifier(e.subscriberKey) || cleanIdentifier(e.userId);
     const anonClean = cleanAnonId(e.anonId);
@@ -794,16 +805,35 @@ export function getEvents(): ServerEvent[] {
     const isAuthenticated = isExplicitUser;
     const eventUserId = isAuthenticated ? (subClean || e.userId || knownSubKey) : undefined;
 
+    // Dynamic product catalog enrichment
+    const eventProps = {
+      ...(e.properties || {}),
+      ...(eventEmail ? { email: eventEmail } : {})
+    };
+
+    let targetPid = eventProps.productId || (e.url && e.url.includes('/product/') ? e.url.split('/product/')[1]?.split('?')[0]?.split('/')[0] : undefined);
+    const catMatch = targetPid 
+      ? catalogProductMap.get(String(targetPid).toLowerCase()) 
+      : (eventProps.productName ? catalogProductMap.get(String(eventProps.productName).toLowerCase()) : undefined);
+
+    if (catMatch) {
+      if (!eventProps.productId) eventProps.productId = catMatch.productId || catMatch.id;
+      if (!eventProps.productName) eventProps.productName = catMatch.name || catMatch.productName;
+      if (!eventProps.category) eventProps.category = catMatch.category;
+      if ((eventProps.price === undefined || eventProps.price === null || Number(eventProps.price) <= 0) && catMatch.price !== undefined) {
+        eventProps.price = Number(catMatch.price);
+      }
+      if (!eventProps.imageUrl && catMatch.imageUrl) eventProps.imageUrl = catMatch.imageUrl;
+      if (!eventProps.url && catMatch.url) eventProps.url = catMatch.url;
+    }
+
     return {
       ...e,
       anonId: anonClean || e.anonId,
       subscriberKey: canonicalSubKey,
       profileId: canonicalProfileId,
       userId: eventUserId,
-      properties: {
-        ...(e.properties || {}),
-        ...(eventEmail ? { email: eventEmail } : {})
-      }
+      properties: eventProps
     };
   });
 }

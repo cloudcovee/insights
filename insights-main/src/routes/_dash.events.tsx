@@ -6,6 +6,7 @@ import {
   Search,
   Info,
   ExternalLink,
+  Package,
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -398,12 +399,26 @@ function EventsPage() {
                       <div className="rounded-md border bg-background divide-y divide-border/60 overflow-hidden">
                         {selectedProductInfo.items.map((item: any, idx: number) => (
                           <div key={idx} className="flex items-center justify-between p-3 gap-3">
-                            <div className="min-w-0 space-y-0.5">
-                              <div className="font-semibold text-xs text-foreground truncate">
-                                {item.productName}
-                              </div>
-                              <div className="text-[11px] text-muted-foreground font-mono">
-                                {item.category} · ID: {item.productId}
+                            <div className="flex items-center gap-3 min-w-0">
+                              {item.imageUrl ? (
+                                <img
+                                  src={item.imageUrl}
+                                  alt={item.productName}
+                                  className="h-10 w-10 rounded-md object-cover border bg-muted shadow-xs shrink-0"
+                                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                                />
+                              ) : (
+                                <div className="h-10 w-10 rounded-md border bg-muted flex items-center justify-center text-muted-foreground shrink-0">
+                                  <Package className="h-4 w-4" />
+                                </div>
+                              )}
+                              <div className="min-w-0 space-y-0.5">
+                                <div className="font-semibold text-xs text-foreground truncate">
+                                  {item.productName}
+                                </div>
+                                <div className="text-[11px] text-muted-foreground font-mono">
+                                  {item.category} · ID: {item.productId}
+                                </div>
                               </div>
                             </div>
                             <div className="text-right shrink-0">
@@ -448,13 +463,27 @@ function EventsPage() {
                     </div>
                   ) : (
                     <>
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="space-y-0.5">
-                          <div className="text-base font-bold text-foreground">
-                            {selectedProductInfo.productName}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            Category: {selectedProductInfo.category} · ID: {selectedProductInfo.productId}
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          {selectedProductInfo.imageUrl ? (
+                            <img
+                              src={selectedProductInfo.imageUrl}
+                              alt={selectedProductInfo.productName}
+                              className="h-12 w-12 rounded-lg object-cover border bg-muted shadow-xs shrink-0"
+                              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                            />
+                          ) : (
+                            <div className="h-12 w-12 rounded-lg border bg-muted flex items-center justify-center text-muted-foreground shrink-0">
+                              <Package className="h-5 w-5" />
+                            </div>
+                          )}
+                          <div className="space-y-0.5 min-w-0">
+                            <div className="text-base font-bold text-foreground truncate">
+                              {selectedProductInfo.productName}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              Category: {selectedProductInfo.category} · ID: {selectedProductInfo.productId}
+                            </div>
                           </div>
                         </div>
                         <div className="text-right">

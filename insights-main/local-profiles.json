@@ -1,5 +1,22 @@
 [
   {
+    "subscriberKey": "anon_e9721-8c60-21c4",
+    "profileId": "anon_e9721-8c60-21c4",
+    "anonymousIds": [
+      "e9721-8c60-21c4"
+    ],
+    "attributes": {
+      "tagName": "button",
+      "id": "",
+      "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
+      "text": "Logout"
+    },
+    "firstSeen": "2026-09-25T09:38:03.382Z",
+    "lastSeen": "2026-09-25T09:38:04.021Z",
+    "createdAt": "2026-09-25T09:38:03.382Z",
+    "updatedAt": "2026-09-25T09:38:04.021Z"
+  },
+  {
     "subscriberKey": "anon_333d7-9170-d9e4",
     "profileId": "anon_333d7-9170-d9e4",
     "anonymousIds": [
@@ -377,19 +394,22 @@
       "text": "Apple Watch Series 9\n\n$349",
       "href": "http://localhost:3000/product/prod_3",
       "title": "GoCart. - Shop smarter",
-      "url": "http://localhost:3000/product/prod_3",
-      "path": "/product/prod_3",
+      "url": "http://localhost:3000/",
+      "path": "/",
       "productId": "prod_3",
       "productName": "Apple Watch Series 9",
       "price": 349,
       "category": "Smart Watches",
-      "depth": 100,
-      "subtotal": 3299
+      "depth": 25,
+      "subtotal": 3299,
+      "previousUserId": "abhi2@gmail.com",
+      "autoDetected": true,
+      "trigger": "click"
     },
     "firstSeen": "2026-07-24T07:50:21.355Z",
-    "lastSeen": "2026-09-24T13:13:34.651Z",
+    "lastSeen": "2026-09-25T09:38:03.380Z",
     "createdAt": "2026-07-24T07:50:21.355Z",
-    "updatedAt": "2026-09-24T13:13:34.651Z"
+    "updatedAt": "2026-09-25T09:38:03.380Z"
   },
   {
     "profileId": "0031b641ca70e85AA0",

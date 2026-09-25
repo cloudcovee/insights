@@ -1,80 +1,14 @@
 [
   {
-    "id": "col_0757efa2c3bf",
-    "name": "products",
-    "projectId": "",
-    "attributes": [
-      {
-        "name": "id",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "Name",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "price",
-        "type": "number",
-        "required": true
-      }
-    ],
-    "createdAt": "2026-09-07T10:21:22.372Z"
-  },
-  {
-    "id": "col_f940481f0b16",
-    "name": "Emp Details",
-    "projectId": "",
-    "attributes": [
-      {
-        "name": "id",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "first_name",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "last_name",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "email",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "age",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "city",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "salary",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "joined",
-        "type": "string",
-        "required": false
-      }
-    ],
-    "createdAt": "2026-09-07T11:34:46.101Z"
-  },
-  {
-    "id": "col_625c98601f3a",
+    "id": "col_products",
     "name": "products",
     "projectId": "proj_default",
     "attributes": [
+      {
+        "name": "productId",
+        "type": "string",
+        "required": true
+      },
       {
         "name": "name",
         "type": "string",
@@ -82,33 +16,48 @@
       },
       {
         "name": "price",
-        "type": "string",
+        "type": "number",
         "required": false
       },
       {
         "name": "category",
         "type": "string",
         "required": false
-      }
-    ],
-    "createdAt": "2026-09-08T10:57:52.566Z"
-  },
-  {
-    "id": "col_105b979b86e7",
-    "name": "hp",
-    "projectId": "proj_default",
-    "attributes": [
+      },
       {
-        "name": "jcaj",
+        "name": "imageUrl",
         "type": "string",
         "required": false
       },
       {
-        "name": "mnxxkm",
+        "name": "url",
         "type": "string",
         "required": false
       }
     ],
-    "createdAt": "2026-09-11T10:48:55.192Z"
+    "createdAt": "2026-09-24T12:55:03.712Z"
+  },
+  {
+    "id": "col_categories",
+    "name": "categories",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "categoryId",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "createdAt": "2026-09-24T12:55:03.713Z"
   }
 ]

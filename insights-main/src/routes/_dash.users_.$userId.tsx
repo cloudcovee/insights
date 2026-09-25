@@ -19,6 +19,7 @@ import {
   Check,
   Code,
   Info,
+  Package,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -219,9 +220,9 @@ function UserProfilePage() {
         ? events[0]?.device?.type
         : events[0]?.device || "Desktop";
 
-    // Calculate Category & Product Affinities
+    // Calculate Category & Product Affinities (SFMC Personalization style)
     const categoryCount: Record<string, number> = {};
-    const productCount: Record<string, { count: number; name: string; price?: string | number }> = {};
+    const productCount: Record<string, { count: number; name: string; price?: string | number; imageUrl?: string; category?: string; productId?: string }> = {};
 
     events.forEach((e) => {
       const p = parseProps(e.properties);
@@ -232,10 +233,20 @@ function UserProfilePage() {
       }
       const prodName = p.productName || prodInfo?.productName;
       const prodId = p.productId || prodInfo?.productId;
+      const prodImg = p.imageUrl || prodInfo?.imageUrl;
       if (prodName || prodId) {
         const key = prodName || prodId;
         if (!productCount[key]) {
-          productCount[key] = { count: 0, name: prodName || prodId, price: p.price || prodInfo?.price };
+          productCount[key] = {
+            count: 0,
+            name: prodName || prodId,
+            productId: prodId,
+            price: p.price || prodInfo?.price,
+            imageUrl: prodImg,
+            category: cat
+          };
+        } else if (!productCount[key].imageUrl && prodImg) {
+          productCount[key].imageUrl = prodImg;
         }
         productCount[key].count += 1;
       }
@@ -605,12 +616,26 @@ function UserProfilePage() {
                                     <div className="rounded border bg-background divide-y divide-border/60 overflow-hidden">
                                       {productDetails.items.map((item: any, idx: number) => (
                                         <div key={idx} className="flex items-center justify-between p-2.5 gap-2">
-                                          <div className="min-w-0">
-                                            <div className="font-medium text-xs text-foreground truncate">
-                                              {item.productName}
-                                            </div>
-                                            <div className="text-[10px] text-muted-foreground font-mono">
-                                              {item.category} · ID: {item.productId}
+                                          <div className="flex items-center gap-2.5 min-w-0">
+                                            {item.imageUrl ? (
+                                              <img
+                                                src={item.imageUrl}
+                                                alt={item.productName}
+                                                className="h-8 w-8 rounded-md object-cover border bg-muted shadow-xs shrink-0"
+                                                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                                              />
+                                            ) : (
+                                              <div className="h-8 w-8 rounded-md border bg-muted flex items-center justify-center text-muted-foreground shrink-0">
+                                                <Package className="h-3.5 w-3.5" />
+                                              </div>
+                                            )}
+                                            <div className="min-w-0">
+                                              <div className="font-medium text-xs text-foreground truncate">
+                                                {item.productName}
+                                              </div>
+                                              <div className="text-[10px] text-muted-foreground font-mono">
+                                                {item.category} · ID: {item.productId}
+                                              </div>
                                             </div>
                                           </div>
                                           <div className="text-right shrink-0">
@@ -655,12 +680,26 @@ function UserProfilePage() {
                                 ) : (
                                   <div className="space-y-2">
                                     <div className="flex flex-wrap items-center justify-between gap-2">
-                                      <div>
-                                        <div className="font-semibold text-xs text-foreground">
-                                          {productDetails.productName}
-                                        </div>
-                                        <div className="text-[11px] text-muted-foreground">
-                                          Category: {productDetails.category} · ID: {productDetails.productId}
+                                      <div className="flex items-center gap-2.5 min-w-0">
+                                        {productDetails.imageUrl ? (
+                                          <img
+                                            src={productDetails.imageUrl}
+                                            alt={productDetails.productName}
+                                            className="h-10 w-10 rounded-md object-cover border bg-muted shadow-xs shrink-0"
+                                            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                                          />
+                                        ) : (
+                                          <div className="h-10 w-10 rounded-md border bg-muted flex items-center justify-center text-muted-foreground shrink-0">
+                                            <Package className="h-4 w-4" />
+                                          </div>
+                                        )}
+                                        <div className="min-w-0">
+                                          <div className="font-semibold text-xs text-foreground truncate">
+                                            {productDetails.productName}
+                                          </div>
+                                          <div className="text-[11px] text-muted-foreground">
+                                            Category: {productDetails.category} · ID: {productDetails.productId}
+                                          </div>
                                         </div>
                                       </div>
                                       <div className="text-right">
@@ -828,16 +867,29 @@ function UserProfilePage() {
                 ) : (
                   <div className="divide-y">
                     {profile.topProducts.map((prod) => (
-                      <div key={prod.name} className="py-2.5 flex items-center justify-between text-xs">
-                        <div>
-                          <div className="font-medium text-foreground">{prod.name}</div>
-                          {prod.price && (
-                            <div className="text-[11px] text-muted-foreground font-mono">
-                              Price: ${prod.price}
+                      <div key={prod.name} className="py-2.5 flex items-center justify-between text-xs gap-3">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {prod.imageUrl ? (
+                            <img
+                              src={prod.imageUrl}
+                              alt={prod.name}
+                              className="h-9 w-9 rounded-md object-cover border bg-muted shadow-xs shrink-0"
+                              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                            />
+                          ) : (
+                            <div className="h-9 w-9 rounded-md border bg-muted flex items-center justify-center text-muted-foreground shrink-0">
+                              <Package className="h-4 w-4" />
                             </div>
                           )}
+                          <div className="min-w-0">
+                            <div className="font-medium text-foreground truncate">{prod.name}</div>
+                            <div className="text-[11px] text-muted-foreground font-mono flex items-center gap-2">
+                              {prod.category && <span>{prod.category}</span>}
+                              {prod.price && <span>· ${prod.price}</span>}
+                            </div>
+                          </div>
                         </div>
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs shrink-0">
                           {prod.count} interaction{prod.count > 1 ? "s" : ""}
                         </Badge>
                       </div>

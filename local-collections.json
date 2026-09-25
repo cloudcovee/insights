@@ -1,132 +1,53 @@
 [
   {
-    "id": "col_0757efa2c3bf",
-    "name": "products",
-    "projectId": "",
-    "attributes": [
-      {
-        "name": "id",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "Name",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "price",
-        "type": "number",
-        "required": true
-      }
-    ],
-    "createdAt": "2026-09-07T10:21:22.372Z"
-  },
-  {
-    "id": "col_f940481f0b16",
-    "name": "Emp Details",
-    "projectId": "",
-    "attributes": [
-      {
-        "name": "id",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "first_name",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "last_name",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "email",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "age",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "city",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "salary",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "joined",
-        "type": "string",
-        "required": false
-      }
-    ],
-    "createdAt": "2026-09-07T11:34:46.101Z"
-  },
-  {
-    "id": "col_7138b026df57",
+    "id": "col_products",
     "name": "products",
     "projectId": "proj_default",
     "attributes": [
       {
-        "name": "id",
+        "name": "productId",
         "type": "string",
-        "required": false
+        "required": true
       },
-      {
-        "name": "name",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "price",
-        "type": "string",
-        "required": false
-      }
-    ],
-    "createdAt": "2026-09-16T06:50:42.625Z"
-  },
-  {
-    "id": "col_bbe8fbf01c32",
-    "name": "demo",
-    "projectId": "proj_default",
-    "attributes": [
-      {
-        "name": "sdf",
-        "type": "string",
-        "required": false
-      }
-    ],
-    "createdAt": "2026-09-21T09:50:25.879Z"
-  },
-  {
-    "id": "col_4afaa689eac4",
-    "name": "articles",
-    "projectId": "proj_default",
-    "attributes": [
       {
         "name": "name",
         "type": "string",
         "required": true
       },
       {
-        "name": "author",
+        "name": "price",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "createdAt": "2026-09-24T12:55:03.712Z"
+  },
+  {
+    "id": "col_categories",
+    "name": "categories",
+    "projectId": "proj_default",
+    "attributes": [
+      {
+        "name": "categoryId",
         "type": "string",
         "required": true
       },
       {
-        "name": "date",
-        "type": "date",
+        "name": "name",
+        "type": "string",
         "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false
       }
     ],
-    "createdAt": "2026-09-22T07:11:00.973Z"
+    "createdAt": "2026-09-24T12:55:03.713Z"
   }
 ]

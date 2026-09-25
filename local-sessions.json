@@ -1,82 +1,26 @@
 [
   {
-    "token": "sess_88ba54ec5a2f",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
+    "token": "sess_b2f0814d8a98",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
     "projectId": "proj_default",
-    "createdAt": "2026-09-17T12:17:43.131Z",
-    "expiresAt": "2026-09-24T12:17:43.131Z"
+    "createdAt": "2026-09-17T11:08:38.099Z",
+    "expiresAt": "2026-09-24T11:08:38.099Z"
   },
   {
-    "token": "sess_c62404647afd",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
+    "token": "sess_c0b850ce1a36",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
     "projectId": "proj_default",
-    "createdAt": "2026-09-18T06:20:22.796Z",
-    "expiresAt": "2026-09-25T06:20:22.796Z"
+    "createdAt": "2026-09-24T09:57:46.927Z",
+    "expiresAt": "2026-10-01T09:57:46.927Z"
   },
   {
-    "token": "sess_12ed98118c9b",
-    "userId": "user_vermakajal0256_gmail_com",
-    "email": "vermakajal0256@gmail.com",
+    "token": "sess_6e6fd4856d46",
+    "userId": "user_test_example_com",
+    "email": "test@example.com",
     "projectId": "proj_default",
-    "createdAt": "2026-09-18T06:36:25.599Z",
-    "expiresAt": "2026-09-25T06:36:25.599Z"
-  },
-  {
-    "token": "sess_18d4a799149e",
-    "userId": "user_vermakajal0256_gmail_com",
-    "email": "vermakajal0256@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-18T12:14:49.321Z",
-    "expiresAt": "2026-09-25T12:14:49.321Z"
-  },
-  {
-    "token": "sess_e841f5a7c130",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-21T07:19:14.968Z",
-    "expiresAt": "2026-09-28T07:19:14.968Z"
-  },
-  {
-    "token": "sess_980a4e240b73",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-21T12:05:31.844Z",
-    "expiresAt": "2026-09-28T12:05:31.845Z"
-  },
-  {
-    "token": "sess_6b176c45dea1",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-21T12:57:49.054Z",
-    "expiresAt": "2026-09-28T12:57:49.055Z"
-  },
-  {
-    "token": "sess_1e4594e37ace",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-22T06:50:45.311Z",
-    "expiresAt": "2026-09-29T06:50:45.311Z"
-  },
-  {
-    "token": "sess_705fd110f1cc",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-23T07:11:26.160Z",
-    "expiresAt": "2026-09-30T07:11:26.160Z"
-  },
-  {
-    "token": "sess_47466fd6667a",
-    "userId": "user_asdf_gmail_com",
-    "email": "asdf@gmail.com",
-    "projectId": "proj_default",
-    "createdAt": "2026-09-24T07:05:58.281Z",
-    "expiresAt": "2026-10-01T07:05:58.281Z"
+    "createdAt": "2026-09-24T10:19:12.780Z",
+    "expiresAt": "2026-10-01T10:19:12.780Z"
   }
 ]

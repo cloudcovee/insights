@@ -1,11 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, useCallback } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
-import { Plus, Upload, RefreshCw, Send } from "lucide-react";
+import { Plus, Upload, RefreshCw, Send, Eye, Users, Package, ShoppingBag } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -16,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DynamicDataTable } from "@/components/collections/DynamicDataTable";
 import { CsvUploadModal } from "@/components/collections/CsvUploadModal";
 import { ManualAddModal } from "@/components/collections/ManualAddModal";
 
@@ -50,12 +50,13 @@ interface CatalogItem {
   updatedAt: string;
 }
 
-function CatalogPage() {
+export function CatalogPage() {
   const { catalogId } = Route.useParams();
 
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [stagingItems, setStagingItems] = useState<CatalogItem[]>([]);
   const [publishedItems, setPublishedItems] = useState<CatalogItem[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [publishing, setPublishing] = useState(false);
   const [validating, setValidating] = useState(false);
@@ -85,10 +86,77 @@ function CatalogPage() {
     } catch {}
   }, [catalogId]);
 
+  const fetchEvents = useCallback(async () => {
+    try {
+      const res = await fetch("/api/events");
+      if (res.ok) setEvents(await res.json());
+    } catch {}
+  }, []);
+
   useEffect(() => {
     fetchCatalog();
     fetchItems();
-  }, [fetchCatalog, fetchItems]);
+    fetchEvents();
+  }, [fetchCatalog, fetchItems, fetchEvents]);
+
+  // Compute Product View Analytics per product item
+  const isProductsCatalog = catalog?.name?.toLowerCase() === "products";
+
+  const productAnalyticsMap = useMemo(() => {
+    const map = new Map<string, { viewedUsers: string[]; totalViewCount: number }>();
+    if (!isProductsCatalog || !events.length) return map;
+
+    const allItems = [...publishedItems, ...stagingItems];
+
+    allItems.forEach((item) => {
+      const pId = String(item.data.productId || item.data.id || "").toLowerCase();
+      const pName = String(item.data.name || item.data.productName || "").toLowerCase();
+
+      const userIds = new Set<string>();
+      let viewCount = 0;
+
+      events.forEach((ev) => {
+        const isView =
+          ev.event === "Product Viewed" ||
+          ev.event === "Add to Cart" ||
+          ev.event === "page_view" ||
+          ev.event === "View Item" ||
+          ev.event === "click";
+        if (!isView) return;
+
+        const evId = String(ev.properties?.productId || ev.properties?.id || "").toLowerCase();
+        const evName = String(ev.properties?.productName || ev.properties?.name || "").toLowerCase();
+        const evUrl = String(ev.url || ev.path || ev.properties?.url || "").toLowerCase();
+
+        const matchesId = pId && evId && (evId === pId || pId.includes(evId) || evId.includes(pId));
+        const matchesName = pName && evName && (evName === pName || pName.includes(evName) || evName.includes(pName));
+        const matchesUrl = pId && evUrl && (evUrl.includes(`/product/${pId}`) || evUrl.includes(`/products/${pId}`));
+
+        if (matchesId || matchesName || matchesUrl) {
+          viewCount++;
+          const uid = ev.userId || ev.subscriberKey || ev.anonId;
+          if (uid && uid !== "unknown") {
+            userIds.add(uid);
+          }
+        }
+      });
+
+      map.set(item.id, {
+        viewedUsers: Array.from(userIds),
+        totalViewCount: viewCount,
+      });
+    });
+
+    return map;
+  }, [isProductsCatalog, events, publishedItems, stagingItems]);
+
+  // Overall catalog metrics
+  const totalUniqueProductViewers = useMemo(() => {
+    if (!isProductsCatalog) return 0;
+    const allUsers = new Set<string>();
+    productAnalyticsMap.forEach((val) => val.viewedUsers.forEach((u) => allUsers.add(u)));
+    return allUsers.size;
+  }, [isProductsCatalog, productAnalyticsMap]);
 
   function toggleSelect(id: string) {
     setSelectedIds((prev) => {
@@ -207,7 +275,7 @@ function CatalogPage() {
     <div className="mx-auto max-w-[1400px]">
       <PageHeader
         title={catalog.name}
-        subtitle={`${catalog.attributes.length} field schema · ${stagingItems.length} staging · ${publishedItems.length} published`}
+        subtitle={`${catalog.attributes.length} field schema · ${publishedItems.length} published items · ${stagingItems.length} staging`}
         actions={
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => setShowCsvModal(true)}>
@@ -220,24 +288,165 @@ function CatalogPage() {
         }
       />
 
-      <Tabs defaultValue="staging" className="mt-2">
+      {isProductsCatalog && (
+        <div className="mb-6 grid gap-4 md:grid-cols-3 mt-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">Catalog Products</CardTitle>
+              <Package className="h-4 w-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{publishedItems.length + stagingItems.length}</div>
+              <p className="text-xs text-muted-foreground mt-1">Active products in catalog</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">Unique Product Viewers</CardTitle>
+              <Users className="h-4 w-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalUniqueProductViewers}</div>
+              <p className="text-xs text-muted-foreground mt-1">Distinct users who viewed products</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">Product View Events</CardTitle>
+              <Eye className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {events.filter((e) => e.event === "Product Viewed" || e.event === "Add to Cart").length}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Recorded product view/cart actions</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      <Tabs defaultValue="published" className="mt-2">
         <TabsList>
-          <TabsTrigger value="staging">
-            Staging
-            {stagingItems.length > 0 && (
-              <Badge variant="secondary" className="ml-2">{stagingItems.length}</Badge>
-            )}
-          </TabsTrigger>
           <TabsTrigger value="published">
             Published
             {publishedItems.length > 0 && (
               <Badge variant="secondary" className="ml-2">{publishedItems.length}</Badge>
             )}
           </TabsTrigger>
+          <TabsTrigger value="staging">
+            Staging
+            {stagingItems.length > 0 && (
+              <Badge variant="secondary" className="ml-2">{stagingItems.length}</Badge>
+            )}
+          </TabsTrigger>
         </TabsList>
 
+        {/* Published Tab */}
+        <TabsContent value="published" className="mt-4">
+          <div className="overflow-x-auto rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {catalog.attributes.map((a) => (
+                    <TableHead key={a.name}>
+                      {a.name}
+                      {a.required && <span className="ml-1 text-destructive text-[10px]">*</span>}
+                    </TableHead>
+                  ))}
+                  {isProductsCatalog && (
+                    <>
+                      <TableHead className="min-w-[220px]">Viewed By (User IDs)</TableHead>
+                      <TableHead className="w-[160px] text-right">View Count</TableHead>
+                    </>
+                  )}
+                  <TableHead className="text-xs text-muted-foreground text-right">Created</TableHead>
+                  <TableHead />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {publishedItems.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={catalog.attributes.length + (isProductsCatalog ? 2 : 0) + 2}
+                      className="py-16 text-center text-sm text-muted-foreground"
+                    >
+                      No published items yet. Stage and publish items to populate catalog.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  publishedItems.map((item) => {
+                    const analytics = productAnalyticsMap.get(item.id) || { viewedUsers: [], totalViewCount: 0 };
+                    return (
+                      <TableRow key={item.id}>
+                        {catalog.attributes.map((a) => (
+                          <TableCell key={a.name} className="text-sm font-medium">
+                            {formatVal(item.data[a.name])}
+                          </TableCell>
+                        ))}
+
+                        {isProductsCatalog && (
+                          <>
+                            <TableCell className="text-xs">
+                              {analytics.viewedUsers.length === 0 ? (
+                                <span className="text-muted-foreground italic text-xs">No views recorded</span>
+                              ) : (
+                                <div className="flex flex-wrap gap-1 max-w-xs">
+                                  {analytics.viewedUsers.slice(0, 3).map((uid, idx) => (
+                                    <Link
+                                      key={idx}
+                                      to="/users/$userId"
+                                      params={{ userId: uid }}
+                                      className="inline-flex items-center gap-1 rounded bg-muted/60 px-1.5 py-0.5 font-mono text-[11px] hover:bg-muted text-foreground transition-colors"
+                                      title={uid}
+                                    >
+                                      <Users className="h-3 w-3 text-muted-foreground" />
+                                      <span className="truncate max-w-[110px]">{uid}</span>
+                                    </Link>
+                                  ))}
+                                  {analytics.viewedUsers.length > 3 && (
+                                    <Badge variant="outline" className="text-[10px] py-0 px-1">
+                                      +{analytics.viewedUsers.length - 3} more
+                                    </Badge>
+                                  )}
+                                </div>
+                              )}
+                            </TableCell>
+
+                            <TableCell className="text-right">
+                              <Badge variant="secondary" className="font-semibold gap-1 text-xs">
+                                <Eye className="h-3 w-3 text-blue-500" />
+                                {analytics.totalViewCount} {analytics.totalViewCount === 1 ? "View" : "Views"}
+                              </Badge>
+                            </TableCell>
+                          </>
+                        )}
+
+                        <TableCell className="text-xs text-muted-foreground whitespace-nowrap text-right">
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive h-7 text-xs"
+                            onClick={() => handleDeleteItem(item.id)}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </TabsContent>
+
+        {/* Staging Tab */}
         <TabsContent value="staging" className="mt-4 space-y-3">
-          {/* Staging toolbar */}
           <div className="flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
               {selectedIds.size > 0
@@ -265,7 +474,6 @@ function CatalogPage() {
             </div>
           </div>
 
-          {/* Staging table with checkboxes */}
           <div className="overflow-x-auto rounded-md border">
             <Table>
               <TableHeader>
@@ -342,15 +550,6 @@ function CatalogPage() {
               </TableBody>
             </Table>
           </div>
-        </TabsContent>
-
-        <TabsContent value="published" className="mt-4">
-          <DynamicDataTable
-            attributes={catalog.attributes}
-            items={publishedItems}
-            showValidation={false}
-            emptyMessage="No published items yet. Stage and publish from the Staging tab."
-          />
         </TabsContent>
       </Tabs>
 
