@@ -1,5 +1,125 @@
 [
   {
+    "id": "vu7w",
+    "timestamp": "2026-09-25T09:38:04.021Z",
+    "event": "scroll",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "e9721-8c60-21c4",
+    "subscriberKey": "anon_e9721-8c60-21c4",
+    "profileId": "anon_e9721-8c60-21c4",
+    "projectId": "Go_Kart",
+    "properties": {
+      "depth": 50
+    }
+  },
+  {
+    "id": "1kwf",
+    "timestamp": "2026-09-25T09:38:03.382Z",
+    "event": "click",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "e9721-8c60-21c4",
+    "subscriberKey": "anon_e9721-8c60-21c4",
+    "profileId": "anon_e9721-8c60-21c4",
+    "projectId": "Go_Kart",
+    "properties": {
+      "tagName": "button",
+      "id": "",
+      "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
+      "text": "Logout"
+    }
+  },
+  {
+    "id": "ou0c",
+    "timestamp": "2026-09-25T09:38:03.380Z",
+    "event": "user_logged_out",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "56c22-d45e-5624",
+    "userId": "abhi2@gmail.com",
+    "subscriberKey": "00395856172ffd0AA0",
+    "profileId": "00395856172ffd0AA0",
+    "projectId": "Go_Kart",
+    "properties": {
+      "previousUserId": "abhi2@gmail.com",
+      "autoDetected": true,
+      "trigger": "click"
+    }
+  },
+  {
+    "id": "89gy",
+    "timestamp": "2026-09-25T09:38:01.852Z",
+    "event": "scroll",
+    "url": "",
+    "path": "",
+    "title": "",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "56c22-d45e-5624",
+    "userId": "abhi2@gmail.com",
+    "subscriberKey": "00395856172ffd0AA0",
+    "profileId": "00395856172ffd0AA0",
+    "projectId": "Go_Kart",
+    "properties": {
+      "depth": 25
+    }
+  },
+  {
+    "id": "hy9s",
+    "timestamp": "2026-09-25T09:32:42.928Z",
+    "event": "page_view",
+    "url": "http://localhost:3000/",
+    "path": "/",
+    "title": "GoCart. - Shop smarter",
+    "referrer": "",
+    "browser": "Chrome",
+    "os": "Windows",
+    "device": "Desktop",
+    "screenSize": "1920x1080",
+    "country": "India",
+    "countryCode": "IN",
+    "anonId": "56c22-d45e-5624",
+    "userId": "abhi2@gmail.com",
+    "subscriberKey": "00395856172ffd0AA0",
+    "profileId": "00395856172ffd0AA0",
+    "projectId": "Go_Kart",
+    "properties": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/",
+      "path": "/"
+    }
+  },
+  {
     "id": "cnif",
     "timestamp": "2026-09-24T13:13:34.651Z",
     "event": "Product Viewed",
@@ -25595,115 +25715,6 @@
     "projectId": "Go_Kart",
     "properties": {
       "depth": 75,
-      "quantity": 1
-    }
-  },
-  {
-    "id": "8jn5",
-    "timestamp": "2026-09-04T10:26:48.918Z",
-    "event": "scroll",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15-8163-2fd4",
-    "userId": null,
-    "projectId": "Go_Kart",
-    "properties": {
-      "depth": 25,
-      "quantity": 1
-    }
-  },
-  {
-    "id": "13oc",
-    "timestamp": "2026-09-04T10:26:47.423Z",
-    "event": "performance_metric",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15-8163-2fd4",
-    "userId": null,
-    "projectId": "Go_Kart",
-    "properties": {
-      "loadTime": 8632.5,
-      "domReadyTime": 8442.600000023842,
-      "ttfb": 8209.100000023842,
-      "quantity": 1
-    }
-  },
-  {
-    "id": "x266",
-    "timestamp": "2026-09-04T10:26:47.419Z",
-    "event": "page_view",
-    "url": "http://localhost:3000/",
-    "path": "/",
-    "title": "GoCart. - Shop smarter",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1536x864",
-    "anonId": "98f15-8163-2fd4",
-    "userId": null,
-    "projectId": "Go_Kart",
-    "properties": {
-      "title": "GoCart. - Shop smarter",
-      "url": "http://localhost:3000/",
-      "path": "/",
-      "quantity": 1
-    }
-  },
-  {
-    "id": "xeld",
-    "timestamp": "2026-07-30T08:12:38.172Z",
-    "event": "click",
-    "url": "",
-    "path": "",
-    "title": "",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c-3add-7974",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "tagName": "button",
-      "id": "",
-      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
-      "text": "Add to Cart",
-      "quantity": 1
-    }
-  },
-  {
-    "id": "5xs8",
-    "timestamp": "2026-07-30T08:12:37.074Z",
-    "event": "page_view",
-    "url": "http://localhost:3000/product/prod_7",
-    "path": "/product/prod_7",
-    "title": "GoCart. - Shop smarter",
-    "referrer": "",
-    "browser": "Chrome",
-    "os": "Windows",
-    "device": "Desktop",
-    "screenSize": "1920x1080",
-    "anonId": "8e93c-3add-7974",
-    "userId": "bharatpurohit095@gmail.com",
-    "projectId": "Go_Kart",
-    "properties": {
-      "title": "GoCart. - Shop smarter",
-      "url": "http://localhost:3000/product/prod_7",
-      "path": "/product/prod_7",
       "quantity": 1
     }
   }

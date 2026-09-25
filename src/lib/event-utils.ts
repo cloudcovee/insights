@@ -84,9 +84,77 @@ export function isProductViewedEvent(r: any, p?: Record<string, any>): boolean {
   return false;
 }
 
-// Extract or infer product details from event or user event history
-export function resolveProductDetails(r: any, allEvents: any[] = []): any | null {
+export interface ResolvedProductItem {
+  productId: string;
+  productName: string;
+  price: number;
+  category: string;
+  imageUrl?: string;
+  url?: string;
+  quantity?: number;
+  subtotal?: number;
+  [key: string]: any;
+}
+
+let globalCatalogCache: Record<string, ResolvedProductItem> = {};
+let catalogFetchPromise: Promise<Record<string, ResolvedProductItem>> | null = null;
+
+export function setGlobalCatalog(items: any[]) {
+  if (!Array.isArray(items)) return;
+  items.forEach((item) => {
+    const d = item.data || item;
+    const pid = String(d.productId || d.id || item.id || "").toLowerCase();
+    const name = String(d.name || d.productName || d.title || "").toLowerCase();
+    const resolved: ResolvedProductItem = {
+      productId: String(d.productId || d.id || item.id || ""),
+      productName: String(d.name || d.productName || d.title || "Product"),
+      price: Number(d.price) || 0,
+      category: String(d.category || "General"),
+      imageUrl: String(d.imageUrl || d.image || d.productImage || ""),
+      url: String(d.url || (d.productId ? `/product/${d.productId}` : "")),
+    };
+    if (pid) globalCatalogCache[pid] = resolved;
+    if (name) globalCatalogCache[name] = resolved;
+    if (d.productId) globalCatalogCache[String(d.productId)] = resolved;
+    if (d.name) globalCatalogCache[String(d.name)] = resolved;
+  });
+}
+
+export async function loadDynamicCatalog(): Promise<Record<string, ResolvedProductItem>> {
+  if (Object.keys(globalCatalogCache).length > 0) return globalCatalogCache;
+  if (catalogFetchPromise) return catalogFetchPromise;
+  catalogFetchPromise = (async () => {
+    try {
+      if (typeof window !== "undefined") {
+        const res = await fetch("/api/catalog/products");
+        if (res.ok) {
+          const items = await res.json();
+          setGlobalCatalog(items);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load dynamic catalog", err);
+    }
+    return globalCatalogCache;
+  })();
+  return catalogFetchPromise;
+}
+
+if (typeof window !== "undefined") {
+  loadDynamicCatalog().catch(() => {});
+}
+
+// Extract or infer product details dynamically from catalog and event history (SFMC Personalization style)
+export function resolveProductDetails(
+  r: any,
+  allEvents: any[] = [],
+  dynamicCatalog?: any[]
+): any | null {
   if (!r) return null;
+  if (Array.isArray(dynamicCatalog) && dynamicCatalog.length > 0) {
+    setGlobalCatalog(dynamicCatalog);
+  }
+
   const p = parseProps(r.properties);
   const isPurchased = isItemPurchasedEvent(r, p);
   const isCart = isAddToCartEvent(r, p);
@@ -108,25 +176,24 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
         (userKey && (e.userId === userKey || e.anonId === userKey));
       if (!sameUser) return false;
       const t = new Date(e.timestamp).getTime();
-      // Within 2 hours before or 1 minute after
       return t <= currentEventTime + 60000 && t >= currentEventTime - 2 * 60 * 60 * 1000;
     })
     .sort((a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
-  // Base catalog
-  const productCatalog: Record<string, { productId: string; productName: string; price: number; category: string }> = {
-    prod_1: { productId: "prod_1", productName: "MacBook Pro 16\"", price: 3299, category: "Laptops" },
-    prod_2: { productId: "prod_2", productName: "iPhone 15 Pro Max", price: 1199, category: "Smartphones" },
-    prod_3: { productId: "prod_3", productName: "Apple Watch Series 9", price: 349, category: "Smart Watches" },
-    prod_4: { productId: "prod_4", productName: "Sony WH-1000XM5", price: 399, category: "Audio" },
-    prod_5: { productId: "prod_5", productName: "Dell XPS 15", price: 1899, category: "Laptops" },
-    prod_6: { productId: "prod_6", productName: "Lenovo ThinkPad X1 Carbon", price: 1549, category: "Business Laptops" },
+  // Dynamic catalog map starting from registered global catalog
+  const productCatalog: Record<string, ResolvedProductItem> = { ...globalCatalogCache };
+
+  // Helper to query dynamic catalog by ID or Name
+  const lookupCatalog = (idOrName?: string | null): ResolvedProductItem | null => {
+    if (!idOrName) return null;
+    const key = String(idOrName).toLowerCase().trim();
+    return productCatalog[key] || productCatalog[idOrName] || null;
   };
 
-  // Populate/update catalog from session events
+  // Populate/update catalog from session events dynamically
   sessionEvents.forEach((e: any) => {
     const ep = parseProps(e.properties);
-    let pid = ep.productId;
+    let pid = ep.productId || ep.id;
     if (!pid && ep.url && ep.url.includes("/product/")) {
       pid = ep.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
     }
@@ -134,25 +201,29 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
       pid = ep.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
     }
 
-    if (pid || ep.productName) {
-      const idKey = pid || ep.productName;
-      const existing = productCatalog[idKey] || {};
-      const itemData = {
+    const img = ep.imageUrl || ep.image || ep.productImage || ep.img;
+
+    if (pid || ep.productName || ep.name) {
+      const idKey = String(pid || ep.productName || ep.name).toLowerCase();
+      const existing = lookupCatalog(idKey) || (pid ? lookupCatalog(pid) : null) || {};
+      const itemData: ResolvedProductItem = {
         productId: pid || existing.productId || idKey,
-        productName: ep.productName || existing.productName || (idKey.startsWith("prod_") ? `Product ${idKey}` : idKey),
-        price: Number(ep.price) || existing.price || 199,
+        productName: ep.productName || ep.name || existing.productName || (String(idKey).startsWith("prod_") ? `Product ${idKey}` : String(idKey)),
+        price: Number(ep.price) || existing.price || 0,
         category: ep.category || existing.category || "General",
+        imageUrl: img || existing.imageUrl || "",
+        url: ep.url || ep.href || existing.url || (pid ? `/product/${pid}` : ""),
       };
       productCatalog[idKey] = itemData;
-      if (pid) productCatalog[pid] = itemData;
-      if (ep.productName) productCatalog[ep.productName] = itemData;
+      if (pid) productCatalog[String(pid).toLowerCase()] = itemData;
+      if (ep.productName) productCatalog[String(ep.productName).toLowerCase()] = itemData;
     }
   });
 
   // Track session cart & active product
-  let currentActiveProduct: any = null;
-  const sessionCart: Record<string, number> = {}; // productId -> quantity
-  const cartAddCountUpToEvent: Record<string, number> = {}; // count of cart adds up to r
+  let currentActiveProduct: ResolvedProductItem | null = null;
+  const sessionCart: Record<string, ResolvedProductItem> = {};
+  const cartAddCountUpToEvent: Record<string, number> = {};
 
   for (const e of sessionEvents) {
     const ep = parseProps(e.properties);
@@ -160,48 +231,51 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
     const isECart = isAddToCartEvent(e, ep);
     const eTime = new Date(e.timestamp).getTime();
 
-    // If a previous purchase/order event occurred before this event, reset sessionCart and cart counters
+    // Reset cart if purchase event occurred before this event
     if (isEPurchased && e.id !== r.id && eTime < currentEventTime) {
-      for (const key of Object.keys(sessionCart)) {
-        delete sessionCart[key];
-      }
-      for (const key of Object.keys(cartAddCountUpToEvent)) {
-        delete cartAddCountUpToEvent[key];
-      }
+      for (const key of Object.keys(sessionCart)) delete sessionCart[key];
+      for (const key of Object.keys(cartAddCountUpToEvent)) delete cartAddCountUpToEvent[key];
     }
 
-    let pid = ep.productId;
+    let pid = ep.productId || ep.id;
     if (!pid && ep.url && ep.url.includes("/product/")) {
       pid = ep.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
     }
     if (!pid && ep.href && ep.href.includes("/product/")) {
       pid = ep.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
     }
-    if (!pid && ep.text) {
-      for (const knownId of Object.keys(productCatalog)) {
-        if (ep.text.includes(productCatalog[knownId].productName)) {
-          pid = knownId;
-          break;
-        }
-      }
-    }
 
-    if (pid && productCatalog[pid]) {
-      currentActiveProduct = productCatalog[pid];
-    } else if (ep.productName) {
+    const epImg = ep.imageUrl || ep.image || ep.productImage || ep.img;
+    const catItem = lookupCatalog(pid) || lookupCatalog(ep.productName) || lookupCatalog(ep.name);
+
+    if (catItem) {
+      currentActiveProduct = { ...catItem, ...(epImg ? { imageUrl: epImg } : {}) };
+    } else if (pid || ep.productName || ep.name) {
       currentActiveProduct = {
-        productId: ep.productId || "prod_custom",
-        productName: ep.productName,
-        price: Number(ep.price) || 199,
+        productId: pid || "prod_custom",
+        productName: ep.productName || ep.name || `Product ${pid}`,
+        price: Number(ep.price) || 0,
         category: ep.category || "General",
+        imageUrl: epImg || "",
+        url: ep.url || (pid ? `/product/${pid}` : ""),
       };
     }
 
     if (isECart) {
-      const targetProd = (ep.productId && productCatalog[ep.productId]) || currentActiveProduct || productCatalog["prod_3"];
-      const targetKey = targetProd?.productId || targetProd?.productName || "prod_3";
+      const targetProd = catItem || currentActiveProduct;
+      const targetKey = String(targetProd?.productId || pid || ep.productName || "cart_item");
       const addQty = Number(ep.quantity) > 0 ? Number(ep.quantity) : 1;
-      sessionCart[targetKey] = addQty;
+      const unitPrice = Number(ep.price) > 0 ? Number(ep.price) : (targetProd?.price || 0);
+
+      sessionCart[targetKey] = {
+        productId: targetKey,
+        productName: targetProd?.productName || ep.productName || targetKey,
+        price: unitPrice,
+        category: ep.category || targetProd?.category || "General",
+        imageUrl: epImg || targetProd?.imageUrl || "",
+        quantity: addQty,
+        subtotal: unitPrice * addQty,
+      };
 
       if (eTime <= currentEventTime) {
         cartAddCountUpToEvent[targetKey] = addQty;
@@ -215,6 +289,16 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
   const country = r?.country && r.country !== "Unknown" ? r.country : "India";
   const locationStr = `${pCity}, ${pRegion}, ${country}`;
 
+  const currentImg = p.imageUrl || p.image || p.productImage || p.img;
+  let targetPid = p.productId || p.id;
+  if (!targetPid && p.url && p.url.includes("/product/")) {
+    targetPid = p.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+  }
+  if (!targetPid && r.url && r.url.includes("/product/")) {
+    targetPid = r.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
+  }
+  const directCatMatch = lookupCatalog(targetPid) || lookupCatalog(p.productName) || lookupCatalog(p.name);
+
   // Case 1: Item Purchased / Place Order Event
   if (isPurchased) {
     let items: Array<{
@@ -224,49 +308,54 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
       price: number;
       quantity: number;
       subtotal: number;
+      imageUrl?: string;
     }> = [];
 
-    // If session cart has items, build full order breakdown
     const cartKeys = Object.keys(sessionCart);
     if (cartKeys.length > 0) {
       items = cartKeys.map((key) => {
-        const prod = productCatalog[key] || {
-          productId: key,
-          productName: key.startsWith("prod_") ? `Product ${key}` : key,
-          price: 199,
-          category: "General",
-        };
-        const qty = sessionCart[key] || 1;
-        const price = Number(prod.price) || 199;
+        const prod = sessionCart[key];
         return {
           productId: prod.productId || key,
           productName: prod.productName,
           category: prod.category || "General",
-          price: price,
-          quantity: qty,
-          subtotal: price * qty,
+          price: prod.price,
+          quantity: prod.quantity || 1,
+          subtotal: (prod.price || 0) * (prod.quantity || 1),
+          imageUrl: prod.imageUrl || "",
         };
       });
     } else if (p.items && Array.isArray(p.items)) {
-      items = p.items.map((item: any, idx: number) => ({
-        productId: item.productId || `prod_${idx + 1}`,
-        productName: item.productName || item.title || "Item",
-        category: item.category || "General",
-        price: Number(item.price) || 199,
-        quantity: Number(item.quantity) || 1,
-        subtotal: (Number(item.price) || 199) * (Number(item.quantity) || 1),
-      }));
-    } else if (p.productName || p.productId) {
-      const qty = Number(p.quantity) || 1;
-      const price = Number(p.price) || 349;
+      items = p.items.map((item: any, idx: number) => {
+        const itemPid = item.productId || item.id || `item_${idx + 1}`;
+        const cat = lookupCatalog(itemPid) || lookupCatalog(item.productName || item.title);
+        const itemPrice = Number(item.price) > 0 ? Number(item.price) : (cat?.price || 0);
+        const itemQty = Number(item.quantity) > 0 ? Number(item.quantity) : 1;
+        return {
+          productId: itemPid,
+          productName: item.productName || item.title || cat?.productName || `Item ${idx + 1}`,
+          category: item.category || cat?.category || "General",
+          price: itemPrice,
+          quantity: itemQty,
+          subtotal: itemPrice * itemQty,
+          imageUrl: item.imageUrl || item.image || cat?.imageUrl || "",
+        };
+      });
+    } else if (p.productName || p.productId || targetPid || directCatMatch) {
+      const pid = targetPid || p.productId || directCatMatch?.productId || "order_item";
+      const name = p.productName || directCatMatch?.productName || `Product (${pid})`;
+      const price = Number(p.price) > 0 ? Number(p.price) : (directCatMatch?.price || 0);
+      const qty = Number(p.quantity) > 0 ? Number(p.quantity) : 1;
+      const img = currentImg || directCatMatch?.imageUrl || "";
       items = [
         {
-          productId: p.productId || "prod_3",
-          productName: p.productName || "Apple Watch Series 9",
-          category: p.category || "Smart Watches",
+          productId: pid,
+          productName: name,
+          category: p.category || directCatMatch?.category || "General",
           price: price,
           quantity: qty,
           subtotal: price * qty,
+          imageUrl: img,
         },
       ];
     } else if (currentActiveProduct) {
@@ -278,18 +367,20 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
           price: currentActiveProduct.price,
           quantity: 1,
           subtotal: currentActiveProduct.price,
+          imageUrl: currentActiveProduct.imageUrl || "",
         },
       ];
     } else {
-      // Default fallback
+      const price = Number(p.price) > 0 ? Number(p.price) : 0;
       items = [
         {
-          productId: "prod_3",
-          productName: "Apple Watch Series 9 (Midnight Aluminium)",
-          category: "Wearables & Watches",
-          price: 349,
+          productId: "order_item",
+          productName: "Order Item",
+          category: p.category || "General",
+          price: price,
           quantity: 1,
-          subtotal: 349,
+          subtotal: price,
+          imageUrl: currentImg || "",
         },
       ];
     }
@@ -303,7 +394,7 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
       grandTotal,
       totalUnits,
       itemCount: items.length,
-      discount: p.discount || "Special Promo Applied",
+      discount: p.discount || "Standard Pricing",
       shipping: p.shipping || `Delivering to ${locationStr}`,
       status: "Order Confirmed",
     };
@@ -311,85 +402,71 @@ export function resolveProductDetails(r: any, allEvents: any[] = []): any | null
 
   // Case 2: Add to Cart Event
   if (isCart) {
-    let targetPid = p.productId;
-    if (!targetPid && p.url && p.url.includes("/product/")) {
-      targetPid = p.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
-    }
-    if (!targetPid && p.href && p.href.includes("/product/")) {
-      targetPid = p.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
-    }
-
-    const prod =
-      (targetPid && productCatalog[targetPid]) ||
-      (p.productName && productCatalog[p.productName]) ||
-      currentActiveProduct ||
-      productCatalog["prod_3"];
-
-    const targetKey = prod.productId || prod.productName || "prod_3";
+    const prod = directCatMatch || currentActiveProduct;
+    const pid = targetPid || prod?.productId || "cart_item";
+    const name = p.productName || prod?.productName || (targetPid ? `Product (${targetPid})` : "Cart Item");
+    const price = Number(p.price) > 0 ? Number(p.price) : (prod?.price || 0);
     const qty = Number(p.quantity) > 0 ? Number(p.quantity) : 1;
-    const price = Number(p.price) || prod.price || 199;
-    const subtotal = Number(p.subtotal) > 0 ? Number(p.subtotal) : (price * qty);
+    const img = currentImg || prod?.imageUrl || "";
 
     return {
       type: "cart",
-      productName: p.productName || prod.productName,
-      productId: prod.productId || targetKey,
+      productId: pid,
+      productName: name,
       price: price,
       quantity: qty,
-      category: p.category || prod.category || "General",
-      subtotal: subtotal,
-      discount: p.discount || "Save 6%",
-      shipping: p.shipping || "Free standard shipping",
+      category: p.category || prod?.category || "General",
+      subtotal: price * qty,
+      imageUrl: img,
+      discount: p.discount || "In Cart",
+      shipping: p.shipping || "Standard shipping",
       status: "In Cart",
     };
   }
 
   // Case 3: Product Viewed Event
   if (isView) {
-    let targetPid = p.productId;
-    if (!targetPid && p.url && p.url.includes("/product/")) {
-      targetPid = p.url.split("/product/")[1]?.split("?")[0]?.split("/")[0];
-    }
-    if (!targetPid && p.href && p.href.includes("/product/")) {
-      targetPid = p.href.split("/product/")[1]?.split("?")[0]?.split("/")[0];
-    }
-
-    const prod =
-      (targetPid && productCatalog[targetPid]) ||
-      (p.productName && productCatalog[p.productName]) ||
-      currentActiveProduct ||
-      productCatalog["prod_1"];
-
-    const price = Number(p.price) || prod.price || 3299;
+    const prod = directCatMatch || currentActiveProduct;
+    const pid = targetPid || prod?.productId || "viewed_item";
+    const name = p.productName || prod?.productName || (targetPid ? `Product (${targetPid})` : "Product");
+    const price = Number(p.price) > 0 ? Number(p.price) : (prod?.price || 0);
+    const img = currentImg || prod?.imageUrl || "";
 
     return {
       type: "view",
-      productName: p.productName || prod.productName,
-      productId: prod.productId || targetPid || "prod_1",
+      productId: pid,
+      productName: name,
       price: price,
       quantity: 1,
-      category: p.category || prod.category || "General",
+      category: p.category || prod?.category || "General",
       subtotal: price,
-      discount: p.discount || "In Stock",
-      shipping: p.shipping || "Free shipping available",
+      imageUrl: img,
+      discount: p.discount || "In Catalog",
+      shipping: p.shipping || "Available",
       status: "Product Viewed",
     };
   }
 
   // Case 4: General Product Event
-  if (p.productName || p.productId) {
-    const qty = Number(p.quantity) || 1;
-    const price = Number(p.price) || 199;
+  if (p.productName || p.productId || targetPid) {
+    const prod = directCatMatch || currentActiveProduct;
+    const pid = targetPid || prod?.productId || "prod_item";
+    const name = p.productName || prod?.productName || (targetPid ? `Product (${targetPid})` : "Product");
+    const price = Number(p.price) > 0 ? Number(p.price) : (prod?.price || 0);
+    const qty = Number(p.quantity) > 0 ? Number(p.quantity) : 1;
+    const img = currentImg || prod?.imageUrl || "";
+
     return {
       type: "product",
-      productName: p.productName || "Product",
-      productId: p.productId || "prod_custom",
+      productId: pid,
+      productName: name,
       price: price,
       quantity: qty,
-      category: p.category || "General",
+      category: p.category || prod?.category || "General",
       subtotal: price * qty,
-      discount: p.discount || "Standard Pricing",
-      shipping: p.shipping || "Standard shipping",
+      imageUrl: img,
+      discount: p.discount || "Standard",
+      shipping: p.shipping || "Standard",
       status: "Product Interaction",
     };
   }

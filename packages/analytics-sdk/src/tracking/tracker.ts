@@ -39,6 +39,29 @@ export class Tracker {
       return;
     }
 
+    // SFMC Personalization auto-detection of product image URL if in browser
+    if (typeof document !== 'undefined' && !properties.imageUrl) {
+      const isProductContext = 
+        eventName.toLowerCase().includes('product') ||
+        eventName.toLowerCase().includes('cart') ||
+        eventName.toLowerCase().includes('item') ||
+        Boolean(properties.productId || properties.id) ||
+        (typeof window !== 'undefined' && window.location.pathname.includes('/product'));
+
+      if (isProductContext) {
+        const ogImg = document.querySelector('meta[property="og:image"]')?.getAttribute('content') ||
+                      document.querySelector('meta[name="twitter:image"]')?.getAttribute('content');
+        if (ogImg) {
+          properties.imageUrl = ogImg;
+        } else {
+          const prodImgEl = document.querySelector('img[data-product-image], .product-image img, .product-gallery img, #product-image') as HTMLImageElement;
+          if (prodImgEl && prodImgEl.src) {
+            properties.imageUrl = prodImgEl.src;
+          }
+        }
+      }
+    }
+
     const subscriberKey = this.getSubscriberKey();
 
     const payload: EventPayload = {

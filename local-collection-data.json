@@ -11,7 +11,9 @@
       "productId": "prod_1",
       "name": "MacBook Pro 16\"",
       "price": 3299,
-      "category": "Laptops"
+      "category": "Laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_1"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -28,7 +30,9 @@
       "productId": "prod_2",
       "name": "Dell XPS 15",
       "price": 1849,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_2"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -45,7 +49,9 @@
       "productId": "prod_3",
       "name": "Apple Watch Series 9",
       "price": 349,
-      "category": "Smart Watches"
+      "category": "Smart Watches",
+      "imageUrl": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_3"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -62,7 +68,9 @@
       "productId": "prod_4",
       "name": "Alienware m18",
       "price": 2599,
-      "category": "Gaming Laptops"
+      "category": "Gaming Laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_4"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -79,7 +87,9 @@
       "productId": "prod_5",
       "name": "Garmin Fenix 7 Pro",
       "price": 749,
-      "category": "Smart Watches"
+      "category": "Smart Watches",
+      "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_5"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -96,7 +106,9 @@
       "productId": "prod_6",
       "name": "Lenovo ThinkPad X1 Carbon",
       "price": 1549,
-      "category": "Business Laptops"
+      "category": "Business Laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_6"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -113,7 +125,9 @@
       "productId": "prod_7",
       "name": "Classic Chronograph Watch",
       "price": 199,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "imageUrl": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_7"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -130,7 +144,9 @@
       "productId": "prod_8",
       "name": "ASUS ROG Zephyrus G14",
       "price": 1399,
-      "category": "Gaming Laptops"
+      "category": "Gaming Laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_8"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -147,7 +163,9 @@
       "productId": "prod_9",
       "name": "Luxury Diver's Watch",
       "price": 1100,
-      "category": "Analog Watches"
+      "category": "Analog Watches",
+      "imageUrl": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_9"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -164,7 +182,9 @@
       "productId": "prod_10",
       "name": "HP Spectre x360",
       "price": 1299,
-      "category": "Laptops"
+      "category": "Laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_10"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -181,7 +201,9 @@
       "productId": "prod_11",
       "name": "Premium Laptop Sleeve",
       "price": 49,
-      "category": "Accessories"
+      "category": "Accessories",
+      "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_11"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -198,7 +220,9 @@
       "productId": "prod_12",
       "name": "Watch Winder Box",
       "price": 99,
-      "category": "Accessories"
+      "category": "Accessories",
+      "imageUrl": "https://images.unsplash.com/photo-1585123334904-845d60e97b29?w=500&auto=format&fit=crop&q=60",
+      "url": "/product/prod_12"
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
@@ -298,5 +322,24 @@
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
+  },
+  {
+    "id": "item_e2c26a71a515",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "staging",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "jk",
+      "name": "nbnjn",
+      "price": null,
+      "category": "",
+      "imageUrl": "",
+      "url": ""
+    },
+    "createdAt": "2026-09-25T09:42:19.739Z",
+    "updatedAt": "2026-09-25T09:42:19.739Z"
   }
 ]

@@ -271,6 +271,13 @@ export function CatalogPage() {
     (i) => selectedIds.has(i.id) && i.validationStatus === "valid"
   ).length;
 
+  const hasImageAttr = catalog.attributes.some(
+    (a) => a.name.toLowerCase() === "imageurl" || a.name.toLowerCase() === "image"
+  );
+  const displayAttributes = catalog.attributes.filter(
+    (a) => a.name.toLowerCase() !== "imageurl" && a.name.toLowerCase() !== "image"
+  );
+
   return (
     <div className="mx-auto max-w-[1400px]">
       <PageHeader
@@ -349,7 +356,8 @@ export function CatalogPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  {catalog.attributes.map((a) => (
+                  {hasImageAttr && <TableHead className="w-14">Image</TableHead>}
+                  {displayAttributes.map((a) => (
                     <TableHead key={a.name}>
                       {a.name}
                       {a.required && <span className="ml-1 text-destructive text-[10px]">*</span>}
@@ -369,7 +377,7 @@ export function CatalogPage() {
                 {publishedItems.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={catalog.attributes.length + (isProductsCatalog ? 2 : 0) + 2}
+                      colSpan={displayAttributes.length + (hasImageAttr ? 1 : 0) + (isProductsCatalog ? 2 : 0) + 2}
                       className="py-16 text-center text-sm text-muted-foreground"
                     >
                       No published items yet. Stage and publish items to populate catalog.
@@ -380,9 +388,27 @@ export function CatalogPage() {
                     const analytics = productAnalyticsMap.get(item.id) || { viewedUsers: [], totalViewCount: 0 };
                     return (
                       <TableRow key={item.id}>
-                        {catalog.attributes.map((a) => (
+                        {hasImageAttr && (
+                          <TableCell className="w-14 py-2">
+                            {item.data.imageUrl || item.data.image ? (
+                              <img
+                                src={String(item.data.imageUrl || item.data.image)}
+                                alt={String(item.data.name || "Item")}
+                                className="h-10 w-10 rounded-md object-cover border bg-muted shadow-xs shrink-0"
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                                }}
+                              />
+                            ) : (
+                              <div className="h-10 w-10 rounded-md border bg-muted/50 flex items-center justify-center text-muted-foreground">
+                                <Package className="h-4 w-4" />
+                              </div>
+                            )}
+                          </TableCell>
+                        )}
+                        {displayAttributes.map((a) => (
                           <TableCell key={a.name} className="text-sm font-medium">
-                            {formatVal(item.data[a.name])}
+                            {formatVal(item.data[a.name], a.name)}
                           </TableCell>
                         ))}
 
@@ -490,7 +516,8 @@ export function CatalogPage() {
                     />
                   </TableHead>
                   <TableHead className="w-[120px]">Status</TableHead>
-                  {catalog.attributes.map((a) => (
+                  {hasImageAttr && <TableHead className="w-14">Image</TableHead>}
+                  {displayAttributes.map((a) => (
                     <TableHead key={a.name}>
                       {a.name}
                       {a.required && <span className="ml-1 text-destructive text-[10px]">*</span>}
@@ -504,7 +531,7 @@ export function CatalogPage() {
                 {stagingItems.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={catalog.attributes.length + 4}
+                      colSpan={displayAttributes.length + (hasImageAttr ? 1 : 0) + 4}
                       className="py-16 text-center text-sm text-muted-foreground"
                     >
                       No staged items. Import a CSV or add items manually.
@@ -526,9 +553,27 @@ export function CatalogPage() {
                           errors={item.validationErrors}
                         />
                       </TableCell>
-                      {catalog.attributes.map((a) => (
-                        <TableCell key={a.name} className="text-sm font-mono text-xs">
-                          {formatVal(item.data[a.name])}
+                      {hasImageAttr && (
+                        <TableCell className="w-14 py-2">
+                          {item.data.imageUrl || item.data.image ? (
+                            <img
+                              src={String(item.data.imageUrl || item.data.image)}
+                              alt={String(item.data.name || "Item")}
+                              className="h-10 w-10 rounded-md object-cover border bg-muted shadow-xs shrink-0"
+                              onError={(e) => {
+                                (e.currentTarget as HTMLImageElement).style.display = "none";
+                              }}
+                            />
+                          ) : (
+                            <div className="h-10 w-10 rounded-md border bg-muted/50 flex items-center justify-center text-muted-foreground">
+                              <Package className="h-4 w-4" />
+                            </div>
+                          )}
+                        </TableCell>
+                      )}
+                      {displayAttributes.map((a) => (
+                        <TableCell key={a.name} className="text-sm font-medium">
+                          {formatVal(item.data[a.name], a.name)}
                         </TableCell>
                       ))}
                       <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
@@ -596,8 +641,18 @@ function ValidationBadge({
   return <Badge variant="outline" className="text-muted-foreground text-[11px]">Pending</Badge>;
 }
 
-function formatVal(val: unknown): React.ReactNode {
+function formatVal(val: unknown, attrName?: string): React.ReactNode {
   if (val === undefined || val === null || val === "")
     return <span className="text-muted-foreground">—</span>;
+  if (attrName?.toLowerCase() === "price" && !isNaN(Number(val))) {
+    return <span className="font-mono">${Number(val).toLocaleString()}</span>;
+  }
+  if (attrName?.toLowerCase() === "url" && typeof val === "string" && val.trim()) {
+    return (
+      <span className="font-mono text-xs text-primary underline truncate max-w-[150px] inline-block" title={val}>
+        {val}
+      </span>
+    );
+  }
   return String(val);
 }

@@ -23,6 +23,16 @@
         "name": "category",
         "type": "string",
         "required": false
+      },
+      {
+        "name": "imageUrl",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "required": false
       }
     ],
     "createdAt": "2026-09-24T12:55:03.712Z"
