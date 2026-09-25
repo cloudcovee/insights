@@ -1,5 +1,38 @@
 [
   {
+    "subscriberKey": "0034cac83e8b312AA0",
+    "profileId": "0034cac83e8b312AA0",
+    "anonymousIds": [
+      "df169-0672-4364"
+    ],
+    "attributes": {
+      "title": "GoCart. - Shop smarter",
+      "url": "/product/prod_7",
+      "path": "/product/prod_7",
+      "subscriberKey": "pranit@gmail.com",
+      "name": "pranit",
+      "email": "pranit@gmail.com",
+      "formId": "",
+      "formClass": "space-y-5",
+      "action": "http://localhost:3000/login",
+      "depth": 100,
+      "tagName": "a",
+      "id": "",
+      "className": " group max-xl:mx-auto",
+      "text": "Classic Chronograph Watch\n\n$199",
+      "href": "http://localhost:3000/product/prod_7",
+      "productId": "prod_7",
+      "productName": "Classic Chronograph Watch",
+      "category": "Analog Watches",
+      "price": 199,
+      "imageUrl": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&auto=format&fit=crop&q=60"
+    },
+    "firstSeen": "2026-09-25T10:10:05.597Z",
+    "lastSeen": "2026-09-25T10:18:09.155Z",
+    "createdAt": "2026-09-25T10:10:05.597Z",
+    "updatedAt": "2026-09-25T10:18:09.155Z"
+  },
+  {
     "subscriberKey": "anon_e9721-8c60-21c4",
     "profileId": "anon_e9721-8c60-21c4",
     "anonymousIds": [

@@ -322,24 +322,5 @@
     },
     "createdAt": "2026-09-24T12:55:03.713Z",
     "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_e2c26a71a515",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "staging",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "jk",
-      "name": "nbnjn",
-      "price": null,
-      "category": "",
-      "imageUrl": "",
-      "url": ""
-    },
-    "createdAt": "2026-09-25T09:42:19.739Z",
-    "updatedAt": "2026-09-25T09:42:19.739Z"
   }
 ]
