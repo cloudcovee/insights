@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { formatUserId } from './utils';
+import { triggerAutomations } from './automations';
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -144,7 +145,6 @@ export function generateEventId(existingIds?: Set<string>): string {
     }
 
     attempts++;
-    // If collision occurs repeatedly at current length or capacity is saturated, increment length (4 -> 5 -> etc.)
     if (attempts >= 20 || existingIds.size >= Math.pow(36, len) * 0.75) {
       len++;
       attempts = 0;
@@ -176,7 +176,7 @@ export function createSession(userId: string, email: string, projectId: string):
     email,
     projectId,
     createdAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
   };
   writeSessions([...sessions, session]);
   return session;
@@ -187,11 +187,6 @@ export function deleteSession(token: string): void {
   writeSessions(sessions);
 }
 
-/**
- * Resolves the lumen_session cookie from the request to a SessionContext.
- * Throws a Response(401) if the session is missing or expired.
- * This is the ONLY source of projectId for authorization.
- */
 export function getSessionContext(request: Request): SessionContext {
   const cookieHeader = request.headers.get('cookie') ?? '';
   const match = cookieHeader.match(/(?:^|;\s*)lumen_session=([^;]+)/);
@@ -210,9 +205,6 @@ export function getSessionContext(request: Request): SessionContext {
   return { userId: session.userId, projectId: session.projectId, email: session.email };
 }
 
-/**
- * Throws a Response(403) if the collection does not belong to the session's project.
- */
 export function assertCollectionOwnership(collection: Collection, ctx: SessionContext): void {
   if (collection.projectId !== ctx.projectId) {
     throw new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
@@ -251,6 +243,84 @@ export function writeCollectionData(items: CollectionItem[]): void {
   fs.writeFileSync(COLL_DATA_PATH, JSON.stringify(items, null, 2), 'utf-8');
 }
 
+export function syncProductsCatalogFromEvents(collectionId: string): void {
+  try {
+    const cols = readCollections();
+    const col = cols.find(c => c.id === collectionId || c.name.toLowerCase() === 'products');
+    if (!col) return;
+
+    const events = getRawEvents();
+    const existingItems = readCollectionData();
+    const catalogItems = existingItems.filter(i => i.collectionId === col.id);
+
+    const existingProductIds = new Set<string>();
+    catalogItems.forEach(i => {
+      const pId = String(i.data.productId || i.data.id || '').toLowerCase().trim();
+      if (pId) existingProductIds.add(pId);
+    });
+
+    let newItemsAdded = false;
+
+    for (const ev of events) {
+      const isProductView =
+        ev.event === 'Product Viewed' ||
+        ev.event === 'View Item' ||
+        (ev.event === 'page_view' && (ev.url?.includes('/product/') || ev.path?.includes('/product/')));
+
+      if (!isProductView) continue;
+
+      let pId = String(ev.properties?.productId || ev.properties?.id || '').toLowerCase().trim();
+      if (!pId && (ev.url || ev.path)) {
+        const match = (ev.url || ev.path).match(/\/product\/([^\/\?]+)/);
+        if (match) pId = match[1].toLowerCase().trim();
+      }
+
+      if (!pId) continue;
+
+      if (!existingProductIds.has(pId)) {
+        const rawUrl = String(ev.properties?.url || ev.url || `/product/${pId}`).trim();
+        const fullUrl = rawUrl.startsWith('http')
+          ? rawUrl
+          : `http://localhost:3000${rawUrl.startsWith('/') ? '' : '/'}${rawUrl}`;
+        const name = String(ev.properties?.productName || ev.properties?.name || `Product ${pId}`).trim();
+        const price = Number(ev.properties?.price || 0);
+        const category = String(ev.properties?.category || 'General').trim();
+        const imageUrl = String(ev.properties?.imageUrl || ev.properties?.image || '').trim();
+
+        const newItem: CollectionItem = {
+          id: `item_auto_${pId}`,
+          collectionId: col.id,
+          projectId: col.projectId || 'Go_Kart',
+          batchId: null,
+          status: 'published',
+          validationStatus: 'valid',
+          validationErrors: [],
+          data: {
+            productId: pId,
+            name,
+            price,
+            category,
+            url: fullUrl,
+            ...(imageUrl ? { imageUrl } : {})
+          },
+          createdAt: ev.timestamp || new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        existingItems.push(newItem);
+        existingProductIds.add(pId);
+        newItemsAdded = true;
+      }
+    }
+
+    if (newItemsAdded) {
+      writeCollectionData(existingItems);
+    }
+  } catch (err) {
+    console.error('Error syncing products catalog from events:', err);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Schema-driven backend validation
 // ---------------------------------------------------------------------------
@@ -278,9 +348,6 @@ export function validateItemData(
   return errors;
 }
 
-// ---------------------------------------------------------------------------
-// Unified Profiles & Identity Resolution Engine (Salesforce MCP style)
-// ---------------------------------------------------------------------------
 export function getProfiles(): UnifiedProfile[] {
   try {
     if (!fs.existsSync(PROFILES_PATH)) {
@@ -462,7 +529,6 @@ export function resolveProfile(params: {
   let email = cleanIdentifier(params.properties?.email) || (rawSubKey && rawSubKey.includes('@') ? rawSubKey : undefined);
   const anonId = cleanAnonId(params.anonymousId);
 
-  // If subKey is an email, resolve/convert to 18-char Salesforce Contact ID
   let subKey = rawSubKey;
   if (subKey && subKey.includes('@')) {
     const existingByEmail = profiles.find(p => p.attributes?.email && p.attributes.email.toLowerCase() === email?.toLowerCase());
@@ -481,14 +547,12 @@ export function resolveProfile(params: {
   let profile: UnifiedProfile | undefined;
 
   if (subKey) {
-    // Known customer key
     const knownIdx = profiles.findIndex(p => p.subscriberKey && p.subscriberKey.toLowerCase() === subKey.toLowerCase());
     const anonIdx = anonId ? profiles.findIndex(p => 
       (p.subscriberKey && p.subscriberKey.toLowerCase() === `anon_${anonId.toLowerCase()}`) ||
       p.anonymousIds.some(aid => aid.toLowerCase() === anonId.toLowerCase() || cleanAnonId(aid)?.toLowerCase() === anonId.toLowerCase())
     ) : -1;
 
-    // Check if anonId is already owned by a DIFFERENT identified user
     const isAnonClaimedByOther = anonIdx >= 0 && Boolean(
       profiles[anonIdx].subscriberKey && 
       !profiles[anonIdx].subscriberKey.startsWith('anon_') && 
@@ -502,7 +566,6 @@ export function resolveProfile(params: {
       const isAnonPure = !anonProfile.subscriberKey || anonProfile.subscriberKey.startsWith('anon_') || anonProfile.subscriberKey.toLowerCase() === subKey.toLowerCase();
 
       if (isAnonPure) {
-        // Merge anonymous profile into known profile
         for (const id of anonProfile.anonymousIds) {
           const normId = cleanAnonId(id) || id;
           if (!knownProfile.anonymousIds.some(existing => existing.toLowerCase() === normId.toLowerCase())) {
@@ -521,15 +584,12 @@ export function resolveProfile(params: {
         profiles.splice(anonIdx, 1);
         profile = knownProfile;
       } else {
-        // anonId already belongs to a DIFFERENT identified user — do NOT steal it.
-        // Just update attributes and timestamp for the current known profile.
         knownProfile.attributes = { ...knownProfile.attributes, ...props };
         knownProfile.updatedAt = now;
         profile = knownProfile;
       }
     } else if (knownIdx >= 0) {
       profile = profiles[knownIdx];
-      // Only attach anonId if it is NOT already claimed by another identified user
       if (anonId && !isAnonClaimedByOther && !profile.anonymousIds.some(existing => existing.toLowerCase() === anonId.toLowerCase())) {
         profile.anonymousIds.push(anonId);
       }
@@ -553,11 +613,10 @@ export function resolveProfile(params: {
         existingAnon.attributes = { ...existingAnon.attributes, ...props };
         profile = existingAnon;
       } else {
-        // anonId already belongs to a DIFFERENT identified user — do NOT assign it to the new user.
         profile = {
           subscriberKey: subKey,
           profileId: subKey,
-          anonymousIds: [], // Locked: do not steal or share the other user's anonId
+          anonymousIds: [],
           attributes: props,
           firstSeen: now,
           lastSeen: now,
@@ -567,7 +626,6 @@ export function resolveProfile(params: {
         profiles.unshift(profile);
       }
     } else {
-      // New profile — check if anonId is claimed by any other identified profile
       const isClaimedAcrossAll = anonId ? profiles.some(p => 
         p.subscriberKey && 
         !p.subscriberKey.startsWith('anon_') && 
@@ -596,7 +654,6 @@ export function resolveProfile(params: {
 
     if (anonIdx >= 0) {
       profile = profiles[anonIdx];
-      // Protect identified profile: NEVER overwrite subscriberKey of an identified user with anon_
       if (!profile.subscriberKey || profile.subscriberKey.startsWith('anon_')) {
         profile.subscriberKey = anonSubKey;
         profile.profileId = anonSubKey;
@@ -622,8 +679,6 @@ export function resolveProfile(params: {
       profiles.unshift(profile);
     }
   } else {
-    // Fix #9: persist the fallback anonymous profile immediately (no early return).
-    // Salesforce MCP always persists profiles — no in-memory-only paths.
     const fallbackAnon = `anon_${formatUserId(generateId('anon_'))}`;
     profile = {
       subscriberKey: fallbackAnon,
@@ -703,9 +758,6 @@ export function getProfileEvents(identifier: string): ServerEvent[] {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Existing event/sitemap functions (unchanged)
-// ---------------------------------------------------------------------------
 export function getRawEvents(): ServerEvent[] {
   try {
     if (fs.existsSync(DB_PATH)) {
@@ -726,148 +778,87 @@ export function getEvents(): ServerEvent[] {
   const subToProfile = new Map<string, UnifiedProfile>();
   const emailToProfile = new Map<string, UnifiedProfile>();
 
-  // Sort profiles chronologically (oldest first) so that first-claimed wins!
   const sortedProfiles = [...profiles].sort((a, b) => 
-    new Date(a.createdAt || a.firstSeen || 0).getTime() - new Date(b.createdAt || b.firstSeen || 0).getTime()
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   );
 
   for (const p of sortedProfiles) {
-    if (p.subscriberKey) {
-      subToProfile.set(p.subscriberKey.toLowerCase(), p);
-    }
-    if (p.profileId) {
-      subToProfile.set(p.profileId.toLowerCase(), p);
+    if (p.subscriberKey) subToProfile.set(p.subscriberKey.toLowerCase(), p);
+    if (p.profileId) subToProfile.set(p.profileId.toLowerCase(), p);
+    if (p.attributes?.email && typeof p.attributes.email === 'string') {
+      const email = p.attributes.email.toLowerCase();
+      emailToProfile.set(email, p);
+      const sfId = emailToSalesforceContactId(email).toLowerCase();
+      emailToProfile.set(sfId, p);
     }
     for (const aid of p.anonymousIds) {
-      const aidClean = cleanAnonId(aid) || aid.toLowerCase();
-      // Fix #3: first-claimed wins — once an anonId is owned, never overwrite!
-      if (!anonToProfile.has(aid.toLowerCase()))       anonToProfile.set(aid.toLowerCase(), p);
-      if (!anonToProfile.has(aidClean.toLowerCase()))  anonToProfile.set(aidClean.toLowerCase(), p);
-      if (!anonToProfile.has(`anon_${aidClean.toLowerCase()}`)) anonToProfile.set(`anon_${aidClean.toLowerCase()}`, p);
-    }
-    if (p.attributes?.email && typeof p.attributes.email === 'string') {
-      emailToProfile.set(p.attributes.email.toLowerCase(), p);
+      anonToProfile.set(aid.toLowerCase(), p);
+      const cleanAid = cleanAnonId(aid);
+      if (cleanAid) anonToProfile.set(cleanAid.toLowerCase(), p);
     }
   }
 
-  // Index published catalog products for dynamic lookups (SFMC Personalization style)
-  const catalogItems = readCollectionData().filter(i => i.status === 'published');
-  const catalogProductMap = new Map<string, any>();
-  for (const item of catalogItems) {
-    const d = item.data || {};
-    const pid = String(d.productId || d.id || item.id || '').toLowerCase();
-    const name = String(d.name || d.productName || '').toLowerCase();
-    if (pid) catalogProductMap.set(pid, d);
-    if (name) catalogProductMap.set(name, d);
+  for (const e of events) {
+    let resolvedProfile: UnifiedProfile | undefined;
+    const rawSub = cleanIdentifier(e.subscriberKey) || cleanIdentifier(e.userId);
+    const subKey = rawSub ? rawSub.toLowerCase() : undefined;
+    const anonId = cleanAnonId(e.anonId)?.toLowerCase();
+    const eventEmail = cleanIdentifier(e.properties?.email)?.toLowerCase();
+
+    if (subKey) {
+      resolvedProfile = subToProfile.get(subKey) || (eventEmail ? emailToProfile.get(eventEmail) : undefined);
+    }
+    if (!resolvedProfile && eventEmail) {
+      resolvedProfile = emailToProfile.get(eventEmail);
+    }
+    if (!resolvedProfile && anonId) {
+      resolvedProfile = anonToProfile.get(anonId);
+    }
+
+    if (resolvedProfile) {
+      e.subscriberKey = resolvedProfile.subscriberKey;
+      e.profileId = resolvedProfile.profileId || resolvedProfile.subscriberKey;
+    } else if (anonId && (!e.subscriberKey || e.subscriberKey.startsWith('anon_'))) {
+      e.subscriberKey = `anon_${anonId}`;
+      e.profileId = `anon_${anonId}`;
+    }
   }
 
-  return events.map(e => {
-    let rawSubKey = cleanIdentifier(e.subscriberKey) || cleanIdentifier(e.userId);
-    const anonClean = cleanAnonId(e.anonId);
-    const eventEmail = cleanIdentifier(e.properties?.email) || (rawSubKey && rawSubKey.includes('@') ? rawSubKey : undefined);
-
-    // Distinguish between an explicit known customer key vs anonymous key
-    const isExplicitUser = Boolean(e.userId || (rawSubKey && !rawSubKey.startsWith('anon_')));
-    const knownSubKey = isExplicitUser ? rawSubKey : undefined;
-
-    let subClean = knownSubKey;
-    if (subClean && subClean.includes('@')) {
-      const matchedByEmail = emailToProfile.get(subClean.toLowerCase());
-      if (matchedByEmail && matchedByEmail.subscriberKey && !matchedByEmail.subscriberKey.includes('@') && !matchedByEmail.subscriberKey.startsWith('anon_')) {
-        subClean = matchedByEmail.subscriberKey;
-      } else {
-        subClean = emailToSalesforceContactId(subClean);
-      }
-    }
-
-    const matchedProfile = 
-      (subClean ? subToProfile.get(subClean.toLowerCase()) : undefined) ||
-      (eventEmail ? emailToProfile.get(eventEmail.toLowerCase()) : undefined) ||
-      (anonClean ? anonToProfile.get(anonClean.toLowerCase()) : undefined) ||
-      (knownSubKey ? subToProfile.get(knownSubKey.toLowerCase()) : undefined);
-
-    const canonicalSubKey = 
-      subClean ||
-      (knownSubKey && subToProfile.get(knownSubKey.toLowerCase())?.subscriberKey) ||
-      (eventEmail && emailToProfile.get(eventEmail.toLowerCase())?.subscriberKey) ||
-      (isExplicitUser && matchedProfile?.subscriberKey) ||
-      (anonClean ? `anon_${anonClean}` : undefined) ||
-      e.subscriberKey;
-
-    const canonicalProfileId =
-      matchedProfile?.profileId ||
-      matchedProfile?.subscriberKey ||
-      canonicalSubKey ||
-      e.profileId;
-
-    // Critical: Event is authenticated ONLY if explicitly logged in with credentials!
-    // Post-logout and anonymous events have eventUserId = undefined.
-    const isAuthenticated = isExplicitUser;
-    const eventUserId = isAuthenticated ? (subClean || e.userId || knownSubKey) : undefined;
-
-    // Dynamic product catalog enrichment
-    const eventProps = {
-      ...(e.properties || {}),
-      ...(eventEmail ? { email: eventEmail } : {})
-    };
-
-    let targetPid = eventProps.productId || (e.url && e.url.includes('/product/') ? e.url.split('/product/')[1]?.split('?')[0]?.split('/')[0] : undefined);
-    const catMatch = targetPid 
-      ? catalogProductMap.get(String(targetPid).toLowerCase()) 
-      : (eventProps.productName ? catalogProductMap.get(String(eventProps.productName).toLowerCase()) : undefined);
-
-    if (catMatch) {
-      if (!eventProps.productId) eventProps.productId = catMatch.productId || catMatch.id;
-      if (!eventProps.productName) eventProps.productName = catMatch.name || catMatch.productName;
-      if (!eventProps.category) eventProps.category = catMatch.category;
-      if ((eventProps.price === undefined || eventProps.price === null || Number(eventProps.price) <= 0) && catMatch.price !== undefined) {
-        eventProps.price = Number(catMatch.price);
-      }
-      if (!eventProps.imageUrl && catMatch.imageUrl) eventProps.imageUrl = catMatch.imageUrl;
-      if (!eventProps.url && catMatch.url) eventProps.url = catMatch.url;
-    }
-
-    return {
-      ...e,
-      anonId: anonClean || e.anonId,
-      subscriberKey: canonicalSubKey,
-      profileId: canonicalProfileId,
-      userId: eventUserId,
-      properties: eventProps
-    };
-  });
+  return events;
 }
 
-export function addEvent(event: ServerEvent) {
-  if (!event.id) {
-    event.id = generateEventId();
-  }
-  if (event.anonId) {
-    event.anonId = cleanAnonId(event.anonId) || event.anonId;
-  }
-  // Validate and resolve profile
+export function addEvent(event: Omit<ServerEvent, 'id' | 'timestamp'> & { timestamp?: string }): ServerEvent {
+  const events = getRawEvents();
+  const existingIds = new Set(events.map(e => e.id).filter(Boolean));
+
   const profile = resolveProfile({
     anonymousId: event.anonId,
-    subscriberKey: event.subscriberKey || event.userId,
+    subscriberKey: event.subscriberKey,
+    userId: event.userId,
     timestamp: event.timestamp,
     properties: event.properties
   });
-  
-  if (event.subscriberKey || event.userId) {
-    event.subscriberKey = profile.subscriberKey;
-    event.profileId = profile.subscriberKey;
-  } else {
-    // For anonymous events: subscriberKey must NOT be a real customer ID
-    const isProfileAnon = !profile.subscriberKey || profile.subscriberKey.startsWith('anon_');
-    event.subscriberKey = isProfileAnon ? profile.subscriberKey : (event.anonId ? `anon_${event.anonId}` : undefined);
-    event.profileId = profile.subscriberKey; // retains link to unified profile in graph
-    event.userId = undefined;
+
+  const fullEvent: ServerEvent = {
+    ...event,
+    id: generateEventId(existingIds),
+    timestamp: event.timestamp || new Date().toISOString(),
+    subscriberKey: profile.subscriberKey,
+    profileId: profile.profileId || profile.subscriberKey,
+  };
+
+  events.unshift(fullEvent);
+  try {
+    fs.writeFileSync(DB_PATH, JSON.stringify(events, null, 2), 'utf-8');
+  } catch (e) {
+    console.error("Error saving event to db", e);
   }
 
-  const events = getRawEvents();
-  events.unshift(event);
-  if (events.length > 1000) events.length = 1000;
-  fs.writeFileSync(DB_PATH, JSON.stringify(events, null, 2), 'utf-8');
+  triggerAutomations(fullEvent).catch(err => {
+    console.error("[Automations] Execution error:", err);
+  });
+
+  return fullEvent;
 }
 
 export function getSitemaps(): SitemapEntry[] {
@@ -882,14 +873,17 @@ export function getSitemaps(): SitemapEntry[] {
   return [];
 }
 
-export function addSitemap(sitemap: SitemapEntry) {
+export function addSitemap(entry: SitemapEntry): void {
   const sitemaps = getSitemaps();
-  // Overwrite if project already exists, or append if new
-  const existingIdx = sitemaps.findIndex(s => s.projectId === sitemap.projectId);
-  if (existingIdx >= 0) {
-    sitemaps[existingIdx] = sitemap;
+  const index = sitemaps.findIndex(s => s.projectId === entry.projectId && s.domain === entry.domain);
+  if (index >= 0) {
+    sitemaps[index] = entry;
   } else {
-    sitemaps.push(sitemap);
+    sitemaps.push(entry);
   }
-  fs.writeFileSync(SITEMAP_DB_PATH, JSON.stringify(sitemaps, null, 2), 'utf-8');
+  try {
+    fs.writeFileSync(SITEMAP_DB_PATH, JSON.stringify(sitemaps, null, 2), 'utf-8');
+  } catch (e) {
+    console.error("Error writing sitemaps db", e);
+  }
 }

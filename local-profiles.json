@@ -1,5 +1,38 @@
 [
   {
+    "subscriberKey": "anon_c8033-5e70-12c4",
+    "profileId": "anon_c8033-5e70-12c4",
+    "anonymousIds": [
+      "c8033-5e70-12c4"
+    ],
+    "attributes": {
+      "tagName": "button",
+      "id": "",
+      "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
+      "text": "Logout"
+    },
+    "firstSeen": "2026-09-28T06:34:56.393Z",
+    "lastSeen": "2026-09-28T08:03:35.349Z",
+    "createdAt": "2026-09-28T06:34:56.393Z",
+    "updatedAt": "2026-09-28T08:03:35.349Z"
+  },
+  {
+    "subscriberKey": "anon_aba34-020d-48d4",
+    "profileId": "anon_aba34-020d-48d4",
+    "anonymousIds": [
+      "aba34-020d-48d4"
+    ],
+    "attributes": {
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/",
+      "path": "/"
+    },
+    "firstSeen": "2026-09-25T13:21:12.079Z",
+    "lastSeen": "2026-09-25T13:21:20.659Z",
+    "createdAt": "2026-09-25T13:21:12.079Z",
+    "updatedAt": "2026-09-25T13:21:20.659Z"
+  },
+  {
     "subscriberKey": "anon_e9721-8c60-21c4",
     "profileId": "anon_e9721-8c60-21c4",
     "anonymousIds": [
@@ -587,7 +620,9 @@
   {
     "profileId": "003a42093020790AA0",
     "subscriberKey": "003a42093020790AA0",
-    "anonymousIds": [],
+    "anonymousIds": [
+      "3ee7c-7c06-54f4"
+    ],
     "attributes": {
       "name": "vaibhavmahale1810",
       "email": "vaibhavmahale1810@gmail.com",
@@ -597,25 +632,34 @@
       "org": "AS138311 Limerick Technologies Pvt Ltd",
       "quantity": 1,
       "title": "GoCart. - Shop smarter",
-      "url": "http://localhost:3000/login",
-      "path": "/login",
-      "loadTime": 8824.199999988079,
-      "domReadyTime": 8418.900000035763,
-      "ttfb": 7970.100000023842,
+      "url": "http://localhost:3000/",
+      "path": "/",
+      "loadTime": 704.0999999642372,
+      "domReadyTime": 536.3999999761581,
+      "ttfb": 390.9000000357628,
       "depth": 100,
       "tagName": "button",
       "id": "",
-      "className": "w-full bg-slate-900 text-white font-semibold py-4 rounded-xl mt-4 hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 active:scale-95",
-      "text": "Sign In",
-      "href": "http://localhost:3000/login",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "Add to Cart",
+      "href": "http://localhost:3000/product/prod_2",
       "formId": "",
       "formClass": "space-y-5",
-      "action": "http://localhost:3000/login"
+      "action": "http://localhost:3000/login",
+      "subscriberKey": "vaibhavmahale1810@gmail.com",
+      "productId": "prod_9",
+      "productName": "Luxury Diver's Watch",
+      "category": "Analog Watches",
+      "price": 1100,
+      "imageUrl": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=60",
+      "previousUserId": "vaibhavmahale1810@gmail.com",
+      "autoDetected": true,
+      "trigger": "click"
     },
     "firstSeen": "2026-09-11T12:11:42.320Z",
-    "lastSeen": "2026-09-18T06:24:42.187Z",
+    "lastSeen": "2026-09-28T06:34:56.392Z",
     "createdAt": "2026-09-11T12:11:42.320Z",
-    "updatedAt": "2026-09-21T07:28:44.669Z"
+    "updatedAt": "2026-09-28T06:34:56.392Z"
   },
   {
     "profileId": "anon_e4a37-276d-8be4",

@@ -1,157 +1,5 @@
 [
   {
-    "id": "item_prod_1",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_1",
-      "name": "MacBook Pro 16\"",
-      "price": 3299,
-      "category": "Laptops",
-      "imageUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_1"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_2",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_2",
-      "name": "Dell XPS 15",
-      "price": 1849,
-      "category": "Business Laptops",
-      "imageUrl": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_2"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_3",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_3",
-      "name": "Apple Watch Series 9",
-      "price": 349,
-      "category": "Smart Watches",
-      "imageUrl": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_3"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_4",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_4",
-      "name": "Alienware m18",
-      "price": 2599,
-      "category": "Gaming Laptops",
-      "imageUrl": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_4"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_5",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_5",
-      "name": "Garmin Fenix 7 Pro",
-      "price": 749,
-      "category": "Smart Watches",
-      "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_5"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_6",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_6",
-      "name": "Lenovo ThinkPad X1 Carbon",
-      "price": 1549,
-      "category": "Business Laptops",
-      "imageUrl": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_6"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_7",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_7",
-      "name": "Classic Chronograph Watch",
-      "price": 199,
-      "category": "Analog Watches",
-      "imageUrl": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_7"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
-    "id": "item_prod_8",
-    "collectionId": "col_products",
-    "projectId": "proj_default",
-    "batchId": null,
-    "status": "published",
-    "validationStatus": "valid",
-    "validationErrors": [],
-    "data": {
-      "productId": "prod_8",
-      "name": "ASUS ROG Zephyrus G14",
-      "price": 1399,
-      "category": "Gaming Laptops",
-      "imageUrl": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500&auto=format&fit=crop&q=60",
-      "url": "/product/prod_8"
-    },
-    "createdAt": "2026-09-24T12:55:03.713Z",
-    "updatedAt": "2026-09-24T12:55:03.713Z"
-  },
-  {
     "id": "item_prod_9",
     "collectionId": "col_products",
     "projectId": "proj_default",
@@ -341,5 +189,149 @@
     },
     "createdAt": "2026-09-25T09:42:19.739Z",
     "updatedAt": "2026-09-25T09:42:19.739Z"
+  },
+  {
+    "id": "item_auto_prod_1",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_1",
+      "name": "MacBook Pro 16\"",
+      "price": 3299,
+      "category": "Laptops",
+      "url": "http://localhost:3000/product/prod_1"
+    },
+    "createdAt": "2026-09-25T13:21:20.064Z",
+    "updatedAt": "2026-09-25T13:37:45.677Z"
+  },
+  {
+    "id": "item_auto_prod_2",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_2",
+      "name": "Product prod_2",
+      "price": 0,
+      "category": "General",
+      "url": "http://localhost:3000/product/prod_2"
+    },
+    "createdAt": "2026-09-25T13:18:33.257Z",
+    "updatedAt": "2026-09-25T13:37:45.677Z"
+  },
+  {
+    "id": "item_auto_prod_3",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_3",
+      "name": "Apple Watch Series 9",
+      "price": 349,
+      "category": "Smart Watches",
+      "url": "http://localhost:3000/product/prod_3"
+    },
+    "createdAt": "2026-09-24T13:13:34.651Z",
+    "updatedAt": "2026-09-25T13:37:45.677Z"
+  },
+  {
+    "id": "item_auto_prod_4",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_4",
+      "name": "Alienware m18",
+      "price": 2599,
+      "category": "Gaming Laptops",
+      "url": "http://localhost:3000/product/prod_4"
+    },
+    "createdAt": "2026-09-24T12:51:54.908Z",
+    "updatedAt": "2026-09-25T13:37:45.678Z"
+  },
+  {
+    "id": "item_auto_prod_6",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_6",
+      "name": "Lenovo ThinkPad X1 Carbon",
+      "price": 1549,
+      "category": "Business Laptops",
+      "url": "http://localhost:3000/product/prod_6"
+    },
+    "createdAt": "2026-09-22T07:31:51.359Z",
+    "updatedAt": "2026-09-25T13:37:45.678Z"
+  },
+  {
+    "id": "item_auto_prod_7",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_7",
+      "name": "Classic Chronograph Watch",
+      "price": 199,
+      "category": "Analog Watches",
+      "url": "http://localhost:3000/product/prod_7"
+    },
+    "createdAt": "2026-09-22T07:13:32.314Z",
+    "updatedAt": "2026-09-25T13:37:45.678Z"
+  },
+  {
+    "id": "item_auto_prod_5",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_5",
+      "name": "Garmin Fenix 7 Pro",
+      "price": 749,
+      "category": "Smart Watches",
+      "url": "http://localhost:3000/product/prod_5"
+    },
+    "createdAt": "2026-09-21T11:57:48.570Z",
+    "updatedAt": "2026-09-25T13:37:45.678Z"
+  },
+  {
+    "id": "item_auto_prod_8",
+    "collectionId": "col_products",
+    "projectId": "proj_default",
+    "batchId": null,
+    "status": "published",
+    "validationStatus": "valid",
+    "validationErrors": [],
+    "data": {
+      "productId": "prod_8",
+      "name": "ASUS ROG Zephyrus G14",
+      "price": 1399,
+      "category": "Gaming Laptops",
+      "url": "http://localhost:3000/product/prod_8"
+    },
+    "createdAt": "2026-09-10T13:36:49.879Z",
+    "updatedAt": "2026-09-25T13:37:45.678Z"
   }
 ]

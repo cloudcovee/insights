@@ -52,6 +52,7 @@ import {
   readCollections, writeCollections, readCollectionData, writeCollectionData,
   validateItemData, generateId, generateEventId, getRawEvents,
   getProfiles, resolveProfile, getProfileEvents, getProfileByIdentifier,
+  syncProductsCatalogFromEvents,
   type Collection, type CollectionItem, type UnifiedProfile, type SessionContext,
 } from "./lib/server-db";
 import { triggerAutomations } from "./lib/automations";
@@ -187,13 +188,6 @@ export default {
             // We simulate hitting the CRM for each user
             for (const email of users) {
               try {
-                // In a real scenario, this would be a real API call to the CRM
-                // const res = await fetch(`${crmUrl}/users?email=${encodeURIComponent(email)}`, {
-                //   headers: { 'Authorization': `Bearer ${crmKey}` }
-                // });
-                // const crmUser = await res.json();
-                
-                // For demonstration, we'll generate mock CRM enrichment data
                 unifiedData[email] = {
                   leadScore: Math.floor(Math.random() * 100) + 1,
                   company: ["Acme Corp", "Globex", "Initech", "Soylent Corp"][Math.floor(Math.random() * 4)],
@@ -271,20 +265,17 @@ export default {
           for (const item of payloads) {
             let props = item.properties || {};
             const eventName = item.eventName || item.event || 'page_view';
-            // Capture/normalize product image url from incoming event properties (SFMC Personalization style)
             const incomingImg = props.imageUrl || props.image || props.productImage || props.img;
             if (incomingImg) {
               props.imageUrl = incomingImg;
             }
 
-            // Extract potential product identifier from properties or URL
             let targetPid = props.productId || props.id;
             const targetUrl = props.url || item.url || '';
             if (!targetPid && targetUrl.includes('/product/')) {
               targetPid = targetUrl.split('/product/')[1]?.split('?')[0]?.split('/')[0];
             }
 
-            // Dynamic Catalog Lookup & Enrichment
             const isProductAction =
               eventName === 'Product Viewed' ||
               eventName === 'Add to Cart' ||
@@ -457,7 +448,7 @@ export default {
             const col: Collection = {
               id: generateId('col_'),
               name: body.name.trim(),
-              projectId: ctx.projectId, // ALWAYS from session — never from body
+              projectId: ctx.projectId,
               attributes: Array.isArray(body.attributes) ? body.attributes : [],
               createdAt: new Date().toISOString(),
             };
@@ -501,7 +492,6 @@ export default {
             assertCollectionOwnership(cols[idx], ctx);
             cols.splice(idx, 1);
             writeCollections(cols);
-            // Also delete all items for this collection
             const items = readCollectionData().filter(i => i.collectionId !== collId);
             writeCollectionData(items);
             return json({ success: true });
@@ -518,6 +508,7 @@ export default {
             ctx = getSessionContext(request);
           } catch {}
           const collId = itemsMatch[1];
+          syncProductsCatalogFromEvents(collId);
           const cols = readCollections();
           const col = cols.find(c => c.id === collId);
           if (!col) return json({ error: 'Collection not found' }, 404);
@@ -591,7 +582,6 @@ export default {
           const newItems: CollectionItem[] = [];
 
           if (contentType.includes('multipart/form-data')) {
-            // CSV import
             const formData = await request.formData();
             const file = formData.get('file') as File | null;
             if (!file) return json({ error: 'No file provided' }, 400);
@@ -610,7 +600,7 @@ export default {
               newItems.push({
                 id: generateId('item_'),
                 collectionId: collId,
-                projectId: ctx.projectId, // ALWAYS from session
+                projectId: ctx.projectId,
                 batchId,
                 status: 'staging',
                 validationStatus: errs.length === 0 ? 'valid' : 'invalid',
@@ -621,7 +611,6 @@ export default {
               });
             }
           } else {
-            // Manual item import
             const body = await request.json() as { data?: Record<string, unknown> };
             if (!body.data) return json({ error: 'data is required' }, 400);
             const errs = validateItemData(body.data, col.attributes);
@@ -699,7 +688,7 @@ export default {
 
           for (const itemId of body.itemIds) {
             const idx = allItems.findIndex(
-              i => i.id === itemId && i.collectionId === collId && i.projectId === ctx.projectId // double ownership check
+              i => i.id === itemId && i.collectionId === collId && i.projectId === ctx.projectId
             );
             if (idx === -1) { rejected.push({ id: itemId, reason: 'Not found', validationErrors: [] }); continue; }
             const item = allItems[idx];
