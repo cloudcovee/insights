@@ -1,9 +1,9 @@
 [
   {
-    "subscriberKey": "anon_c8033-5e70-12c4",
-    "profileId": "anon_c8033-5e70-12c4",
+    "subscriberKey": "anon_ded24-fa38-8fb4",
+    "profileId": "anon_ded24-fa38-8fb4",
     "anonymousIds": [
-      "c8033-5e70-12c4"
+      "ded24-fa38-8fb4"
     ],
     "attributes": {
       "tagName": "button",
@@ -11,10 +11,182 @@
       "className": "px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-full text-sm font-medium transition",
       "text": "Logout"
     },
+    "firstSeen": "2026-10-01T09:38:46.920Z",
+    "lastSeen": "2026-10-01T09:54:55.318Z",
+    "createdAt": "2026-10-01T09:38:46.920Z",
+    "updatedAt": "2026-10-01T09:54:55.318Z"
+  },
+  {
+    "subscriberKey": "zztest",
+    "profileId": "zztest",
+    "anonymousIds": [],
+    "attributes": {
+      "productId": "zzprod1",
+      "productName": "ZZ Test Prod",
+      "price": 10,
+      "imageUrl": "http://localhost:3000/img/zzcat1.png",
+      "categoryId": "zzcat1",
+      "categoryName": "ZZ Test Cat",
+      "description": "A test category"
+    },
+    "firstSeen": "2026-10-01T07:19:19.707Z",
+    "lastSeen": "2026-10-01T07:19:19.900Z",
+    "createdAt": "2026-10-01T07:19:19.707Z",
+    "updatedAt": "2026-10-01T07:19:19.900Z"
+  },
+  {
+    "subscriberKey": "test_del_user",
+    "profileId": "test_del_user",
+    "anonymousIds": [],
+    "attributes": {
+      "productId": "prod_testdel",
+      "productName": "Test Delete Product",
+      "price": 99,
+      "category": "Test",
+      "imageUrl": "http://localhost:3000/img/testdel.png"
+    },
+    "firstSeen": "2026-10-01T07:03:07.268Z",
+    "lastSeen": "2026-10-01T07:03:24.744Z",
+    "createdAt": "2026-10-01T07:03:07.268Z",
+    "updatedAt": "2026-10-01T07:03:24.744Z"
+  },
+  {
+    "subscriberKey": "anon_anon5-4d36-9773",
+    "profileId": "anon_anon5-4d36-9773",
+    "anonymousIds": [],
+    "attributes": {
+      "productId": "prod_testimg",
+      "productName": "Test Image Product",
+      "price": 99,
+      "category": "Tests",
+      "imageUrl": "http://localhost:3000/images/testimg.png",
+      "url": "http://localhost:3000/product/prod_testimg"
+    },
+    "firstSeen": "2026-10-01T06:52:42.205Z",
+    "lastSeen": "2026-10-01T06:52:42.205Z",
+    "createdAt": "2026-10-01T06:52:42.205Z",
+    "updatedAt": "2026-10-01T06:52:42.205Z"
+  },
+  {
+    "subscriberKey": "anon_anond-6d0e-7e18",
+    "profileId": "anon_anond-6d0e-7e18",
+    "anonymousIds": [],
+    "attributes": {
+      "productId": "prod_testimg",
+      "productName": "Test Image Product",
+      "price": 99,
+      "category": "Tests",
+      "imageUrl": "http://localhost:3000/images/testimg.png",
+      "url": "http://localhost:3000/product/prod_testimg"
+    },
+    "firstSeen": "2026-10-01T06:52:42.203Z",
+    "lastSeen": "2026-10-01T06:52:42.203Z",
+    "createdAt": "2026-10-01T06:52:42.203Z",
+    "updatedAt": "2026-10-01T06:52:42.203Z"
+  },
+  {
+    "subscriberKey": "anon_anon4-9e61-3f4f",
+    "profileId": "anon_anon4-9e61-3f4f",
+    "anonymousIds": [],
+    "attributes": {
+      "productId": "prod_testimg",
+      "productName": "Test Image Product",
+      "price": 99,
+      "category": "Tests",
+      "imageUrl": "http://localhost:3000/images/testimg.png",
+      "url": "http://localhost:3000/product/prod_testimg"
+    },
+    "firstSeen": "2026-10-01T06:52:26.482Z",
+    "lastSeen": "2026-10-01T06:52:26.482Z",
+    "createdAt": "2026-10-01T06:52:26.482Z",
+    "updatedAt": "2026-10-01T06:52:26.482Z"
+  },
+  {
+    "subscriberKey": "anon_anon3-adc2-7b5a",
+    "profileId": "anon_anon3-adc2-7b5a",
+    "anonymousIds": [],
+    "attributes": {
+      "productId": "prod_testimg",
+      "productName": "Test Image Product",
+      "price": 99,
+      "category": "Tests",
+      "imageUrl": "http://localhost:3000/images/testimg.png",
+      "url": "http://localhost:3000/product/prod_testimg"
+    },
+    "firstSeen": "2026-10-01T06:52:26.475Z",
+    "lastSeen": "2026-10-01T06:52:26.475Z",
+    "createdAt": "2026-10-01T06:52:26.475Z",
+    "updatedAt": "2026-10-01T06:52:26.475Z"
+  },
+  {
+    "subscriberKey": "003df2dd71ae4cbAA0",
+    "profileId": "003df2dd71ae4cbAA0",
+    "anonymousIds": [
+      "f63b8-e0cd-6b04"
+    ],
+    "attributes": {
+      "tagName": "a",
+      "id": "",
+      "className": " group max-xl:mx-auto",
+      "text": "MacBook Pro 16\"\n\n$3299",
+      "subscriberKey": "w22@gmail.com",
+      "name": "w22",
+      "email": "w22@gmail.com",
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/",
+      "path": "/",
+      "loadTime": 1027.1000000238419,
+      "domReadyTime": 635.7000000476837,
+      "ttfb": 546.6999999284744,
+      "depth": 100,
+      "href": "http://localhost:3000/product/prod_1",
+      "productId": "prod_1",
+      "productName": "MacBook Pro 16\"",
+      "price": 3299,
+      "category": "Laptops",
+      "previousUserId": "w22@gmail.com",
+      "autoDetected": true,
+      "trigger": "click"
+    },
+    "firstSeen": "2026-10-01T06:23:04.358Z",
+    "lastSeen": "2026-10-01T09:38:46.920Z",
+    "createdAt": "2026-10-01T06:23:04.358Z",
+    "updatedAt": "2026-10-01T09:38:46.920Z"
+  },
+  {
+    "subscriberKey": "00330a79640dfd8AA0",
+    "profileId": "00330a79640dfd8AA0",
+    "anonymousIds": [
+      "c8033-5e70-12c4"
+    ],
+    "attributes": {
+      "tagName": "a",
+      "id": "",
+      "className": " group max-xl:mx-auto",
+      "text": "ASUS ROG Zephyrus G14\n\n$1399",
+      "subscriberKey": "123@gmail.com",
+      "name": "123",
+      "email": "123@gmail.com",
+      "title": "GoCart. - Shop smarter",
+      "url": "http://localhost:3000/product/prod_8",
+      "path": "/product/prod_8",
+      "href": "http://localhost:3000/product/prod_8",
+      "productId": "prod_8",
+      "productName": "ASUS ROG Zephyrus G14",
+      "category": "Gaming Laptops",
+      "price": 1399,
+      "loadTime": 269.5999999642372,
+      "domReadyTime": 157.0999999642372,
+      "ttfb": 0.5,
+      "depth": 100,
+      "previousUserId": "123@gmail.com",
+      "autoDetected": true,
+      "trigger": "click"
+    },
     "firstSeen": "2026-09-28T06:34:56.393Z",
-    "lastSeen": "2026-09-28T08:03:35.349Z",
+    "lastSeen": "2026-09-29T13:32:51.225Z",
     "createdAt": "2026-09-28T06:34:56.393Z",
-    "updatedAt": "2026-09-28T08:03:35.349Z"
+    "updatedAt": "2026-09-29T13:32:51.225Z"
   },
   {
     "subscriberKey": "anon_aba34-020d-48d4",
@@ -147,19 +319,20 @@
     "subscriberKey": "003ca4fafc1b8f5AA0",
     "profileId": "003ca4fafc1b8f5AA0",
     "anonymousIds": [
-      "4a4c0-85dc-48f4"
+      "4a4c0-85dc-48f4",
+      "62613-639d-4a14"
     ],
     "attributes": {
       "tagName": "button",
       "id": "",
-      "className": "w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all",
-      "text": "Place Order",
+      "className": "bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition",
+      "text": "View Cart",
       "title": "GoCart. - Shop smarter",
-      "url": "http://localhost:3000/orders",
-      "path": "/orders",
-      "loadTime": 677,
-      "domReadyTime": 518.3999999761581,
-      "ttfb": 433.5,
+      "url": "http://localhost:3000/",
+      "path": "/",
+      "loadTime": 2902.7000000476837,
+      "domReadyTime": 2203.7000000476837,
+      "ttfb": 1900.3000000715256,
       "href": "http://localhost:3000/product/prod_3",
       "productName": "Apple Watch Series 9",
       "productId": "prod_3",
@@ -179,9 +352,9 @@
       "trigger": "click"
     },
     "firstSeen": "2026-09-21T12:57:57.319Z",
-    "lastSeen": "2026-09-21T13:06:46.498Z",
+    "lastSeen": "2026-10-01T06:23:04.350Z",
     "createdAt": "2026-09-21T12:57:57.319Z",
-    "updatedAt": "2026-09-21T13:06:46.498Z"
+    "updatedAt": "2026-10-01T06:23:04.350Z"
   },
   {
     "subscriberKey": "anon_anond-3bfd-b070",
@@ -583,12 +756,17 @@
     "subscriberKey": "003637b2845466fAA0",
     "anonymousIds": [
       "eca12-fc4b-b694",
-      "7cf25-cfc9-1234"
+      "7cf25-cfc9-1234",
+      "d7a8b-2a9c-f9a4"
     ],
     "attributes": {
+      "tagName": "a",
+      "id": "",
+      "className": " group max-xl:mx-auto",
+      "text": "HP Spectre x360\n\n$1299",
       "title": "GoCart. - Shop smarter",
-      "url": "http://localhost:3000/",
-      "path": "/",
+      "url": "/product/prod_10",
+      "path": "/product/prod_10",
       "ip": "103.133.159.140",
       "city": "Pune",
       "region": "Maharashtra",
@@ -601,21 +779,24 @@
       "formId": "",
       "formClass": "space-y-5",
       "action": "http://localhost:3000/login",
-      "loadTime": 696.6999999880791,
-      "domReadyTime": 536.1999999880791,
-      "ttfb": 475.19999998807907,
-      "tagName": "button",
-      "id": "",
-      "className": "font-normal text-gray-800 py-2 rounded-full",
-      "text": "",
+      "loadTime": 652.6000000238419,
+      "domReadyTime": 370.4000000357628,
+      "ttfb": 239,
       "previousUserId": "a1@gmail.com",
       "autoDetected": true,
-      "trigger": "click"
+      "trigger": "click",
+      "href": "http://localhost:3000/product/prod_10",
+      "productId": "prod_10",
+      "productName": "HP Spectre x360",
+      "category": "Laptops",
+      "price": 1299,
+      "depth": 100,
+      "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60"
     },
     "firstSeen": "2026-09-10T12:42:34.853Z",
-    "lastSeen": "2026-09-22T07:21:54.552Z",
+    "lastSeen": "2026-09-30T08:18:13.374Z",
     "createdAt": "2026-09-10T12:42:34.853Z",
-    "updatedAt": "2026-09-22T07:21:54.552Z"
+    "updatedAt": "2026-09-30T08:18:13.374Z"
   },
   {
     "profileId": "003a42093020790AA0",

@@ -261,9 +261,9 @@ function EventsPage() {
               ) : (
                 paged.map((r) => {
                   const displayEvent = getDisplayEventName(r);
-                  const rawId = r.userId || r.anonId || r.id;
-                  const formattedId = formatUserId(rawId);
-                  const isLoggedIn = Boolean(r.userId);
+                  const rawId = r.subscriberKey || r.userId || r.anonId || r.id;
+                  const formattedId = r.subscriberKey ? r.subscriberKey : formatUserId(rawId);
+                  const isLoggedIn = Boolean(r.subscriberKey || r.userId);
 
                   return (
                     <TableRow

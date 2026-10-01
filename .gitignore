@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local JSON data files
+local-events.json
+**/local-events.json
+local-*.json
+**/local-*.json

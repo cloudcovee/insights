@@ -52,7 +52,7 @@ import {
   readCollections, writeCollections, readCollectionData, writeCollectionData,
   validateItemData, generateId, generateEventId, getRawEvents,
   getProfiles, resolveProfile, getProfileEvents, getProfileByIdentifier,
-  syncProductsCatalogFromEvents,
+  syncProductsCatalogFromEvents, markProductIdDeleted, upsertProductIntoCatalog,
   type Collection, type CollectionItem, type UnifiedProfile, type SessionContext,
 } from "./lib/server-db";
 import { triggerAutomations } from "./lib/automations";
@@ -319,6 +319,26 @@ export default {
                 props.quantity = itemQty;
                 props.subtotal = props.subtotal || (itemPrice * itemQty);
               }
+
+              // Real-time catalog upsert: add/enrich the product immediately on ingest
+              // Only fires for product-view type events so cart/purchase don't double-create
+              if (
+                eventName === 'Product Viewed' ||
+                eventName === 'View Item' ||
+                eventName === 'view_item' ||
+                (eventName === 'page_view' && targetUrl.includes('/product/'))
+              ) {
+                upsertProductIntoCatalog(props, targetUrl || item.url || '', eventName);
+              }
+            } // end isProductAction
+
+            // Category catalog auto-add: viewing a category page adds/enriches it in
+            // the categories catalog (upsert routes by detected entity type).
+            const isCategoryView =
+              (typeof eventName === 'string' && eventName.toLowerCase().includes('category')) ||
+              (eventName === 'page_view' && targetUrl.includes('/category/'));
+            if (isCategoryView) {
+              upsertProductIntoCatalog(props, targetUrl || item.url || '', eventName);
             }
             const subscriberKey = item.subscriberKey || item.userId || null;
             const anonId = item.anonymousId || 'unknown';
@@ -558,6 +578,8 @@ export default {
           }
 
           if (request.method === 'DELETE') {
+            // Mark the product as deleted (scoped to this catalog) so it won't be re-created by auto-sync
+            markProductIdDeleted(allItems[idx].data as Record<string, unknown>, collId);
             allItems.splice(idx, 1);
             writeCollectionData(allItems);
             return json({ success: true });

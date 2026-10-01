@@ -132,15 +132,9 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-between gap-1.5 pr-2">
             <span className="flex items-center gap-1.5">
-              <Library className="h-3.5 w-3.5" /> Catalog Content
+              <Library className="h-3.5 w-3.5" /> Catalog
             </span>
-            <Link
-              to="/settings"
-              className="text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded"
-              title="Add catalog"
-            >
-              <Plus className="h-3.5 w-3.5" />
-            </Link>
+
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

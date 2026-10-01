@@ -159,7 +159,11 @@ export function CatalogPage() {
         const matchesName = pName && evName && evName === pName;
         const matchesUrl = pId && evUrl && (evUrl === `/product/${pId}` || evUrl.endsWith(`/product/${pId}`));
 
-        return matchesId || matchesName || matchesUrl;
+        // Only count events that occurred after this specific catalog item was created.
+        // We add a 1-minute buffer because the event is generated on the client slightly before the item is created on the server.
+        const isAfterCreation = new Date(ev.timestamp).getTime() >= (new Date(item.createdAt).getTime() - 60000);
+
+        return (matchesId || matchesName || matchesUrl) && isAfterCreation;
       });
 
       const viewSessions: { user: string; startTime: number }[] = [];
@@ -172,27 +176,54 @@ export function CatalogPage() {
         const evTime = new Date(ev.timestamp).getTime();
         const lastSession = viewSessions[viewSessions.length - 1];
 
+        // De-duplicate: skip if same user had a session start within 10s
         if (lastSession && lastSession.user === uid && evTime - lastSession.startTime < 10000) {
           return;
         }
 
-        const userEventsAfter = sortedEvents.filter((e) => {
-          const eUid = e.userId || e.subscriberKey || e.anonId;
-          const eTime = new Date(e.timestamp).getTime();
-          return eUid === uid && eTime > evTime;
-        });
+        // Priority 1: use an explicit duration property logged with the event (in ms or seconds)
+        const rawDuration =
+          ev.properties?.duration ??
+          ev.properties?.view_time ??
+          ev.properties?.timeOnPage ??
+          ev.duration ??
+          null;
 
         let durationMs = 0;
-        if (userEventsAfter.length > 0) {
-          const nextEvTime = new Date(userEventsAfter[0].timestamp).getTime();
-          const diff = nextEvTime - evTime;
-          if (diff >= 1000 && diff <= 900000) {
-            durationMs = diff;
-          } else {
-            durationMs = 25000;
+
+        if (rawDuration !== null && rawDuration !== undefined) {
+          const num = Number(rawDuration);
+          if (!isNaN(num) && num > 0) {
+            // Treat values < 3600 as seconds (common), >= 3600 as already ms
+            durationMs = num < 3600 ? num * 1000 : num;
+            // Clamp to a realistic max of 30 minutes
+            durationMs = Math.min(durationMs, 1800000);
           }
-        } else {
-          durationMs = 30000;
+        }
+
+        // Priority 2: infer from the gap to the user's next event
+        if (durationMs === 0) {
+          // Only look at the same user's subsequent events, skip micro-events within 500ms
+          const userEventsAfter = sortedEvents.filter((e) => {
+            const eUid = e.userId || e.subscriberKey || e.anonId;
+            const eTime = new Date(e.timestamp).getTime();
+            return eUid === uid && eTime > evTime + 500;
+          });
+
+          if (userEventsAfter.length > 0) {
+            const nextEvTime = new Date(userEventsAfter[0].timestamp).getTime();
+            const diff = nextEvTime - evTime;
+            // Accept gaps between 1s and 10 minutes as real dwell time
+            if (diff >= 1000 && diff <= 600000) {
+              durationMs = diff;
+            } else {
+              // Fell outside realistic bounds — use a conservative default
+              durationMs = 30000;
+            }
+          } else {
+            // No subsequent event — user probably left; assume 30s
+            durationMs = 30000;
+          }
         }
 
         totalDurationMs += durationMs;
@@ -313,12 +344,26 @@ export function CatalogPage() {
   }
 
   async function handleDeleteItem(itemId: string) {
+    // Optimistically remove from local state immediately so the UI doesn't lag
+    const deletedItem = [...publishedItems, ...stagingItems].find(i => i.id === itemId);
+    setPublishedItems((prev) => prev.filter((i) => i.id !== itemId));
+    setStagingItems((prev) => prev.filter((i) => i.id !== itemId));
+    setSelectedIds((prev) => { const next = new Set(prev); next.delete(itemId); return next; });
+    if (selectedDetailItem?.id === itemId) setSelectedDetailItem(null);
+
     try {
-      await fetch(`/api/catalogs/${catalogId}/items/${itemId}`, { method: "DELETE" });
-      fetchItems();
-      setSelectedIds((prev) => { const next = new Set(prev); next.delete(itemId); return next; });
-      if (selectedDetailItem?.id === itemId) setSelectedDetailItem(null);
-    } catch {}
+      const res = await fetch(`/api/catalogs/${catalogId}/items/${itemId}`, { method: "DELETE" });
+      if (!res.ok) {
+        // Rollback on failure
+        toast.error("Failed to delete item — restored");
+        await fetchItems();
+      } else {
+        toast.success(`Deleted "${String(deletedItem?.data?.name || deletedItem?.data?.productId || itemId)}"`); 
+      }
+    } catch {
+      toast.error("Failed to delete item — restored");
+      await fetchItems();
+    }
   }
 
   if (notAuthed) {

@@ -7,12 +7,13 @@ import { triggerAutomations } from './automations';
 // ---------------------------------------------------------------------------
 // Paths
 // ---------------------------------------------------------------------------
-const DB_PATH           = path.join(process.cwd(), 'local-events.json');
-const SITEMAP_DB_PATH   = path.join(process.cwd(), 'local-sitemaps.json');
-const COLLECTIONS_PATH  = path.join(process.cwd(), 'local-collections.json');
-const COLL_DATA_PATH    = path.join(process.cwd(), 'local-collection-data.json');
-const SESSIONS_PATH     = path.join(process.cwd(), 'local-sessions.json');
-const PROFILES_PATH     = path.join(process.cwd(), 'local-profiles.json');
+const DB_PATH              = path.join(process.cwd(), 'local-events.json');
+const SITEMAP_DB_PATH      = path.join(process.cwd(), 'local-sitemaps.json');
+const COLLECTIONS_PATH     = path.join(process.cwd(), 'local-collections.json');
+const COLL_DATA_PATH       = path.join(process.cwd(), 'local-collection-data.json');
+const SESSIONS_PATH        = path.join(process.cwd(), 'local-sessions.json');
+const PROFILES_PATH        = path.join(process.cwd(), 'local-profiles.json');
+const DELETED_PRODUCTS_PATH = path.join(process.cwd(), 'local-deleted-products.json');
 
 // ---------------------------------------------------------------------------
 // Existing types (unchanged)
@@ -243,72 +244,289 @@ export function writeCollectionData(items: CollectionItem[]): void {
   fs.writeFileSync(COLL_DATA_PATH, JSON.stringify(items, null, 2), 'utf-8');
 }
 
+// ---------------------------------------------------------------------------
+// Deleted product block list — scoped by "collectionId:productId"
+// so a delete in one catalog never blocks products in other catalogs/accounts.
+// ---------------------------------------------------------------------------
+function scopedKey(collectionId: string, pId: string): string {
+  return `${collectionId}:${pId}`;
+}
+
+function readDeletedSet(): Set<string> {
+  try {
+    if (fs.existsSync(DELETED_PRODUCTS_PATH)) {
+      const raw = JSON.parse(fs.readFileSync(DELETED_PRODUCTS_PATH, 'utf-8'));
+      // Support old flat-array format (bare productIds) — treated as global; migrate on next write
+      if (Array.isArray(raw)) return new Set(raw);
+    }
+  } catch {}
+  return new Set();
+}
+
+export function markProductIdDeleted(itemData: Record<string, unknown>, collectionId: string): void {
+  // Identify the item by its explicit id, else by the /product/<slug> or /category/<slug> in its URL
+  let pId = String(itemData.productId || itemData.categoryId || itemData.id || '').toLowerCase().trim();
+  if (!pId) {
+    const u = String(itemData.url || '').toLowerCase();
+    const m = u.match(/\/(product|category)\/([^\/\?]+)/);
+    if (m) pId = m[2].toLowerCase().trim();
+  }
+  if (!pId) return;
+  const existing = readDeletedSet();
+  existing.add(scopedKey(collectionId, pId));
+  fs.writeFileSync(DELETED_PRODUCTS_PATH, JSON.stringify([...existing], null, 2), 'utf-8');
+}
+
+function isProductDeleted(collectionId: string, pId: string): boolean {
+  const deleted = readDeletedSet();
+  // Check scoped key first, then fall back to bare pId for backwards compat
+  return deleted.has(scopedKey(collectionId, pId)) || deleted.has(pId);
+}
+
+// ---------------------------------------------------------------------------
+// Entity-aware catalog routing.
+// Product-related events go to the "products" catalog; category-related events
+// go to the "categories" catalog. Catalogs are matched loosely by name and never
+// filtered strictly by projectId — events arrive with a different projectId than
+// the catalogs, so strict filtering would break auto-add.
+// ---------------------------------------------------------------------------
+type CatalogEntity = 'product' | 'category';
+
+function detectEntityType(
+  eventName: string,
+  props: Record<string, unknown>,
+  eventUrl?: string
+): CatalogEntity | null {
+  const ev = (eventName || '').toLowerCase();
+  const url = (eventUrl || String(props.url || '')).toLowerCase();
+  if (ev.includes('category') || props.categoryId || url.includes('/category/')) return 'category';
+  if (
+    ev.includes('product') ||
+    ev.includes('cart') ||
+    ev.includes('item') ||
+    props.productId ||
+    props.id ||
+    url.includes('/product/')
+  ) {
+    return 'product';
+  }
+  return null;
+}
+
+function resolveCatalogForEntity(cols: Collection[], entity: CatalogEntity): Collection | undefined {
+  const hint = entity === 'category' ? 'categor' : 'product';
+  return cols.find(c => c.name.toLowerCase().includes(hint));
+}
+
+function entityIdField(entity: CatalogEntity): 'productId' | 'categoryId' {
+  return entity === 'category' ? 'categoryId' : 'productId';
+}
+
+function resolveEntityId(
+  entity: CatalogEntity,
+  props: Record<string, unknown>,
+  eventUrl?: string
+): string {
+  const field = entityIdField(entity);
+  let id = String(props[field] || props.id || '').toLowerCase().trim();
+  if (!id && eventUrl && eventUrl.includes(`/${entity}/`)) {
+    const match = eventUrl.match(new RegExp(`\\/${entity}\\/([^\\/\\?]+)`, 'i'));
+    if (match) id = match[1].toLowerCase().trim();
+  }
+  return id;
+}
+
+function buildItemData(
+  entity: CatalogEntity,
+  eId: string,
+  props: Record<string, unknown>
+): Record<string, unknown> {
+  const name =
+    String(props.name || props.productName || props.categoryName || '').trim() ||
+    (entity === 'category' ? `Category ${eId}` : `Product ${eId}`);
+  // Image: strictly use what the client sent — never fabricate
+  const imageUrl = String(props.imageUrl || props.image || props.productImage || props.img || '').trim();
+  const data: Record<string, unknown> = {
+    [entityIdField(entity)]: eId,
+    name,
+    ...(imageUrl ? { imageUrl } : {}),
+  };
+  if (entity === 'product') {
+    data.price = Number(props.price) > 0 ? Number(props.price) : 0;
+    data.category = String(props.category || 'General').trim();
+  } else {
+    const description = String(props.description || '').trim();
+    if (description) data.description = description;
+  }
+  return data;
+}
+
+// ---------------------------------------------------------------------------
+// Real-time catalog upsert (called on product/category view event ingest).
+// Routes the item into the catalog matching its entity type, creates it
+// immediately so it appears without a refresh, and back-fills missing fields.
+// ---------------------------------------------------------------------------
+export function upsertProductIntoCatalog(
+  props: Record<string, unknown>,
+  eventUrl?: string,
+  eventName?: string
+): void {
+  try {
+    const entity = detectEntityType(eventName || String(props.eventName || props.event || ''), props, eventUrl);
+    if (!entity) return;
+
+    const cols = readCollections();
+    // Route to the catalog matching this entity type; never drop an item into the wrong catalog
+    const col = resolveCatalogForEntity(cols, entity);
+    if (!col) return;
+
+    const eId = resolveEntityId(entity, props, eventUrl);
+    if (!eId) return;
+
+    // Never re-create an item the user explicitly deleted from this catalog
+    if (isProductDeleted(col.id, eId)) return;
+
+    const idField = entityIdField(entity);
+    const allItems = readCollectionData();
+    const existingIdx = allItems.findIndex(i => {
+      const d = i.data || {};
+      return (
+        i.collectionId === col.id &&
+        String(d[idField] || d.id || '').toLowerCase().trim() === eId
+      );
+    });
+
+    const data = buildItemData(entity, eId, props);
+    const rawUrl = String(props.url || eventUrl || `/${entity}/${eId}`).trim();
+    const fullUrl = rawUrl.startsWith('http')
+      ? rawUrl
+      : `http://localhost:3000${rawUrl.startsWith('/') ? '' : '/'}${rawUrl}`;
+    data.url = fullUrl;
+
+    if (existingIdx === -1) {
+      // Item not in catalog yet — create it
+      const newItem: CollectionItem = {
+        id: `item_auto_${eId}`,
+        collectionId: col.id,
+        projectId: col.projectId || 'proj_default',
+        batchId: null,
+        status: 'published',
+        validationStatus: 'valid',
+        validationErrors: [],
+        data,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      allItems.push(newItem);
+      writeCollectionData(allItems);
+    } else {
+      // Item already exists — only patch fields that are missing/empty
+      // so we never overwrite data a user may have manually corrected
+      const d = allItems[existingIdx].data as Record<string, unknown>;
+      let changed = false;
+
+      if (!d.imageUrl && data.imageUrl) { d.imageUrl = data.imageUrl; changed = true; }
+      if (!d.name || String(d.name) === `Product ${eId}` || String(d.name) === `Category ${eId}`) {
+        d.name = data.name;
+        changed = true;
+      }
+      if (entity === 'product') {
+        if ((!d.price || Number(d.price) === 0) && Number(data.price) > 0) { d.price = data.price; changed = true; }
+        if (!d.category || d.category === 'General') { d.category = data.category; changed = true; }
+      } else if (data.description && !d.description) {
+        d.description = data.description;
+        changed = true;
+      }
+
+      if (changed) {
+        allItems[existingIdx].data = d;
+        allItems[existingIdx].updatedAt = new Date().toISOString();
+        writeCollectionData(allItems);
+      }
+    }
+  } catch (err) {
+    console.error('Error upserting product into catalog:', err);
+  }
+}
+
 export function syncProductsCatalogFromEvents(collectionId: string): void {
   try {
     const cols = readCollections();
-    const col = cols.find(c => c.id === collectionId || c.name.toLowerCase() === 'products');
+    // Sync only the requested catalog — never resolve to a different catalog by name
+    const col = cols.find(c => c.id === collectionId);
     if (!col) return;
+
+    // Only sync events matching this catalog's entity type, so loading a non-products
+    // catalog never pulls product events into it.
+    const colName = col.name.toLowerCase();
+    const entity: CatalogEntity | null = colName.includes('categor')
+      ? 'category'
+      : colName.includes('product')
+        ? 'product'
+        : null;
+    if (!entity) return;
+
+    const idField = entityIdField(entity);
 
     const events = getRawEvents();
     const existingItems = readCollectionData();
     const catalogItems = existingItems.filter(i => i.collectionId === col.id);
 
-    const existingProductIds = new Set<string>();
+    const existingIds = new Set<string>();
     catalogItems.forEach(i => {
-      const pId = String(i.data.productId || i.data.id || '').toLowerCase().trim();
-      if (pId) existingProductIds.add(pId);
+      const id = String(i.data[idField] || i.data.id || '').toLowerCase().trim();
+      if (id) existingIds.add(id);
     });
 
     let newItemsAdded = false;
 
     for (const ev of events) {
-      const isProductView =
-        ev.event === 'Product Viewed' ||
-        ev.event === 'View Item' ||
-        (ev.event === 'page_view' && (ev.url?.includes('/product/') || ev.path?.includes('/product/')));
+      const evName = (ev.event || '').toLowerCase();
+      const evUrl = String(ev.url || ev.path || '').toLowerCase();
+      const isMatch =
+        entity === 'category'
+          ? evName.includes('category') || (evName === 'page_view' && evUrl.includes('/category/'))
+          : ev.event === 'Product Viewed' ||
+            ev.event === 'View Item' ||
+            ev.event === 'view_item' ||
+            (ev.event === 'page_view' && evUrl.includes('/product/'));
 
-      if (!isProductView) continue;
+      if (!isMatch) continue;
 
-      let pId = String(ev.properties?.productId || ev.properties?.id || '').toLowerCase().trim();
-      if (!pId && (ev.url || ev.path)) {
-        const match = (ev.url || ev.path).match(/\/product\/([^\/\?]+)/);
-        if (match) pId = match[1].toLowerCase().trim();
+      let eId = String(ev.properties?.[idField] || ev.properties?.id || '').toLowerCase().trim();
+      if (!eId && (ev.url || ev.path)) {
+        const match = (ev.url || ev.path).match(new RegExp(`\\/${entity}\\/([^\\/\\?]+)`, 'i'));
+        if (match) eId = match[1].toLowerCase().trim();
       }
 
-      if (!pId) continue;
+      if (!eId) continue;
 
-      if (!existingProductIds.has(pId)) {
-        const rawUrl = String(ev.properties?.url || ev.url || `/product/${pId}`).trim();
+      // Skip any item that was manually deleted from this specific catalog
+      if (isProductDeleted(col.id, eId)) continue;
+
+      if (!existingIds.has(eId)) {
+        const data = buildItemData(entity, eId, ev.properties || {});
+        const rawUrl = String(ev.properties?.url || ev.url || `/${entity}/${eId}`).trim();
         const fullUrl = rawUrl.startsWith('http')
           ? rawUrl
           : `http://localhost:3000${rawUrl.startsWith('/') ? '' : '/'}${rawUrl}`;
-        const name = String(ev.properties?.productName || ev.properties?.name || `Product ${pId}`).trim();
-        const price = Number(ev.properties?.price || 0);
-        const category = String(ev.properties?.category || 'General').trim();
-        const imageUrl = String(ev.properties?.imageUrl || ev.properties?.image || '').trim();
+        data.url = fullUrl;
 
         const newItem: CollectionItem = {
-          id: `item_auto_${pId}`,
+          id: `item_auto_${eId}`,
           collectionId: col.id,
-          projectId: col.projectId || 'Go_Kart',
+          projectId: col.projectId || 'proj_default',
           batchId: null,
           status: 'published',
           validationStatus: 'valid',
           validationErrors: [],
-          data: {
-            productId: pId,
-            name,
-            price,
-            category,
-            url: fullUrl,
-            ...(imageUrl ? { imageUrl } : {})
-          },
+          data,
           createdAt: ev.timestamp || new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
 
         existingItems.push(newItem);
-        existingProductIds.add(pId);
+        existingIds.add(eId);
         newItemsAdded = true;
       }
     }
